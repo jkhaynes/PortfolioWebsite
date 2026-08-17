@@ -10,7 +10,7 @@
   --color-accent-soft: #fbe6ef;
   --color-accent-secondary: #8f5f86;
 
-  --font-display: var(--font-fraunces);
+  --font-display: var(--font-heading);
   --font-sans: var(--font-inter);
 
   --shadow-soft: 0 20px 45px -28px rgba(43, 31, 39, 0.35);
