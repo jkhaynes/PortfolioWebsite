@@ -13,3 +13,6 @@ Thumbs.db
 
 # Local editor / tooling
 .vscode/settings.local.json
+
+# Local workflow planning artifacts (planning_artifacts: local per docs/PRD.md)
+.project-plans/
