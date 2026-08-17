@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import ExternalLinkMark from "@/components/ExternalLinkMark";
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
@@ -22,6 +23,7 @@ export default function Button({
   return (
     <a className={`${baseStyles} ${variantStyles[variant]} ${className}`} {...props}>
       {children}
+      {props.target === "_blank" && <ExternalLinkMark />}
     </a>
   );
 }
