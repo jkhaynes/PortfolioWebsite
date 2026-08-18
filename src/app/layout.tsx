@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Lora, Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 import "./globals.css";
 
 const lora = Lora({
@@ -46,7 +46,12 @@ export default function RootLayout({
     <html lang="en" className={`${lora.variable} ${inter.variable}`}>
       <body>
         {children}
-        <Analytics />
+        <Script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="bfb82519-8584-4a9b-a2f3-5c63b10f423f"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
