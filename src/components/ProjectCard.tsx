@@ -32,8 +32,16 @@ export default function ProjectCard({
         </div>
         {(demoUrl || githubUrl) && (
           <div className="mt-4 flex flex-wrap gap-4">
-            {demoUrl && <TextLink href={demoUrl}>Live Demo</TextLink>}
-            {githubUrl && <TextLink href={githubUrl}>GitHub</TextLink>}
+            {demoUrl && (
+              <TextLink href={demoUrl} trackEvent="project_demo_click">
+                Live Demo
+              </TextLink>
+            )}
+            {githubUrl && (
+              <TextLink href={githubUrl} trackEvent="project_github_click">
+                GitHub
+              </TextLink>
+            )}
           </div>
         )}
       </div>

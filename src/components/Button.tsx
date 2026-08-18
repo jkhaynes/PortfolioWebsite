@@ -1,9 +1,13 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+"use client";
+
+import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { track } from "@vercel/analytics";
 import ExternalLinkMark from "@/components/ExternalLinkMark";
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
   variant?: "primary" | "secondary";
+  trackEvent?: string;
 };
 
 const baseStyles =
@@ -18,10 +22,23 @@ export default function Button({
   children,
   variant = "primary",
   className = "",
+  trackEvent,
+  onClick,
   ...props
 }: ButtonProps) {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (trackEvent) {
+      track(trackEvent);
+    }
+    onClick?.(event);
+  };
+
   return (
-    <a className={`${baseStyles} ${variantStyles[variant]} ${className}`} {...props}>
+    <a
+      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      onClick={handleClick}
+      {...props}
+    >
       {children}
       {props.target === "_blank" && <ExternalLinkMark />}
     </a>

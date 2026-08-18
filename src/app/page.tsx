@@ -96,14 +96,27 @@ export default function Home() {
                 variant="primary"
                 target="_blank"
                 rel="noopener noreferrer"
+                trackEvent="resume_download"
               >
                 Download Resume
               </Button>
-              <Button href="mailto:jkhaynes2390@gmail.com" variant="secondary">
+              <Button
+                href="mailto:jkhaynes2390@gmail.com"
+                variant="secondary"
+                trackEvent="email_click"
+              >
                 Email Me
               </Button>
-              <TextLink href="https://github.com/jkhaynes">GitHub</TextLink>
-              <TextLink href="https://linkedin.com/in/jesshaynes">
+              <TextLink
+                href="https://github.com/jkhaynes"
+                trackEvent="github_click"
+              >
+                GitHub
+              </TextLink>
+              <TextLink
+                href="https://linkedin.com/in/jesshaynes"
+                trackEvent="linkedin_click"
+              >
                 LinkedIn
               </TextLink>
             </div>
@@ -239,7 +252,11 @@ export default function Home() {
               talk shop — I&apos;d love to hear from you.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-              <Button href="mailto:jkhaynes2390@gmail.com" variant="primary">
+              <Button
+                href="mailto:jkhaynes2390@gmail.com"
+                variant="primary"
+                trackEvent="email_click"
+              >
                 Email Me
               </Button>
               <Button
@@ -247,11 +264,20 @@ export default function Home() {
                 variant="secondary"
                 target="_blank"
                 rel="noopener noreferrer"
+                trackEvent="resume_download"
               >
                 Download Resume
               </Button>
-              <TextLink href="https://github.com/jkhaynes">GitHub</TextLink>
-              <TextLink href="https://linkedin.com/in/jesshaynes">
+              <TextLink
+                href="https://github.com/jkhaynes"
+                trackEvent="github_click"
+              >
+                GitHub
+              </TextLink>
+              <TextLink
+                href="https://linkedin.com/in/jesshaynes"
+                trackEvent="linkedin_click"
+              >
                 LinkedIn
               </TextLink>
             </div>
