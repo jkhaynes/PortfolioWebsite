@@ -1,7 +1,4 @@
-"use client";
-
-import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
-import { track } from "@vercel/analytics";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import ExternalLinkMark from "@/components/ExternalLinkMark";
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
@@ -23,20 +20,12 @@ export default function Button({
   variant = "primary",
   className = "",
   trackEvent,
-  onClick,
   ...props
 }: ButtonProps) {
-  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (trackEvent) {
-      track(trackEvent);
-    }
-    onClick?.(event);
-  };
-
   return (
     <a
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-      onClick={handleClick}
+      data-umami-event={trackEvent}
       {...props}
     >
       {children}
