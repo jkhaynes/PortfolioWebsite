@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lora, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const lora = Lora({
@@ -14,9 +15,26 @@ const inter = Inter({
   display: "swap",
 });
 
+const title = "Jessica Haynes | Software Engineer";
+const description =
+  "Senior Software Engineer with 9+ years building full-stack enterprise applications — C#/.NET, backend performance, scalable architecture.";
+
 export const metadata: Metadata = {
-  title: "Jessica Haynes | Software Engineer",
-  description: "Personal engineering portfolio and project site.",
+  metadataBase: new URL("https://builtbyjess.dev"),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: "https://builtbyjess.dev",
+    siteName: "Jessica Haynes",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +44,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${lora.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
