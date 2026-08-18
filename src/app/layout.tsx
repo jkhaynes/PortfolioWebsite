@@ -20,13 +20,13 @@ const description =
   "Senior Software Engineer with 9+ years building full-stack enterprise applications — C#/.NET, backend performance, scalable architecture.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://builtbyjess.dev"),
+  metadataBase: new URL("https://www.jessbuilds.dev"),
   title,
   description,
   openGraph: {
     title,
     description,
-    url: "https://builtbyjess.dev",
+    url: "https://www.jessbuilds.dev",
     siteName: "Jessica Haynes",
     type: "website",
   },
