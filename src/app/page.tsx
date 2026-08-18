@@ -319,7 +319,7 @@ export default function Home() {
             </p>
 
             <div className="mt-8 rounded-3xl border border-accent-secondary/30 bg-accent-soft/50 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-secondary">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
                 Building: PokéJudge
               </p>
               <p className="mt-3 leading-relaxed text-muted">
