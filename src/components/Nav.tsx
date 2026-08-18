@@ -7,7 +7,12 @@ type NavLink = {
 
 // Each future feature should append its own section's link here
 // at the same time it adds that section to the page.
-const navLinks: NavLink[] = [{ label: "Home", href: "#top" }];
+const navLinks: NavLink[] = [
+  { label: "Home", href: "#top" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
 
 export default function Nav() {
   return (
