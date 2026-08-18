@@ -1,10 +1,47 @@
 import Button from "@/components/Button";
+import Card from "@/components/Card";
 import Container from "@/components/Container";
 import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
 import ProjectCard from "@/components/ProjectCard";
 import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
+
+const workPrinciples = [
+  {
+    label: "Problem-Solving & Collaboration",
+    body: (
+      <>
+        I like understanding the problem I&apos;m solving, asking questions
+        when something doesn&apos;t make sense, and working with the people
+        around me to find a good solution. I tend to notice recurring
+        problems and areas of friction, and I care about{" "}
+        <strong className="font-semibold text-foreground">
+          fixing what I can rather than simply getting used to the
+          workaround.
+        </strong>
+      </>
+    ),
+  },
+  {
+    label: "Staying Current",
+    body: (
+      <>
+        I also think staying current is an important part of being a
+        software engineer. I enjoy learning new technologies, reevaluating
+        the way I work, and finding practical ways to incorporate better
+        tools and approaches. More recently, that has included exploring
+        how AI-assisted development can make me faster and more effective{" "}
+        <strong className="font-semibold text-foreground">
+          without replacing the judgment and understanding that good
+          engineering still requires.
+        </strong>
+      </>
+    ),
+  },
+];
+
+const exploringTags = ["Retrieval-Augmented Generation", "Embeddings", "Structured Outputs", "Grounding", "Evaluation"];
 
 const stats = [
   { value: "9+", label: "Years of experience" },
@@ -208,6 +245,34 @@ export default function Home() {
           </Container>
         </section>
 
+        <section className="pb-24">
+          <Container className="max-w-3xl">
+            <h2 className="font-display text-2xl font-semibold text-foreground">
+              How I Work
+            </h2>
+            <p className="mt-4 max-w-2xl font-display text-xl leading-snug text-foreground">
+              I&apos;m a collaborative developer who cares about quality,
+              follow-through, and continuing to grow.
+            </p>
+            <Grid className="mt-8">
+              {workPrinciples.map((principle) => (
+                <Card key={principle.label}>
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                    {principle.label}
+                  </p>
+                  <p className="mt-3 leading-relaxed text-muted">
+                    {principle.body}
+                  </p>
+                </Card>
+              ))}
+            </Grid>
+            <p className="mt-10 text-center font-display text-lg text-accent-secondary">
+              I try to bring curiosity to my work, keep learning, and leave
+              things a little better than I found them.
+            </p>
+          </Container>
+        </section>
+
         <section id="experience" className="pb-24">
           <Container className="max-w-3xl">
             <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
@@ -239,6 +304,58 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </Container>
+        </section>
+
+        <section className="pb-24">
+          <Container className="max-w-3xl">
+            <h2 className="font-display text-2xl font-semibold text-foreground">
+              Currently Exploring
+            </h2>
+            <p className="mt-4 max-w-2xl font-display text-xl leading-snug text-foreground">
+              Lately, I&apos;ve been especially interested in what happens
+              when AI moves beyond a demo and becomes part of a real
+              software system.
+            </p>
+
+            <div className="mt-8 rounded-3xl border border-accent-secondary/30 bg-accent-soft/50 p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent-secondary">
+                Building: PokéJudge
+              </p>
+              <p className="mt-3 leading-relaxed text-muted">
+                A C#/.NET project inspired by my experience as a Pokémon
+                TCG Judge. It gives me a practical way to explore
+                retrieval-augmented generation, embeddings, structured LLM
+                outputs, grounding, evaluation, and the challenges of
+                building AI systems that know when they have enough
+                information to answer reliably.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {exploringTags.map((tag) => (
+                  <Tag key={tag}>{tag}</Tag>
+                ))}
+              </div>
+              <TextLink
+                href="#projects"
+                target="_self"
+                className="mt-4 inline-block"
+              >
+                See it in Featured Projects →
+              </TextLink>
+            </div>
+
+            <p className="mt-6 leading-relaxed text-muted">
+              I&apos;m also continuing to grow my frontend skills with
+              React and TypeScript and experimenting with AI-assisted
+              development workflows that make me a more effective
+              engineer.
+            </p>
+
+            <p className="mt-10 text-center font-display text-lg text-accent-secondary">
+              I&apos;m most interested in learning through real problems,
+              building things I care about, and understanding the
+              technology well enough to use it thoughtfully.
+            </p>
           </Container>
         </section>
 
