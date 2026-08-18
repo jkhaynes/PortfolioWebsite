@@ -273,40 +273,6 @@ export default function Home() {
           </Container>
         </section>
 
-        <section id="experience" className="pb-24">
-          <Container className="max-w-3xl">
-            <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
-              Experience
-            </h2>
-            <div className="space-y-10">
-              {experience.map((job) => (
-                <div
-                  key={`${job.role}-${job.company}`}
-                  className="border-t border-border pt-8 first:border-t-0 first:pt-0"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-display text-lg font-semibold text-foreground">
-                      {job.role}, {job.company}
-                    </h3>
-                    <p className="text-sm text-muted">{job.period}</p>
-                  </div>
-                  <p className="text-sm text-muted">{job.location}</p>
-                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
-                    {job.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {job.tags.map((tag) => (
-                      <Tag key={tag}>{tag}</Tag>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </section>
-
         <section className="pb-24">
           <Container className="max-w-3xl">
             <h2 className="font-display text-2xl font-semibold text-foreground">
@@ -356,6 +322,40 @@ export default function Home() {
               building things I care about, and understanding the
               technology well enough to use it thoughtfully.
             </p>
+          </Container>
+        </section>
+
+        <section id="experience" className="pb-24">
+          <Container className="max-w-3xl">
+            <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
+              Experience
+            </h2>
+            <div className="space-y-10">
+              {experience.map((job) => (
+                <div
+                  key={`${job.role}-${job.company}`}
+                  className="border-t border-border pt-8 first:border-t-0 first:pt-0"
+                >
+                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h3 className="font-display text-lg font-semibold text-foreground">
+                      {job.role}, {job.company}
+                    </h3>
+                    <p className="text-sm text-muted">{job.period}</p>
+                  </div>
+                  <p className="text-sm text-muted">{job.location}</p>
+                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
+                    {job.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {job.tags.map((tag) => (
+                      <Tag key={tag}>{tag}</Tag>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </Container>
         </section>
 
