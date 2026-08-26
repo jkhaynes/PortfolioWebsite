@@ -233,14 +233,21 @@ export default function Home() {
                 ]}
                 githubUrl="https://github.com/jkhaynes/PokeJudge"
               />
-              <div className="flex h-full flex-col items-center justify-center rounded-3xl border-2 border-dashed border-border p-6 text-center">
-                <p className="font-display text-lg font-semibold text-muted">
-                  More projects coming soon
-                </p>
-                <p className="mt-2 text-sm text-muted">
-                  I&apos;m actively working on the next one.
-                </p>
-              </div>
+              <ProjectCard
+                title="Loot Singles Fulfillment"
+                description="A responsive fulfillment tool for Loot Card Shop that replaces printed TCGplayer invoices with a purpose-built digital picking workflow. Designed to reduce wrong-card, quantity, variant, and set errors, it supports set-aware picking, prominent card details, issue reporting, and exclusive order claiming so multiple employees can work concurrently without collisions. Currently in development with a React and TypeScript PWA backed by ASP.NET Core, C#, Entity Framework Core, and Azure SQL. I use GitHub Spec Kit for spec-driven, AI-assisted development, with strict test-driven development following the Red-Green-Refactor cycle."
+                tags={[
+                  "React",
+                  "TypeScript",
+                  "C#",
+                  "ASP.NET Core",
+                  "Entity Framework Core",
+                  "Azure SQL",
+                  "GitHub Spec Kit",
+                  "TDD",
+                ]}
+                githubUrl="https://github.com/jkhaynes/loot-singles-fulfillment"
+              />
             </Grid>
           </Container>
         </section>
