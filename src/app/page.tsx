@@ -129,7 +129,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
               <Button
-                href="/Jessica-Haynes-Resume.pdf"
+                href="/Jessica_Haynes_Resume.pdf"
                 variant="primary"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -377,7 +377,7 @@ export default function Home() {
                 Email Me
               </Button>
               <Button
-                href="/Jessica-Haynes-Resume.pdf"
+                href="/Jessica_Haynes_Resume.pdf"
                 variant="secondary"
                 target="_blank"
                 rel="noopener noreferrer"
