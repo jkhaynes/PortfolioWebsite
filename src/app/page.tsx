@@ -109,7 +109,7 @@ const experience = [
   {
     company: "Proplanner.net",
     location: "Ames, IA",
-    tags: ["ASP.NET Web API", "Angular 4+"],
+    tags: [".NET", "ASP.NET Web API", "Angular 4+"],
     roles: [
       {
         role: "Senior Software Developer",
@@ -118,13 +118,6 @@ const experience = [
           "Increased the client base by 200% by leading a platform modernization initiative",
         ],
       },
-    ],
-  },
-  {
-    company: "Proplanner.net",
-    location: "Ames, IA",
-    tags: [".NET"],
-    roles: [
       {
         role: "Programmer",
         period: "May 2016 – Dec 2017",
