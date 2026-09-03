@@ -104,7 +104,7 @@ const experience = [
         period: "Feb 2019 – Jan 2020",
         bullets: [
           "Served as technical lead across multiple projects, owning design and delivery",
-          "Trained and mentored junior engineers; built and deployed applications on Azure",
+          "Trained and mentored junior engineers in programming methodologies and best practices",
           "Collaborated with product owners to proactively identify risks and recommend alternative technical solutions",
         ],
       },
