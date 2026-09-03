@@ -64,7 +64,7 @@ const experience = [
         bullets: [
           "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
           "Spearheaded the team's adoption of agentic AI coding tools (Claude Code, GitHub Copilot), improving engineering efficiency and TDD adoption",
-          "Mentored developers through pair programming and code review, and overhauled onboarding documentation to speed ramp-up for new engineers and QA",
+          "Improved onboarding for QA and developers by overhauling documentation and establishing clearer project standards",
         ],
       },
       {
@@ -89,7 +89,6 @@ const experience = [
         bullets: [
           "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
           "Led a team that reduced security vulnerabilities by 81% across all applications",
-          "Mentored a team of interns, helping them ramp up and contribute meaningfully to project deliverables",
           "Engaged directly with clients to gather feature requirements and resolve deployment issues",
         ],
       },
@@ -121,8 +120,8 @@ const experience = [
         period: "Dec 2017 – Feb 2019",
         bullets: [
           "Increased the client base by 200% by leading a platform modernization initiative",
-          "Led a small team of developers, prioritizing work and writing detailed design documents with time estimates for incoming projects",
-          "Automated the build process to reduce time spent on support, and partnered with application engineers to design solutions for everyday manufacturing workflows",
+          "Prioritized and assigned tasks to a small team of developers",
+          "Decreased time spent on support by creating a program to help automate the build process",
         ],
       },
       {
