@@ -64,6 +64,7 @@ const experience = [
         bullets: [
           "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
           "Spearheaded the team's adoption of agentic AI coding tools (Claude Code, GitHub Copilot), improving engineering efficiency and TDD adoption",
+          "Mentored developers through pair programming and code review, and overhauled onboarding documentation to speed ramp-up for new engineers and QA",
         ],
       },
       {
@@ -72,6 +73,7 @@ const experience = [
         anchorId: "experience-8am-senior-iii",
         bullets: [
           "Optimized a high-volume nightly job, cutting runtime by 95%",
+          "Implemented Single Sign-On (SSO) for the payment processor, integrating with clients' existing identity providers to streamline authentication",
         ],
       },
     ],
@@ -87,6 +89,7 @@ const experience = [
         bullets: [
           "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
           "Led a team that reduced security vulnerabilities by 81% across all applications",
+          "Mentored a team of four interns while engaging directly with clients to gather feature requirements and resolve deployment issues",
         ],
       },
     ],
@@ -102,6 +105,7 @@ const experience = [
         bullets: [
           "Served as technical lead across multiple projects, owning design and delivery",
           "Trained and mentored junior engineers; built and deployed applications on Azure",
+          "Collaborated with product owners to proactively identify risks and recommend alternative technical solutions",
         ],
       },
     ],
@@ -116,6 +120,8 @@ const experience = [
         period: "Dec 2017 – Feb 2019",
         bullets: [
           "Increased the client base by 200% by leading a platform modernization initiative",
+          "Led a small team of developers, prioritizing work and writing detailed design documents with time estimates for incoming projects",
+          "Automated the build process to reduce time spent on support, and partnered with application engineers to design solutions for everyday manufacturing workflows",
         ],
       },
       {
@@ -123,6 +129,7 @@ const experience = [
         period: "May 2016 – Dec 2017",
         bullets: [
           "Developed and tested features for a .NET Windows desktop application; resolved critical issues with rapid turnaround",
+          "Interfaced with third-party applications and services as part of ongoing feature development",
         ],
       },
     ],
