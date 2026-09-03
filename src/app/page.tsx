@@ -89,7 +89,7 @@ const experience = [
         bullets: [
           "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
           "Led a team that reduced security vulnerabilities by 81% across all applications",
-          "Mentored a team of four interns, helping them ramp up and contribute meaningfully to project deliverables",
+          "Mentored a team of interns, helping them ramp up and contribute meaningfully to project deliverables",
           "Engaged directly with clients to gather feature requirements and resolve deployment issues",
         ],
       },
