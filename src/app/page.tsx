@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Container from "@/components/Container";
+import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
 import ProjectCard from "@/components/ProjectCard";
@@ -52,58 +53,86 @@ const stats = [
 
 const experience = [
   {
-    role: "Senior Software Developer (Team Lead)",
     company: "8am",
-    period: "Mar 2022 – Present",
     location: "Austin, TX / Remote",
-    bullets: [
-      "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
-      "Optimized a high-volume nightly job, cutting runtime by 95%",
-      "Spearheaded the team's adoption of agentic AI coding tools (Claude Code, GitHub Copilot), improving engineering efficiency and TDD adoption",
-    ],
     tags: [".NET", "C#", "MySQL", "Entity Framework", "Angular"],
+    roles: [
+      {
+        role: "Team Lead / Senior Software Engineer IV",
+        period: "Jan 2024 – Present",
+        anchorId: "experience-8am-team-lead",
+        bullets: [
+          "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
+          "Spearheaded the team's adoption of agentic AI coding tools (Claude Code, GitHub Copilot), improving engineering efficiency and TDD adoption",
+        ],
+      },
+      {
+        role: "Senior Software Engineer III",
+        period: "Mar 2022 – Jan 2024",
+        anchorId: "experience-8am-senior-iii",
+        bullets: [
+          "Optimized a high-volume nightly job, cutting runtime by 95%",
+        ],
+      },
+    ],
   },
   {
-    role: "Lead Developer",
     company: "Proplanner.net",
-    period: "Jan 2020 – Mar 2022",
     location: "Ames, IA",
-    bullets: [
-      "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
-      "Led a team that reduced security vulnerabilities by 81% across all applications",
-    ],
     tags: ["C#", ".NET Core", "SAML", "OIDC"],
+    roles: [
+      {
+        role: "Lead Developer",
+        period: "Jan 2020 – Mar 2022",
+        bullets: [
+          "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
+          "Led a team that reduced security vulnerabilities by 81% across all applications",
+        ],
+      },
+    ],
   },
   {
-    role: "Senior Software Engineer (Team Lead)",
     company: "Growers Edge",
-    period: "Feb 2019 – Jan 2020",
     location: "West Des Moines, IA",
-    bullets: [
-      "Served as technical lead across multiple projects, owning design and delivery",
-      "Trained and mentored junior engineers; built and deployed applications on Azure",
-    ],
     tags: [".NET Core", "Angular 7", "Azure"],
+    roles: [
+      {
+        role: "Senior Software Engineer (Team Lead)",
+        period: "Feb 2019 – Jan 2020",
+        bullets: [
+          "Served as technical lead across multiple projects, owning design and delivery",
+          "Trained and mentored junior engineers; built and deployed applications on Azure",
+        ],
+      },
+    ],
   },
   {
-    role: "Senior Software Developer",
     company: "Proplanner.net",
-    period: "Dec 2017 – Feb 2019",
     location: "Ames, IA",
-    bullets: [
-      "Increased the client base by 200% by leading a platform modernization initiative",
-    ],
     tags: ["ASP.NET Web API", "Angular 4+"],
+    roles: [
+      {
+        role: "Senior Software Developer",
+        period: "Dec 2017 – Feb 2019",
+        bullets: [
+          "Increased the client base by 200% by leading a platform modernization initiative",
+        ],
+      },
+    ],
   },
   {
-    role: "Programmer",
     company: "Proplanner.net",
-    period: "May 2016 – Dec 2017",
     location: "Ames, IA",
-    bullets: [
-      "Developed and tested features for a .NET Windows desktop application; resolved critical issues with rapid turnaround",
-    ],
     tags: [".NET"],
+    roles: [
+      {
+        role: "Programmer",
+        period: "May 2016 – Dec 2017",
+        bullets: [
+          "Developed and tested features for a .NET Windows desktop application; resolved critical issues with rapid turnaround",
+        ],
+      },
+    ],
   },
 ];
 
@@ -338,29 +367,11 @@ export default function Home() {
               Experience
             </h2>
             <div className="space-y-10">
-              {experience.map((job) => (
-                <div
-                  key={`${job.role}-${job.company}`}
-                  className="border-t border-border pt-8 first:border-t-0 first:pt-0"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <h3 className="font-display text-lg font-semibold text-foreground">
-                      {job.role}, {job.company}
-                    </h3>
-                    <p className="text-sm text-muted">{job.period}</p>
-                  </div>
-                  <p className="text-sm text-muted">{job.location}</p>
-                  <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
-                    {job.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {job.tags.map((tag) => (
-                      <Tag key={tag}>{tag}</Tag>
-                    ))}
-                  </div>
-                </div>
+              {experience.map((entry) => (
+                <ExperienceEntry
+                  key={`${entry.company}-${entry.roles[0].role}`}
+                  {...entry}
+                />
               ))}
             </div>
           </Container>
