@@ -128,7 +128,8 @@ const experience = [
         role: "Programmer",
         period: "May 2016 – Dec 2017",
         bullets: [
-          "Developed and tested features for a .NET Windows desktop application; resolved critical issues with rapid turnaround",
+          "Developed and tested features for a .NET Windows desktop application",
+          "Helped debug and resolve critical software issues with rapid turnaround",
           "Interfaced with third-party applications and services as part of ongoing feature development",
         ],
       },
