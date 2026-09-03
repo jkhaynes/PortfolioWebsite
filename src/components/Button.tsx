@@ -1,10 +1,14 @@
-import type { AnchorHTMLAttributes, ReactNode } from "react";
+"use client";
+
+import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import ExternalLinkMark from "@/components/ExternalLinkMark";
 
 type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
   variant?: "primary" | "secondary";
   trackEvent?: string;
+  /** When set, clicking the button smooth-scrolls to this element id and moves keyboard focus to it, instead of relying on the plain anchor jump. */
+  scrollFocusTargetId?: string;
 };
 
 const baseStyles =
@@ -20,12 +24,36 @@ export default function Button({
   variant = "primary",
   className = "",
   trackEvent,
+  scrollFocusTargetId,
+  onClick,
   ...props
 }: ButtonProps) {
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
+
+    if (!scrollFocusTargetId) return;
+
+    const target = document.getElementById(scrollFocusTargetId);
+    if (!target) return;
+
+    event.preventDefault();
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+    target.focus();
+  };
+
   return (
     <a
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
       data-umami-event={trackEvent}
+      onClick={scrollFocusTargetId ? handleClick : onClick}
       {...props}
     >
       {children}

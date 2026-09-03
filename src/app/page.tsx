@@ -120,30 +120,46 @@ export default function Home() {
             <h1 className="font-display text-5xl font-semibold leading-tight text-foreground sm:text-6xl">
               Jessica Haynes
             </h1>
-            <p className="mt-6 text-lg leading-relaxed text-muted">
-              I build and modernize full-stack enterprise applications — with
-              9+ years focused on C#/.NET backend development, APIs, and
-              scalable architecture. Lately, I&apos;m expanding into
-              AI-assisted development, exploring how it can make good
-              engineering practices even stronger.
+            <p className="mt-4 font-display text-2xl leading-snug text-accent-secondary sm:text-3xl">
+              I build reliable software for messy, real-world problems.
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <p className="mt-6 text-lg leading-relaxed text-muted">
+              I have 9+ years of experience building and modernizing
+              production applications, with deep experience in C#/.NET,
+              APIs, architecture, performance, and technical leadership. I
+              use AI as part of a disciplined engineering process, from
+              requirements and design through implementation, testing, and
+              review.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <Button
+                href="#projects"
+                variant="primary"
+                scrollFocusTargetId="projects-heading"
+                trackEvent="view_featured_work_click"
+                className="w-full sm:w-auto"
+              >
+                View Featured Work
+              </Button>
               <Button
                 href="/Jessica_Haynes_Resume.pdf"
-                variant="primary"
+                variant="secondary"
                 target="_blank"
                 rel="noopener noreferrer"
                 trackEvent="resume_download"
+                className="w-full sm:w-auto"
               >
                 Download Resume
               </Button>
-              <Button
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
+              <TextLink
                 href="mailto:jkhaynes2390@gmail.com"
-                variant="secondary"
+                target="_self"
                 trackEvent="email_click"
               >
-                Email Me
-              </Button>
+                Email
+              </TextLink>
               <TextLink
                 href="https://github.com/jkhaynes"
                 trackEvent="github_click"
@@ -217,7 +233,11 @@ export default function Home() {
 
         <section id="projects" className="pb-24">
           <Container>
-            <h2 className="mb-10 text-center font-display text-2xl font-semibold text-foreground">
+            <h2
+              id="projects-heading"
+              tabIndex={-1}
+              className="mb-10 text-center font-display text-2xl font-semibold text-foreground focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
               Featured Projects
             </h2>
             <Grid>
