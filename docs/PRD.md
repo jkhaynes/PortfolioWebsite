@@ -35,11 +35,10 @@ Generic developer portfolios tend to look interchangeable — dark-mode template
 
 - Not positioning Jessica as an AI specialist or claiming AI expertise she doesn't yet have.
 - Not a literal Pokémon fan site — no characters, sprites, or branded game assets.
-- Not a generic dark-mode developer portfolio template.
+- Not a generic dark-mode-only developer template — the light, pink/blush/mauve identity remains the default experience even after the dark variant ships (Roadmap Feature 18).
 - Not an overly minimal/sterile design.
 - Not a contact form with backend infrastructure (mailto/social links only, for now).
-- Not a multi-page site with dedicated project case-study pages (single-page scroll, for now).
-- Not a dark mode / theme toggle.
+- Not a fully multi-page site — the homepage remains a single-page scroll; only Featured Projects with a full case study get a dedicated route (Roadmap Features 11–12).
 
 ## 7. Functional Requirements
 
@@ -84,13 +83,13 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 - **Shape language**: Rounded cards and buttons, soft shadows, consistent with a friendly-but-polished feel.
 - **Typography**: Playful but clean — expressive enough to carry personality without sacrificing legibility or professionalism.
 - **Signature motif**: A card-shaped UI treatment with subtle "rarity"/badge-style accents applied to Featured Projects (and optionally Experience entries) — an abstracted nod to collectible-card game aesthetics, using original visual language rather than any literal characters, sprites, or branded assets.
-- **Theme**: Light theme only; no dark mode.
+- **Theme**: Light (pink/blush/mauve) is the default theme. A dark mauve variant is available via a user-facing toggle (Roadmap Feature 18); both must meet the accessibility/contrast bar in this document.
 - **Overall tone target**: Friendly and feminine without being childish; personality-forward without undermining professional credibility for senior engineering roles.
 
 ## 10. High-Level Architecture / Technical Direction
 
 - Built on the existing Next.js + TypeScript + Tailwind starter scaffold.
-- Single-page site structure with anchor navigation (no routing complexity required for the initial release).
+- Primarily a single-page site with anchor navigation. Featured Projects that get a full case study (Loot Singles, PokéJudge) get their own dedicated routes (e.g. `/work/loot-singles`, `/work/pokejudge`) per Roadmap Features 11–12; this introduces minimal additional routing rather than a full multi-page restructure.
 - No backend/server infrastructure required for contact (mailto-based) or resume (static PDF asset).
 
 ## 11. Data / Integration Strategy
@@ -126,6 +125,24 @@ The roadmap is sequenced so the site can go live as soon as the core, actionable
 5. **Polish & Launch Readiness** — Cross-device/browser verification, accessibility pass, performance pass, real content proofread, final resume PDF wiring. Run against the Feature 1–3 scope as the gate for initial launch; revisit lightly once Feature 4 ships.
 6. **Analytics & Social Metadata** — Lightweight, privacy-friendly pageview analytics integration and custom Open Graph metadata/preview image for social sharing. Ships after initial launch; not required to go live.
 
+### 13.1 Post-Launch Improvement Roadmap
+
+Following initial launch, a second round of improvements (sourced from `JessBuilds_Portfolio_Improvement_Roadmap.docx`, reviewed 2026-09-03) sharpens messaging, evidence, and interaction quality on top of the now-live site. These are additive to Features 1–6 above and adapted to the site's actual light (pink/blush/mauve) theme rather than the dark-mauve assumption in the source doc. Per the source doc's own guidance, ship one feature at a time rather than waiting for the full set — the hero rewrite, career-progression timeline, and first polished case study deliver most of the value on their own.
+
+7. **Rewrite the Hero** — Replace tentative language ("lately, I'm expanding into AI-assisted development") with copy that presents AI-assisted engineering as a current practice: a role/stack eyebrow, one memorable headline, a two-sentence supporting paragraph, and two clear calls to action (e.g. "View featured work" / "Download resume"), keeping the first viewport focused on identity, value proposition, proof, and next action.
+8. **Show 8am Career Progression** — Model 8am as a single timeline entry with two nested roles ("Team Lead / Senior Software Engineer IV," Jan 2024–present, and "Senior Software Engineer III," Mar 2022–Jan 2024), a small "Promoted" marker at the transition, and deep links from Impact metrics into the relevant role.
+9. **Rebuild Page Hierarchy** — Reorder sections around the hiring manager's questions: Hero, Impact, Featured Work, Experience, How I Engineer, About, Contact. Remove the standalone "Currently Exploring" section from its current placement (see Feature 16), reduce repeated PokéJudge descriptions to one primary home, and add stable section IDs for navigation and metric deep-links.
+10. **Reusable Project Showcase Component** — Replace the current project cards with one shared, data-driven component (problem statement, solution summary, technical decisions, build approach, status, links) used by both Loot Singles and PokéJudge, with distinct "View case study" and "View GitHub" actions so a third project only needs data, not new markup.
+11. **Loot Singles Case Study Page** — Dedicated route (e.g. `/work/loot-singles`) telling the fuller story: operational context, the problems with printed invoices, V1 constraints and what was deliberately left out, workflow design, key engineering decisions, current status, and next steps, with an annotated screenshot and a compact workflow diagram. Updates the PRD's page-structure scope per the revised Non-Goals (§6) and Architecture (§10).
+12. **PokéJudge Case Study Page** — Dedicated route (e.g. `/work/pokejudge`) presenting PokéJudge as a grounded AI decision-support system rather than a generic chatbot: the retrieve → clarify → re-retrieve → generate → validate pipeline explained in plain English, a sample conversation walkthrough with cited sources, and an honest evaluation section (dataset size, known limitations). Updates the PRD's page-structure scope per the revised Non-Goals (§6) and Architecture (§10).
+13. **Screenshots & Media Behavior** — Capture one sanitized hero screenshot per featured project plus supporting detail shots for each case study; add a restrained image frame, a "View larger" modal with focus trapping/Escape/return-focus, and lazy-loading for below-the-fold images (first featured image loads eagerly).
+14. **Impact Metrics as Navigation** — Turn the four impact stats (9+ years, 95% faster nightly job, 81% fewer security flaws, 50% fewer support escalations) into deep links into the Experience section, each labeled with its category (Experience, Performance, Application Security, Quality & Reliability) and briefly highlighting the target accomplishment on arrival.
+15. **Rewrite "How I Engineer"** — Replace "How I Work" with four evidence-backed principles (start with the problem; design for change, not hypotheticals; use AI as an engineering tool; leave the system better), each paired with one concrete supporting example, scannable in about 30 seconds.
+16. **Replace "Currently Exploring"** — Remove the duplicated PokéJudge description and either drop the section or replace it with a compact "Learning now" strip (3–4 current themes, one sentence on what's being learned), distinct from the tech-tag stack already shown on projects/experience.
+17. **Trading-Card Visual Personality** — Add a restrained, original card-inspired motif (border/glow/rarity-accent/radius/shadow/motion tokens; a small rarity-style marker paired with text, never visual-only) applied mainly to Featured Projects, using the site's existing light pink/blush/mauve palette rather than new bright colors, with all decorative effects disabled under reduced-motion.
+18. **Light/Dark Theme Toggle** — Add a user-facing control to switch between the current light theme and a new dark mauve variant, defaulting to the visitor's `prefers-color-scheme`, persisting their explicit choice, and meeting the same contrast/accessibility bar in both modes. Updates the PRD's theme scope per the revised Non-Goals (§6) and Product Design (§9).
+19. **Accessibility, Responsiveness & Final Polish (Round 2)** — Re-run the Feature 5 audit against everything added in Features 7–18: both themes, the new case-study routes, screenshots/media, and the restructured hierarchy. Verify keyboard, focus, modal, and reduced-motion behavior throughout, and add page titles/meta descriptions/canonical URLs for the new case-study pages.
+
 ## 14. Testing / Evaluation Strategy
 
 - **Cross-device verification**: Manually verify layout and usability on representative mobile, tablet, and desktop viewport widths for every section.
@@ -157,4 +174,5 @@ The roadmap is sequenced so the site can go live as soon as the core, actionable
 
 - Exact analytics provider — to be decided during implementation (Feature 6).
 - Source of the OG preview image — likely derived from a hero visual, finalized during Feature 6 (Analytics & Social Metadata) unless Jessica supplies one earlier.
-- Multi-page project case studies, a contact form, and dark mode are intentionally deferred beyond this initial release (see Non-Goals).
+- A contact form is intentionally deferred beyond this initial release (see Non-Goals). Dedicated case-study routes and a light/dark theme toggle are no longer deferred — see Roadmap Features 11, 12, and 18 (§13.1).
+- Exact dark-theme palette values (Feature 18) and whether "Currently Exploring" is removed entirely or replaced with a compact strip (Feature 16) — to be decided when each feature is planned.
