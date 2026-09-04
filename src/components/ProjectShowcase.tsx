@@ -6,6 +6,7 @@ import type { Project } from "@/data/projects";
 export default function ProjectShowcase({
   title,
   status,
+  accentTone,
   problemStatement,
   solutionSummary,
   tags,
@@ -15,23 +16,31 @@ export default function ProjectShowcase({
   media,
 }: Project) {
   return (
-    <div className="h-full rounded-3xl bg-gradient-to-br from-accent via-accent-secondary to-accent-soft p-[2px] shadow-soft transition-all duration-300 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-soft-hover">
-      <div className="flex h-full flex-col rounded-[calc(1.5rem-2px)] bg-surface/95 p-6 backdrop-blur-md">
-        {media && (
-          <CaseStudyMedia
-            {...media}
-            sizes="(min-width: 768px) 50vw, calc(100vw - 5rem)"
-            aspectClassName="mb-5 aspect-[16/9] rounded-2xl"
-          />
-        )}
-        <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
-          <h3 className="font-display text-xl font-semibold text-foreground">
-            {title}
-          </h3>
+    <article
+      data-project-card
+      data-accent-tone={accentTone}
+      className="project-specimen-card"
+    >
+      <div className="project-specimen-card__surface">
+        <div className="project-specimen-card__register">
+          <p className="project-feature-marker">
+            <span aria-hidden="true" className="specimen-facet" />
+            <span>Featured build</span>
+          </p>
           <span className="rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-accent">
             {status}
           </span>
         </div>
+        {media && (
+          <CaseStudyMedia
+            {...media}
+            sizes="(min-width: 768px) 50vw, calc(100vw - 5rem)"
+            aspectClassName="project-specimen-card__media mb-5 aspect-[16/9] rounded-2xl"
+          />
+        )}
+        <h3 className="font-display text-xl font-semibold text-foreground">
+          {title}
+        </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted">
           {problemStatement}
         </p>
@@ -67,6 +76,6 @@ export default function ProjectShowcase({
           </div>
         )}
       </div>
-    </div>
+    </article>
   );
 }
