@@ -5,7 +5,6 @@ import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
 import ProjectCard from "@/components/ProjectCard";
-import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
 
 const workPrinciples = [
@@ -41,8 +40,6 @@ const workPrinciples = [
     ),
   },
 ];
-
-const exploringTags = ["Retrieval-Augmented Generation", "Embeddings", "Structured Outputs", "Grounding", "Evaluation"];
 
 const stats = [
   { value: "9+", label: "Years of experience" },
@@ -86,6 +83,7 @@ const experience = [
       {
         role: "Lead Developer",
         period: "Jan 2020 – Mar 2022",
+        anchorId: "experience-proplanner-lead-developer",
         bullets: [
           "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
           "Led a team that reduced security vulnerabilities by 81% across all applications",
@@ -204,7 +202,7 @@ export default function Home() {
           </Container>
         </section>
 
-        <section className="pb-24">
+        <section id="impact" className="pb-24">
           <Container>
             <h2 className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-muted">
               Impact &amp; Highlights
@@ -218,43 +216,6 @@ export default function Home() {
                   <p className="mt-2 text-sm text-muted">{stat.label}</p>
                 </div>
               ))}
-            </div>
-          </Container>
-        </section>
-
-        <section className="pb-24">
-          <Container className="max-w-2xl">
-            <h2 className="font-display text-2xl font-semibold text-foreground">
-              About Me
-            </h2>
-            <div className="mt-4 space-y-4 leading-relaxed text-muted">
-              <p>
-                I&apos;m a Senior Software Engineer with 9+ years of
-                experience building and modernizing full-stack enterprise
-                applications, with a strong focus on C#/.NET backend
-                development, APIs, Entity Framework, performance, and
-                scalable architecture. I&apos;ve worked across the full
-                stack — .NET, C#, Entity Framework, MySQL, Angular, and
-                TypeScript — while also leading technical projects,
-                mentoring engineers, writing technical designs, and
-                partnering closely with Product, QA, and DevOps.
-              </p>
-              <p>
-                Some of the problems I&apos;ve enjoyed working on: reducing
-                a high-volume background job&apos;s runtime by 95%,
-                improving testing and observability to help achieve 6+
-                months of incident-free production, implementing SSO and
-                identity integrations, and modernizing applications and
-                development practices.
-              </p>
-              <p>
-                I enjoy solving complex engineering problems, improving
-                existing systems, and learning new technologies when
-                they&apos;re the right tool for the job — including,
-                lately, AI-assisted development. I&apos;m still early in
-                that exploration, and there&apos;s more to say about it
-                soon.
-              </p>
             </div>
           </Container>
         </section>
@@ -300,7 +261,23 @@ export default function Home() {
           </Container>
         </section>
 
-        <section className="pb-24">
+        <section id="experience" className="pb-24">
+          <Container className="max-w-3xl">
+            <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
+              Experience
+            </h2>
+            <div className="space-y-10">
+              {experience.map((entry) => (
+                <ExperienceEntry
+                  key={`${entry.company}-${entry.roles[0].role}`}
+                  {...entry}
+                />
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        <section id="how-i-work" className="pb-24">
           <Container className="max-w-3xl">
             <h2 className="font-display text-2xl font-semibold text-foreground">
               How I Work
@@ -328,70 +305,39 @@ export default function Home() {
           </Container>
         </section>
 
-        <section className="pb-24">
-          <Container className="max-w-3xl">
+        <section id="about" className="pb-24">
+          <Container className="max-w-2xl">
             <h2 className="font-display text-2xl font-semibold text-foreground">
-              Currently Exploring
+              About Me
             </h2>
-            <p className="mt-4 max-w-2xl font-display text-xl leading-snug text-foreground">
-              Lately, I&apos;ve been especially interested in what happens
-              when AI moves beyond a demo and becomes part of a real
-              software system.
-            </p>
-
-            <div className="mt-8 rounded-3xl border border-accent-secondary/30 bg-accent-soft/50 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
-                Building: PokéJudge
+            <div className="mt-4 space-y-4 leading-relaxed text-muted">
+              <p>
+                I&apos;m a Senior Software Engineer with 9+ years of
+                experience building and modernizing full-stack enterprise
+                applications, with a strong focus on C#/.NET backend
+                development, APIs, Entity Framework, performance, and
+                scalable architecture. I&apos;ve worked across the full
+                stack — .NET, C#, Entity Framework, MySQL, Angular, and
+                TypeScript — while also leading technical projects,
+                mentoring engineers, writing technical designs, and
+                partnering closely with Product, QA, and DevOps.
               </p>
-              <p className="mt-3 leading-relaxed text-muted">
-                A C#/.NET project inspired by my experience as a Pokémon
-                TCG Judge. It gives me a practical way to explore
-                retrieval-augmented generation, embeddings, structured LLM
-                outputs, grounding, evaluation, and the challenges of
-                building AI systems that know when they have enough
-                information to answer reliably.
+              <p>
+                Some of the problems I&apos;ve enjoyed working on: reducing
+                a high-volume background job&apos;s runtime by 95%,
+                improving testing and observability to help achieve 6+
+                months of incident-free production, implementing SSO and
+                identity integrations, and modernizing applications and
+                development practices.
               </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {exploringTags.map((tag) => (
-                  <Tag key={tag}>{tag}</Tag>
-                ))}
-              </div>
-              <TextLink
-                href="#projects"
-                target="_self"
-                className="mt-4 inline-block"
-              >
-                See it in Featured Projects →
-              </TextLink>
-            </div>
-
-            <p className="mt-6 leading-relaxed text-muted">
-              I&apos;m also continuing to grow my frontend skills with
-              React and TypeScript and experimenting with AI-assisted
-              development workflows that make me a more effective
-              engineer.
-            </p>
-
-            <p className="mt-10 text-center font-display text-lg text-accent-secondary">
-              I&apos;m most interested in learning through real problems,
-              building things I care about, and understanding the
-              technology well enough to use it thoughtfully.
-            </p>
-          </Container>
-        </section>
-
-        <section id="experience" className="pb-24">
-          <Container className="max-w-3xl">
-            <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
-              Experience
-            </h2>
-            <div className="space-y-10">
-              {experience.map((entry) => (
-                <ExperienceEntry
-                  key={`${entry.company}-${entry.roles[0].role}`}
-                  {...entry}
-                />
-              ))}
+              <p>
+                I enjoy solving complex engineering problems, improving
+                existing systems, and learning new technologies when
+                they&apos;re the right tool for the job — including,
+                lately, AI-assisted development. I&apos;m still early in
+                that exploration, and there&apos;s more to say about it
+                soon.
+              </p>
             </div>
           </Container>
         </section>

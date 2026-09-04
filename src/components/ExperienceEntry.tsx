@@ -30,7 +30,11 @@ export default function ExperienceEntry({
     <div className="border-t border-border pt-8 first:border-t-0 first:pt-0">
       {isSingleRole ? (
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <h3 className="font-display text-lg font-semibold text-foreground">
+          <h3
+            id={roles[0].anchorId}
+            tabIndex={roles[0].anchorId ? -1 : undefined}
+            className={`font-display text-lg font-semibold text-foreground ${roles[0].anchorId ? roleHeadingFocusStyles : ""}`}
+          >
             {roles[0].role}, {company}
           </h3>
           <p className="text-sm text-muted">{roles[0].period}</p>
