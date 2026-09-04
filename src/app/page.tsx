@@ -4,7 +4,7 @@ import Container from "@/components/Container";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
-import ProjectCard from "@/components/ProjectCard";
+import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
 
 const workPrinciples = [
@@ -38,6 +38,51 @@ const workPrinciples = [
         </strong>
       </>
     ),
+  },
+];
+
+const projects = [
+  {
+    title: "PokéJudge AI",
+    status: "In Development",
+    problemStatement:
+      "Pokémon TCG tournament judges need fast, well-supported rulings for natural-language rules and game-state questions, not just a lookup tool or an unvalidated AI answer.",
+    solutionSummary:
+      "A judge describes the situation in natural language; the system asks clarifying questions if needed, retrieves the relevant authoritative rules passages, and returns a cited recommendation, rating how strongly the source material actually supports it rather than presenting an unvalidated confidence score.",
+    technicalDecisions:
+      "Introduces each AI capability (LLM calls, structured output, retrieval-augmented generation, evaluation) only as the product needed it, rather than adopting a general AI framework upfront.",
+    buildApproach: "Built in C#/ASP.NET Core as a hands-on AI engineering project.",
+    tags: [
+      "C#",
+      "ASP.NET Core",
+      "RAG / Retrieval",
+      "LLM Integration",
+      "Structured Output",
+    ],
+    githubUrl: "https://github.com/jkhaynes/PokeJudge",
+  },
+  {
+    title: "Loot Singles Fulfillment",
+    status: "In Development",
+    problemStatement:
+      "Loot Card Shop's printed TCGplayer invoices led to wrong-card, quantity, variant, and set errors, and didn't support multiple employees safely picking orders at once.",
+    solutionSummary:
+      "A purpose-built digital picking workflow with set-aware picking, prominent card details, issue reporting, and exclusive order claiming so multiple employees can work concurrently without collisions.",
+    technicalDecisions:
+      "React and TypeScript PWA backed by ASP.NET Core, C#, Entity Framework Core, and Azure SQL.",
+    buildApproach:
+      "Built using GitHub Spec Kit for spec-driven, AI-assisted development, with strict test-driven development following the Red-Green-Refactor cycle.",
+    tags: [
+      "React",
+      "TypeScript",
+      "C#",
+      "ASP.NET Core",
+      "Entity Framework Core",
+      "Azure SQL",
+      "GitHub Spec Kit",
+      "TDD",
+    ],
+    githubUrl: "https://github.com/jkhaynes/loot-singles-fulfillment",
   },
 ];
 
@@ -230,33 +275,9 @@ export default function Home() {
               Featured Projects
             </h2>
             <Grid>
-              <ProjectCard
-                title="PokéJudge AI"
-                description="An AI-powered decision-support tool for Pokémon TCG tournament judges, built as a hands-on AI engineering project. A judge describes a rules or game-state situation in natural language; the system asks clarifying questions if needed, retrieves the relevant authoritative rules passages, and returns a cited recommendation — rating how strongly the source material actually supports it rather than presenting an unvalidated confidence score. Built in C#/ASP.NET Core, introducing each AI capability (LLM calls, structured output, retrieval-augmented generation, evaluation) only as the product needed it."
-                tags={[
-                  "C#",
-                  "ASP.NET Core",
-                  "RAG / Retrieval",
-                  "LLM Integration",
-                  "Structured Output",
-                ]}
-                githubUrl="https://github.com/jkhaynes/PokeJudge"
-              />
-              <ProjectCard
-                title="Loot Singles Fulfillment"
-                description="A responsive fulfillment tool for Loot Card Shop that replaces printed TCGplayer invoices with a purpose-built digital picking workflow. Designed to reduce wrong-card, quantity, variant, and set errors, it supports set-aware picking, prominent card details, issue reporting, and exclusive order claiming so multiple employees can work concurrently without collisions. Currently in development with a React and TypeScript PWA backed by ASP.NET Core, C#, Entity Framework Core, and Azure SQL. I use GitHub Spec Kit for spec-driven, AI-assisted development, with strict test-driven development following the Red-Green-Refactor cycle."
-                tags={[
-                  "React",
-                  "TypeScript",
-                  "C#",
-                  "ASP.NET Core",
-                  "Entity Framework Core",
-                  "Azure SQL",
-                  "GitHub Spec Kit",
-                  "TDD",
-                ]}
-                githubUrl="https://github.com/jkhaynes/loot-singles-fulfillment"
-              />
+              {projects.map((project) => (
+                <ProjectShowcase key={project.title} {...project} />
+              ))}
             </Grid>
           </Container>
         </section>
