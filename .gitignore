@@ -10,6 +10,8 @@ dist/
 *.log
 .DS_Store
 Thumbs.db
+playwright-report/
+test-results/
 
 # Local editor / tooling
 .vscode/settings.local.json
