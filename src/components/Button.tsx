@@ -16,7 +16,7 @@ const baseStyles =
 
 const variantStyles: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "bg-accent text-white shadow-soft motion-safe:hover:shadow-soft-hover",
+    "bg-accent text-on-accent shadow-soft motion-safe:hover:shadow-soft-hover",
   secondary: "border border-accent text-accent hover:bg-accent-soft",
 };
 

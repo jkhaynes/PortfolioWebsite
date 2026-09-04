@@ -30,7 +30,7 @@ export function StateLabel({
   const done = tone === "done";
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${done ? "bg-foreground text-white" : "border border-risk/40 bg-risk-soft text-risk-strong"}`}
+      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${done ? "bg-inverse-surface text-inverse-foreground" : "border border-risk/40 bg-risk-soft text-risk-strong"}`}
     >
       <span
         aria-hidden="true"

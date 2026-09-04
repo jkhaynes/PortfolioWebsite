@@ -32,7 +32,7 @@ export default function ImpactMetricLink({
     event.preventDefault();
 
     if (window.location.hash !== href) {
-      window.history.pushState(null, "", href);
+      window.location.hash = href;
     }
 
     const prefersReducedMotion = window.matchMedia(

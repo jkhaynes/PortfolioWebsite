@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/Container";
+import ThemeToggle from "@/components/ThemeToggle";
 
 type NavLink = {
   label: string;
@@ -29,20 +30,23 @@ export default function Nav() {
           >
             Jessica Haynes
           </Link>
-          <nav aria-label="Primary">
-            <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-muted sm:gap-6 sm:text-sm">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="transition-colors duration-200 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:w-auto sm:justify-end">
+            <nav aria-label="Primary">
+              <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-muted sm:gap-6 sm:text-sm">
+                {navLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="transition-colors duration-200 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <ThemeToggle />
+          </div>
         </Container>
       </header>
     </>
