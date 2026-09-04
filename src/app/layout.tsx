@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Lora, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { themeInitScript } from "@/lib/theme";
 
 const lora = Lora({
   subsets: ["latin"],
@@ -37,13 +38,25 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: "#fdf6f6",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${lora.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${lora.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         {children}
         <Script

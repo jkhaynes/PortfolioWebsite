@@ -420,7 +420,7 @@ export default function LootSinglesCaseStudy() {
                   ],
                 ].map(([number, title, detail]) => (
                   <div key={number} className="grid grid-cols-[2rem_1fr] gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-risk font-semibold text-white">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-risk font-semibold text-on-risk">
                       {number}
                     </span>
                     <p className="leading-relaxed text-muted">

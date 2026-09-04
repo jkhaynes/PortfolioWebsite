@@ -13,6 +13,10 @@
   --color-risk-strong: #765019;
   --color-risk-soft: #fff4dc;
   --color-product-ink: #101216;
+  --color-on-accent: #ffffff;
+  --color-on-risk: #ffffff;
+  --color-inverse-surface: #2b1f27;
+  --color-inverse-foreground: #ffffff;
 
   --font-display: var(--font-heading);
   --font-sans: var(--font-inter);
@@ -30,6 +34,38 @@
 }
 
 @layer base {
+  :root {
+    background: var(--color-background);
+    color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-background: #1e1e2e;
+    --color-foreground: #cdd6f4;
+    --color-muted: #bac2de;
+    --color-surface: #313244;
+    --color-border: #45475a;
+    --color-accent: #f5c2e7;
+    --color-accent-soft: #453047;
+    --color-accent-secondary: #cba6f7;
+    --color-risk: #e5c890;
+    --color-risk-strong: #f9e2af;
+    --color-risk-soft: #40362e;
+    --color-on-accent: #1e1e2e;
+    --color-on-risk: #1e1e2e;
+    --color-inverse-surface: #cdd6f4;
+    --color-inverse-foreground: #1e1e2e;
+    --card-edge-rose: #f5c2e7;
+    --card-edge-mauve: #cba6f7;
+    --card-edge-soft: #45475a;
+    --card-inset: #313244;
+    --shadow-soft: 0 20px 45px -28px rgba(10, 10, 20, 0.72);
+    --shadow-soft-hover: 0 24px 50px -22px rgba(203, 166, 247, 0.3);
+    --shadow-card-rest: 0 20px 45px -28px rgba(10, 10, 20, 0.82);
+    --shadow-card-active: 0 25px 54px -25px rgba(203, 166, 247, 0.4);
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -58,7 +94,11 @@
 
   a {
     color: inherit;
-    -webkit-tap-highlight-color: rgba(184, 48, 111, 0.16);
+    -webkit-tap-highlight-color: color-mix(
+      in srgb,
+      var(--color-accent) 16%,
+      transparent
+    );
     touch-action: manipulation;
   }
 
@@ -75,8 +115,8 @@
     z-index: 100;
     transform: translateY(-200%);
     border-radius: 9999px;
-    background: var(--color-foreground);
-    color: white;
+    background: var(--color-inverse-surface);
+    color: var(--color-inverse-foreground);
     padding: 0.625rem 1rem;
     font-weight: 600;
   }
@@ -94,10 +134,10 @@
     width: 2rem;
     align-items: center;
     justify-content: center;
-    border: 3px solid white;
+    border: 3px solid var(--color-surface);
     border-radius: 9999px;
     background: var(--color-risk);
-    color: white;
+    color: var(--color-on-risk);
     font-size: 0.75rem;
     font-weight: 700;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
@@ -121,10 +161,15 @@
     --specimen-accent: var(--card-edge-rose);
     position: relative;
     height: 100%;
-    border: 1px solid color-mix(in srgb, var(--specimen-accent) 72%, white);
+    border: 1px solid
+      color-mix(in srgb, var(--specimen-accent) 72%, var(--color-surface));
     border-radius: 1.5rem;
     padding: 0.3rem;
-    background: color-mix(in srgb, var(--specimen-accent) 7%, white);
+    background: color-mix(
+      in srgb,
+      var(--specimen-accent) 7%,
+      var(--color-surface)
+    );
     box-shadow: var(--shadow-card-rest);
     isolation: isolate;
     transition:
@@ -168,12 +213,17 @@
     height: 100%;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--specimen-accent) 22%, white);
+    border: 1px solid
+      color-mix(in srgb, var(--specimen-accent) 22%, var(--color-surface));
     border-radius: calc(1.5rem - 0.3rem);
     background:
       linear-gradient(
         128deg,
-        color-mix(in srgb, var(--specimen-accent) 5%, white),
+        color-mix(
+          in srgb,
+          var(--specimen-accent) 5%,
+          var(--color-surface)
+        ),
         transparent 32%
       ),
       color-mix(in srgb, var(--color-surface) 96%, var(--card-inset));
@@ -247,9 +297,15 @@
   }
 
   .project-specimen-card__media {
-    border: 1px solid color-mix(in srgb, var(--specimen-accent) 32%, white);
+    border: 1px solid
+      color-mix(in srgb, var(--specimen-accent) 32%, var(--color-surface));
     box-shadow:
-      0 0 0 0.3rem color-mix(in srgb, var(--specimen-accent) 5%, white),
+      0 0 0 0.3rem
+        color-mix(
+          in srgb,
+          var(--specimen-accent) 5%,
+          var(--color-surface)
+        ),
       0 10px 24px -18px rgba(43, 31, 39, 0.72);
   }
 
@@ -295,6 +351,41 @@
     bottom: 0.65rem;
     border-right: 1px solid var(--card-edge-soft);
     border-bottom: 1px solid var(--card-edge-soft);
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    min-height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: color-mix(
+      in srgb,
+      var(--color-surface) 82%,
+      transparent
+    );
+    color: var(--color-muted);
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--color-accent-secondary);
+    background: var(--color-accent-soft);
+    color: var(--color-foreground);
+  }
+
+  .theme-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
