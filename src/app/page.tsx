@@ -3,6 +3,7 @@ import Card from "@/components/Card";
 import Container from "@/components/Container";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
+import ImpactMetricLink from "@/components/ImpactMetricLink";
 import Nav from "@/components/Nav";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
@@ -42,11 +43,31 @@ const workPrinciples = [
 ];
 
 const stats = [
-  { value: "9+", label: "Years of experience" },
-  { value: "95%", label: "Faster nightly job runtime" },
-  { value: "81%", label: "Fewer security flaws" },
-  { value: "50%", label: "Fewer support escalations" },
-];
+  {
+    value: "9+",
+    label: "Years of experience",
+    category: "Experience",
+    href: "#experience-heading",
+  },
+  {
+    value: "95%",
+    label: "Faster nightly job runtime",
+    category: "Performance",
+    href: "#impact-nightly-job",
+  },
+  {
+    value: "81%",
+    label: "Fewer security flaws",
+    category: "Application Security",
+    href: "#impact-security-flaws",
+  },
+  {
+    value: "50%",
+    label: "Fewer support escalations",
+    category: "Quality & Reliability",
+    href: "#impact-support-escalations",
+  },
+] as const;
 
 const experience = [
   {
@@ -59,7 +80,10 @@ const experience = [
         period: "Jan 2024 – Present",
         anchorId: "experience-8am-team-lead",
         bullets: [
-          "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
+          {
+            text: "Led a cross-functional team of 4, driving a quality-focused culture shift that achieved 6+ months of incident-free production and a 50% drop in support escalations",
+            anchorId: "impact-support-escalations",
+          },
           "Spearheaded the team's adoption of agentic AI coding tools (Claude Code, GitHub Copilot), improving engineering efficiency and TDD adoption",
           "Improved onboarding for QA and developers by overhauling documentation and establishing clearer project standards",
         ],
@@ -69,7 +93,10 @@ const experience = [
         period: "Mar 2022 – Jan 2024",
         anchorId: "experience-8am-senior-iii",
         bullets: [
-          "Optimized a high-volume nightly job, cutting runtime by 95%",
+          {
+            text: "Optimized a high-volume nightly job, cutting runtime by 95%",
+            anchorId: "impact-nightly-job",
+          },
           "Implemented Single Sign-On (SSO) for the payment processor, integrating with clients' existing identity providers to streamline authentication",
         ],
       },
@@ -86,7 +113,10 @@ const experience = [
         anchorId: "experience-proplanner-lead-developer",
         bullets: [
           "Designed and supported an Identity and Access Management service, configuring SAML/OIDC connections for all clients",
-          "Led a team that reduced security vulnerabilities by 81% across all applications",
+          {
+            text: "Led a team that reduced security vulnerabilities by 81% across all applications",
+            anchorId: "impact-security-flaws",
+          },
           "Engaged directly with clients to gather feature requirements and resolve deployment issues",
         ],
       },
@@ -209,12 +239,7 @@ export default function Home() {
             </h2>
             <div className="grid grid-cols-2 gap-6 border-y border-border py-10 sm:grid-cols-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <p className="font-display text-3xl font-semibold text-accent sm:text-4xl">
-                    {stat.value}
-                  </p>
-                  <p className="mt-2 text-sm text-muted">{stat.label}</p>
-                </div>
+                <ImpactMetricLink key={stat.label} {...stat} />
               ))}
             </div>
           </Container>
@@ -239,7 +264,11 @@ export default function Home() {
 
         <section id="experience" className="pb-24">
           <Container className="max-w-3xl">
-            <h2 className="mb-10 font-display text-2xl font-semibold text-foreground">
+            <h2
+              id="experience-heading"
+              tabIndex={-1}
+              className="impact-target mb-10 font-display text-2xl font-semibold text-foreground"
+            >
               Experience
             </h2>
             <div className="space-y-10">
