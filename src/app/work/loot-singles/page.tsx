@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Button from "@/components/Button";
+import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
 import {
   FlowStep,
   SectionHeading,
@@ -11,6 +11,7 @@ import Nav from "@/components/Nav";
 import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
 import { lootSinglesProject } from "@/data/projects";
+import lootDashboard from "../../../../public/work/loot-singles/dashboard-sample-orders.png";
 import lootOrderDetail from "../../../../public/work/loot-singles/order-detail-desktop-catalog-cards.png";
 
 export const metadata: Metadata = {
@@ -154,22 +155,17 @@ export default function LootSinglesCaseStudy() {
                 </TextLink>
               </div>
             </div>
-            <figure className="min-w-0">
-              <div className="relative aspect-[6/5] overflow-hidden rounded-[2rem] border border-foreground/15 bg-product-ink shadow-product">
-                <Image
-                  src={lootOrderDetail}
-                  alt="Loot Singles order detail screen showing sample-order cards and their set, condition, variant, and quantity details."
-                  priority
-                  fill
-                  sizes="(min-width: 1024px) 54vw, calc(100vw - 2rem)"
-                  className="object-cover object-left"
-                />
-              </div>
-              <figcaption className="mt-3 flex items-center justify-between gap-4 text-xs text-muted">
-                <span>Implemented order-detail foundation</span>
-                <span>Sample data</span>
-              </figcaption>
-            </figure>
+            <CaseStudyMedia
+              src={lootOrderDetail}
+              alt="Loot Singles order detail screen showing sample-order cards and their set, condition, variant, and quantity details."
+              title="Loot Singles order detail"
+              caption="Implemented order-detail foundation"
+              context="Sample data"
+              priority
+              sizes="(min-width: 1024px) 54vw, calc(100vw - 2rem)"
+              aspectClassName="aspect-[6/5]"
+              objectClassName="object-cover object-left"
+            />
           </header>
 
           <section
@@ -198,6 +194,40 @@ export default function LootSinglesCaseStudy() {
               </strong>{" "}
               as volume grows toward approximately 1,000 orders per day.
             </p>
+          </section>
+
+          <section
+            aria-labelledby="dashboard-heading"
+            className="grid gap-8 border-t border-border py-16 lg:grid-cols-[0.7fr_1.3fr] lg:items-center lg:gap-16"
+          >
+            <div>
+              <p className="text-sm font-semibold text-accent">
+                Implemented coordination
+              </p>
+              <h2
+                id="dashboard-heading"
+                className="mt-2 scroll-mt-24 text-balance font-display text-3xl font-semibold text-foreground"
+              >
+                Available work is visible at a glance
+              </h2>
+              <p className="mt-5 max-w-[58ch] leading-relaxed text-muted">
+                The dashboard gives an authenticated picker a clear starting
+                point, shows the current queue, and keeps actions for browsing,
+                importing, and employee management together. This capture uses
+                controlled sample orders; unavailable workflow states remain
+                labeled as such.
+              </p>
+            </div>
+            <CaseStudyMedia
+              src={lootDashboard}
+              alt="Loot Singles dashboard showing three sample orders ready to pick and navigation for order and employee management."
+              title="Loot Singles available-orders dashboard"
+              caption="Implemented available-orders dashboard"
+              context="Controlled sample data"
+              sizes="(min-width: 1024px) 58vw, calc(100vw - 2rem)"
+              aspectClassName="aspect-[36/25]"
+              objectClassName="object-cover object-top"
+            />
           </section>
 
           <section className="grid gap-14 pb-20 pt-8 md:grid-cols-2 md:gap-16">
@@ -352,14 +382,17 @@ export default function LootSinglesCaseStudy() {
               images. The annotations identify information architecture already
               present in the application.
             </p>
-            <figure className="mt-8">
-              <div className="relative overflow-hidden rounded-[2rem] border border-foreground/15 bg-product-ink p-2 shadow-product sm:p-4">
-                <Image
-                  src={lootOrderDetail}
-                  alt="Loot Singles order detail screen showing sample cards with numbered annotations for order ownership, set context, and quantity and variant details."
-                  sizes="(min-width: 1080px) 1048px, calc(100vw - 2rem)"
-                  className="h-auto w-full rounded-[1.4rem] border border-white/10"
-                />
+            <div className="mt-8">
+              <CaseStudyMedia
+                src={lootOrderDetail}
+                alt="Loot Singles order detail screen showing sample cards with numbered annotations for order ownership, set context, and quantity and variant details."
+                title="Annotated Loot Singles order detail"
+                caption="Implemented information hierarchy"
+                context="Sample data"
+                sizes="(min-width: 1080px) 1048px, calc(100vw - 2rem)"
+                aspectClassName="aspect-[1440/1012]"
+                objectClassName="object-contain"
+              >
                 <span className="annotation-marker left-[23%] top-[7%]">1</span>
                 <span className="annotation-marker left-[67%] top-[22%]">
                   2
@@ -367,8 +400,8 @@ export default function LootSinglesCaseStudy() {
                 <span className="annotation-marker left-[31%] top-[66%]">
                   3
                 </span>
-              </div>
-              <figcaption className="mt-5 grid gap-5 text-sm sm:grid-cols-3">
+              </CaseStudyMedia>
+              <div className="mt-5 grid gap-5 text-sm sm:grid-cols-3">
                 {[
                   [
                     "1",
@@ -396,8 +429,8 @@ export default function LootSinglesCaseStudy() {
                     </p>
                   </div>
                 ))}
-              </figcaption>
-            </figure>
+              </div>
+            </div>
           </section>
 
           <section

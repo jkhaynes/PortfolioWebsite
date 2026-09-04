@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Button from "@/components/Button";
+import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
 import {
   FlowStep,
   SectionHeading,
@@ -256,26 +256,18 @@ export default function PokeJudgeCaseStudy() {
               question and answer, the recommendation, validated Source Support,
               and citation checks.
             </p>
-            <figure className="mt-8">
-              <div
-                className="overflow-x-auto rounded-[2rem] border border-foreground/15 bg-product-ink p-2 shadow-product sm:p-4"
-                tabIndex={0}
-                aria-label="Scrollable full-size PokeJudge console capture"
-              >
-                <Image
-                  src={lateArrivalEvaluation}
-                  alt="Complete PokeJudge console output for a late-arrival scenario, including retrieval, a clarifying question, re-retrieval, a Major Tardiness recommendation, and validated Strong Source Support."
-                  sizes="1600px"
-                  className="h-auto w-[1600px] max-w-none rounded-[1.4rem]"
-                />
-              </div>
-              <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-                <span>
-                  Captured from a live run using the official-policy corpus
-                </span>
-                <span>Scroll horizontally on smaller screens</span>
-              </figcaption>
-            </figure>
+            <div className="mt-8">
+              <CaseStudyMedia
+                src={lateArrivalEvaluation}
+                alt="Complete PokeJudge console output for a late-arrival scenario, including retrieval, a clarifying question, re-retrieval, a Major Tardiness recommendation, and validated Strong Source Support."
+                title="Complete PokéJudge clarification run"
+                caption="Captured from a live run using the official-policy corpus"
+                context="Complete terminal output"
+                sizes="(min-width: 1080px) 1048px, calc(100vw - 2rem)"
+                aspectClassName="aspect-square"
+                objectClassName="object-contain"
+              />
+            </div>
           </section>
 
           <section

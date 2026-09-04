@@ -1,5 +1,6 @@
 import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
+import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
 import type { Project } from "@/data/projects";
 
 export default function ProjectShowcase({
@@ -11,10 +12,18 @@ export default function ProjectShowcase({
   githubUrl,
   demoUrl,
   caseStudyUrl,
+  media,
 }: Project) {
   return (
     <div className="h-full rounded-3xl bg-gradient-to-br from-accent via-accent-secondary to-accent-soft p-[2px] shadow-soft transition-all duration-300 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-soft-hover">
       <div className="flex h-full flex-col rounded-[calc(1.5rem-2px)] bg-surface/95 p-6 backdrop-blur-md">
+        {media && (
+          <CaseStudyMedia
+            {...media}
+            sizes="(min-width: 768px) 50vw, calc(100vw - 5rem)"
+            aspectClassName="mb-5 aspect-[16/9] rounded-2xl"
+          />
+        )}
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
           <h3 className="font-display text-xl font-semibold text-foreground">
             {title}

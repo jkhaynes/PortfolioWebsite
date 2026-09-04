@@ -1,3 +1,16 @@
+import type { StaticImageData } from "next/image";
+import lootOrderDetail from "../../public/work/loot-singles/order-detail-desktop-catalog-cards.png";
+import pokeJudgeRun from "../../public/work/pokejudge/late-arrival-success.png";
+
+export type ProjectMedia = {
+  src: StaticImageData;
+  alt: string;
+  title: string;
+  caption: string;
+  objectClassName: string;
+  priority?: boolean;
+};
+
 export type Project = {
   title: string;
   status: string;
@@ -9,6 +22,7 @@ export type Project = {
   githubUrl?: string;
   demoUrl?: string;
   caseStudyUrl?: string;
+  media?: ProjectMedia;
 };
 
 export const pokeJudgeProject: Project = {
@@ -32,6 +46,14 @@ export const pokeJudgeProject: Project = {
   ],
   githubUrl: "https://github.com/jkhaynes/PokeJudge",
   caseStudyUrl: "/work/pokejudge",
+  media: {
+    src: pokeJudgeRun,
+    alt: "PokeJudge console output for a late-arrival scenario with a clarifying question and grounded recommendation.",
+    title: "PokéJudge clarification run",
+    caption: "Live clarification and grounding run",
+    objectClassName: "object-cover object-left-top",
+    priority: true,
+  },
 };
 
 export const lootSinglesProject: Project = {
@@ -57,6 +79,13 @@ export const lootSinglesProject: Project = {
   ],
   githubUrl: "https://github.com/jkhaynes/loot-singles-fulfillment",
   caseStudyUrl: "/work/loot-singles",
+  media: {
+    src: lootOrderDetail,
+    alt: "Loot Singles order detail screen showing sample-order cards and their set, condition, variant, and quantity details.",
+    title: "Loot Singles order detail",
+    caption: "Implemented order-detail foundation · Sample data",
+    objectClassName: "object-cover object-left",
+  },
 };
 
 export const projects: Project[] = [pokeJudgeProject, lootSinglesProject];

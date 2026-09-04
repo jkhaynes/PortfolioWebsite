@@ -45,6 +45,10 @@
     font-family: var(--font-sans);
   }
 
+  body:has(dialog[open]) {
+    overflow: hidden;
+  }
+
   a {
     color: inherit;
     -webkit-tap-highlight-color: rgba(184, 48, 111, 0.16);
@@ -90,6 +94,11 @@
     font-size: 0.75rem;
     font-weight: 700;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  }
+
+  .media-dialog::backdrop {
+    background: rgba(43, 31, 39, 0.78);
+    backdrop-filter: blur(4px);
   }
 }
 
