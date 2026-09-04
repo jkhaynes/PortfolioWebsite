@@ -19,17 +19,19 @@ export const pokeJudgeProject: Project = {
   solutionSummary:
     "A judge describes the situation in natural language; the system asks clarifying questions if needed, retrieves the relevant authoritative rules passages, and returns a cited recommendation, rating how strongly the source material actually supports it rather than presenting an unvalidated confidence score.",
   technicalDecisions:
-    "Introduces each AI capability (LLM calls, structured output, retrieval-augmented generation, evaluation) only as the product needed it, rather than adopting a general AI framework upfront.",
+    "The application owns a structured retrieve, assess, clarify, re-retrieve, recommend, and validate workflow; Source Support is derived from retrieved authority and grounding checks rather than model confidence.",
   buildApproach:
-    "Built in C#/ASP.NET Core as a hands-on AI engineering project.",
+    "Built as a local .NET console application using Gemini models and embeddings, PDF ingestion, vector similarity search, schema-constrained output, and xUnit.",
   tags: [
     "C#",
-    "ASP.NET Core",
+    ".NET",
     "RAG / Retrieval",
+    "Embeddings",
     "LLM Integration",
     "Structured Output",
   ],
   githubUrl: "https://github.com/jkhaynes/PokeJudge",
+  caseStudyUrl: "/work/pokejudge",
 };
 
 export const lootSinglesProject: Project = {

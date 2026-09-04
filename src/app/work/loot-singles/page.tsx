@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Button from "@/components/Button";
+import {
+  FlowStep,
+  SectionHeading,
+  StateLabel,
+} from "@/components/case-study/CaseStudyPrimitives";
 import Container from "@/components/Container";
 import Nav from "@/components/Nav";
 import Tag from "@/components/Tag";
@@ -90,71 +95,6 @@ const productResponses = [
     body: "Employees can document an issue and hand off the order without pretending the pick succeeded.",
   },
 ];
-
-function SectionHeading({
-  label,
-  id,
-  children,
-}: {
-  label: string;
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <p className="text-sm font-semibold text-accent">{label}</p>
-      <h2
-        id={id}
-        className="mt-2 scroll-mt-24 text-balance font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl"
-      >
-        {children}
-      </h2>
-    </div>
-  );
-}
-
-function StateLabel({ state }: { state: "Implemented" | "Planned V1" }) {
-  const built = state === "Implemented";
-  return (
-    <span
-      className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${built ? "bg-foreground text-white" : "border border-risk/40 bg-risk-soft text-risk-strong"}`}
-    >
-      <span
-        aria-hidden="true"
-        className={`h-1.5 w-1.5 rounded-full ${built ? "bg-accent-soft" : "bg-risk"}`}
-      />
-      {state}
-    </span>
-  );
-}
-
-function FlowStep({
-  step,
-  label,
-  detail,
-  accent = false,
-}: {
-  step: string;
-  label: string;
-  detail: string;
-  accent?: boolean;
-}) {
-  return (
-    <li
-      className={`relative min-w-0 border-t-2 px-1 pt-5 ${accent ? "border-risk" : "border-accent-soft"}`}
-    >
-      <span
-        aria-hidden="true"
-        className={`absolute -top-2 left-0 h-3.5 w-3.5 rounded-full border-4 border-background ${accent ? "bg-risk" : "bg-accent"}`}
-      />
-      <p className="text-xs font-semibold text-muted">Step {step}</p>
-      <h3 className="mt-2 text-pretty font-display text-lg font-semibold text-foreground">
-        {label}
-      </h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{detail}</p>
-    </li>
-  );
-}
 
 export default function LootSinglesCaseStudy() {
   return (
@@ -314,7 +254,7 @@ export default function LootSinglesCaseStudy() {
               <SectionHeading label="Planned V1 workflow" id="workflow-heading">
                 The exception path is part of the path
               </SectionHeading>
-              <StateLabel state="Planned V1" />
+              <StateLabel label="Planned V1" tone="planned" />
             </div>
             <p className="mt-4 max-w-3xl leading-relaxed text-muted">
               Guided picking is the next phase of work. The branch below is
@@ -405,7 +345,7 @@ export default function LootSinglesCaseStudy() {
               <SectionHeading label="Product evidence" id="evidence-heading">
                 The implemented order view, annotated
               </SectionHeading>
-              <StateLabel state="Implemented" />
+              <StateLabel label="Implemented" tone="done" />
             </div>
             <p className="mt-4 max-w-3xl leading-relaxed text-muted">
               This development view uses sample-order data and card-catalog
@@ -585,7 +525,10 @@ function StatusList({
 }) {
   return (
     <div>
-      <StateLabel state={state} />
+      <StateLabel
+        label={state}
+        tone={state === "Implemented" ? "done" : "planned"}
+      />
       <ul className="mt-4 space-y-2 text-sm text-muted">
         {items.map((item) => (
           <li key={item} className="flex gap-2">
