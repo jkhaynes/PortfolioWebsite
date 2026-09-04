@@ -42,6 +42,12 @@ const workPrinciples = [
   },
 ];
 
+const learningThemes = [
+  "Agentic engineering workflows",
+  "AI evaluation & reliability",
+  "Human-in-the-loop product design",
+] as const;
+
 const stats = [
   {
     value: "9+",
@@ -310,6 +316,51 @@ export default function Home() {
           </Container>
         </section>
 
+        <section
+          id="learning-now"
+          aria-labelledby="learning-now-heading"
+          className="pb-24"
+        >
+          <Container>
+            <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-soft lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+              <div className="p-6 sm:p-8">
+                <h2
+                  id="learning-now-heading"
+                  className="font-display text-2xl font-semibold text-foreground"
+                >
+                  Learning now
+                </h2>
+                <p className="mt-3 max-w-2xl leading-relaxed text-muted">
+                  I’m deepening how I use AI in real engineering work—designing
+                  better agent workflows, evaluating system behavior, and
+                  keeping automation grounded in human judgment.
+                </p>
+              </div>
+              <ul
+                aria-label="Current learning themes"
+                className="grid border-t border-border sm:grid-cols-3 sm:divide-x sm:divide-border lg:border-l lg:border-t-0"
+              >
+                {learningThemes.map((theme, index) => (
+                  <li
+                    key={theme}
+                    className="flex min-h-24 items-center gap-3 border-t border-border px-6 py-5 first:border-t-0 sm:min-h-0 sm:border-t-0 sm:px-5"
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="font-display text-sm font-semibold text-accent"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-pretty text-sm font-semibold leading-snug text-foreground">
+                      {theme}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Container>
+        </section>
+
         <section id="about" className="pb-24">
           <Container className="max-w-2xl">
             <h2 className="font-display text-2xl font-semibold text-foreground">
@@ -337,9 +388,7 @@ export default function Home() {
               <p>
                 I enjoy solving complex engineering problems, improving existing
                 systems, and learning new technologies when they&apos;re the
-                right tool for the job — including, lately, AI-assisted
-                development. I&apos;m still early in that exploration, and
-                there&apos;s more to say about it soon.
+                right tool for the job.
               </p>
             </div>
           </Container>
