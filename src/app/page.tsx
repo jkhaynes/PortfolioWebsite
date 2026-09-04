@@ -322,7 +322,7 @@ export default function Home() {
           className="pb-24"
         >
           <Container>
-            <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-soft lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+            <div className="learning-specimen-strip overflow-hidden rounded-3xl border border-border bg-surface shadow-soft lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
               <div className="p-6 sm:p-8">
                 <h2
                   id="learning-now-heading"
@@ -340,17 +340,15 @@ export default function Home() {
                 aria-label="Current learning themes"
                 className="grid border-t border-border sm:grid-cols-3 sm:divide-x sm:divide-border lg:border-l lg:border-t-0"
               >
-                {learningThemes.map((theme, index) => (
+                {learningThemes.map((theme) => (
                   <li
                     key={theme}
                     className="flex min-h-24 items-center gap-3 border-t border-border px-6 py-5 first:border-t-0 sm:min-h-0 sm:border-t-0 sm:px-5"
                   >
                     <span
                       aria-hidden="true"
-                      className="font-display text-sm font-semibold text-accent"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                      className="specimen-facet specimen-facet--quiet"
+                    />
                     <span className="text-pretty text-sm font-semibold leading-snug text-foreground">
                       {theme}
                     </span>

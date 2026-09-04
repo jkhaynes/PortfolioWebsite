@@ -14,6 +14,7 @@ export type ProjectMedia = {
 export type Project = {
   title: string;
   status: string;
+  accentTone: "rose" | "mauve";
   problemStatement: string;
   solutionSummary: string;
   technicalDecisions: string;
@@ -28,6 +29,7 @@ export type Project = {
 export const pokeJudgeProject: Project = {
   title: "PokéJudge AI",
   status: "In Development",
+  accentTone: "mauve",
   problemStatement:
     "Pokémon TCG tournament judges need fast, well-supported rulings for natural-language rules and game-state questions, not just a lookup tool or an unvalidated AI answer.",
   solutionSummary:
@@ -59,6 +61,7 @@ export const pokeJudgeProject: Project = {
 export const lootSinglesProject: Project = {
   title: "Loot Singles Fulfillment",
   status: "In Development",
+  accentTone: "rose",
   problemStatement:
     "Loot Card Shop's printed TCGplayer invoices led to wrong-card, quantity, variant, and set errors, and didn't support multiple employees safely picking orders at once.",
   solutionSummary:

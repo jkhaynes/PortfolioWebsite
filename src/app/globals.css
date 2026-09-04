@@ -20,6 +20,13 @@
   --shadow-soft: 0 20px 45px -28px rgba(43, 31, 39, 0.35);
   --shadow-soft-hover: 0 24px 50px -22px rgba(184, 48, 111, 0.35);
   --shadow-product: 0 28px 70px -32px rgba(43, 31, 39, 0.65);
+
+  --card-edge-rose: #b8306f;
+  --card-edge-mauve: #8f5f86;
+  --card-edge-soft: #f2dde5;
+  --card-inset: #fbe6ef;
+  --shadow-card-rest: 0 20px 45px -28px rgba(43, 31, 39, 0.42);
+  --shadow-card-active: 0 25px 54px -25px rgba(143, 95, 134, 0.48);
 }
 
 @layer base {
@@ -109,6 +116,186 @@
   .impact-target:target {
     animation: impact-target-pulse 1.6s ease-out;
   }
+
+  .project-specimen-card {
+    --specimen-accent: var(--card-edge-rose);
+    position: relative;
+    height: 100%;
+    border: 1px solid color-mix(in srgb, var(--specimen-accent) 72%, white);
+    border-radius: 1.5rem;
+    padding: 0.3rem;
+    background: color-mix(in srgb, var(--specimen-accent) 7%, white);
+    box-shadow: var(--shadow-card-rest);
+    isolation: isolate;
+    transition:
+      transform 220ms ease,
+      box-shadow 220ms ease,
+      border-color 220ms ease;
+  }
+
+  .project-specimen-card[data-accent-tone="mauve"] {
+    --specimen-accent: var(--card-edge-mauve);
+  }
+
+  .project-specimen-card::before,
+  .project-specimen-card::after {
+    position: absolute;
+    z-index: 2;
+    width: 1.15rem;
+    height: 1.15rem;
+    pointer-events: none;
+    content: "";
+  }
+
+  .project-specimen-card::before {
+    top: 0.72rem;
+    left: 0.72rem;
+    border-top: 1px solid var(--specimen-accent);
+    border-left: 1px solid var(--specimen-accent);
+  }
+
+  .project-specimen-card::after {
+    right: 0.72rem;
+    bottom: 0.72rem;
+    border-right: 1px solid var(--specimen-accent);
+    border-bottom: 1px solid var(--specimen-accent);
+  }
+
+  .project-specimen-card__surface {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--specimen-accent) 22%, white);
+    border-radius: calc(1.5rem - 0.3rem);
+    background:
+      linear-gradient(
+        128deg,
+        color-mix(in srgb, var(--specimen-accent) 5%, white),
+        transparent 32%
+      ),
+      color-mix(in srgb, var(--color-surface) 96%, var(--card-inset));
+    padding: 1.5rem;
+  }
+
+  .project-specimen-card__surface::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      110deg,
+      transparent 26%,
+      color-mix(in srgb, var(--specimen-accent) 8%, transparent) 48%,
+      transparent 70%
+    );
+    opacity: 0;
+    transform: translateX(-18%);
+    transition:
+      opacity 220ms ease,
+      transform 360ms ease;
+    content: "";
+  }
+
+  .project-specimen-card__register {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .project-feature-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0;
+    color: var(--specimen-accent);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .specimen-facet {
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+    width: 0.72rem;
+    height: 0.72rem;
+    border: 1px solid currentColor;
+    color: inherit;
+    transform: rotate(45deg);
+  }
+
+  .specimen-facet::after {
+    position: absolute;
+    top: 50%;
+    left: -1px;
+    width: calc(100% + 2px);
+    border-top: 1px solid currentColor;
+    content: "";
+    transform: rotate(-45deg);
+  }
+
+  .specimen-facet--quiet {
+    width: 0.65rem;
+    height: 0.65rem;
+    color: var(--color-accent-secondary);
+  }
+
+  .project-specimen-card__media {
+    border: 1px solid color-mix(in srgb, var(--specimen-accent) 32%, white);
+    box-shadow:
+      0 0 0 0.3rem color-mix(in srgb, var(--specimen-accent) 5%, white),
+      0 10px 24px -18px rgba(43, 31, 39, 0.72);
+  }
+
+  .project-specimen-card:hover,
+  .project-specimen-card:focus-within {
+    border-color: var(--specimen-accent);
+    box-shadow: var(--shadow-card-active);
+    transform: translateY(-0.2rem);
+  }
+
+  .project-specimen-card:hover .project-specimen-card__surface::after,
+  .project-specimen-card:focus-within .project-specimen-card__surface::after {
+    opacity: 1;
+    transform: translateX(18%);
+  }
+
+  .learning-specimen-strip {
+    position: relative;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--color-accent-secondary) 8%, transparent),
+      var(--shadow-soft);
+  }
+
+  .learning-specimen-strip::before,
+  .learning-specimen-strip::after {
+    position: absolute;
+    z-index: 2;
+    width: 0.8rem;
+    height: 0.8rem;
+    pointer-events: none;
+    content: "";
+  }
+
+  .learning-specimen-strip::before {
+    top: 0.65rem;
+    left: 0.65rem;
+    border-top: 1px solid var(--card-edge-soft);
+    border-left: 1px solid var(--card-edge-soft);
+  }
+
+  .learning-specimen-strip::after {
+    right: 0.65rem;
+    bottom: 0.65rem;
+    border-right: 1px solid var(--card-edge-soft);
+    border-bottom: 1px solid var(--card-edge-soft);
+  }
 }
 
 @keyframes impact-target-pulse {
@@ -141,5 +328,17 @@
     background: color-mix(in srgb, var(--color-accent-soft) 72%, transparent);
     outline: 2px solid var(--color-accent);
     outline-offset: 0.35rem;
+  }
+
+  .project-specimen-card:hover,
+  .project-specimen-card:focus-within {
+    transform: none;
+  }
+
+  .project-specimen-card__surface::after,
+  .project-specimen-card:hover .project-specimen-card__surface::after,
+  .project-specimen-card:focus-within .project-specimen-card__surface::after {
+    opacity: 0;
+    transform: none;
   }
 }
