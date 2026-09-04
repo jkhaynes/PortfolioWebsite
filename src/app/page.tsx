@@ -6,19 +6,19 @@ import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
+import { projects } from "@/data/projects";
 
 const workPrinciples = [
   {
     label: "Problem-Solving & Collaboration",
     body: (
       <>
-        I like understanding the problem I&apos;m solving, asking questions
-        when something doesn&apos;t make sense, and working with the people
-        around me to find a good solution. I tend to notice recurring
-        problems and areas of friction, and I care about{" "}
+        I like understanding the problem I&apos;m solving, asking questions when
+        something doesn&apos;t make sense, and working with the people around me
+        to find a good solution. I tend to notice recurring problems and areas
+        of friction, and I care about{" "}
         <strong className="font-semibold text-foreground">
-          fixing what I can rather than simply getting used to the
-          workaround.
+          fixing what I can rather than simply getting used to the workaround.
         </strong>
       </>
     ),
@@ -27,62 +27,17 @@ const workPrinciples = [
     label: "Staying Current",
     body: (
       <>
-        I also think staying current is an important part of being a
-        software engineer. I enjoy learning new technologies, reevaluating
-        the way I work, and finding practical ways to incorporate better
-        tools and approaches. More recently, that has included exploring
-        how AI-assisted development can make me faster and more effective{" "}
+        I also think staying current is an important part of being a software
+        engineer. I enjoy learning new technologies, reevaluating the way I
+        work, and finding practical ways to incorporate better tools and
+        approaches. More recently, that has included exploring how AI-assisted
+        development can make me faster and more effective{" "}
         <strong className="font-semibold text-foreground">
-          without replacing the judgment and understanding that good
-          engineering still requires.
+          without replacing the judgment and understanding that good engineering
+          still requires.
         </strong>
       </>
     ),
-  },
-];
-
-const projects = [
-  {
-    title: "PokéJudge AI",
-    status: "In Development",
-    problemStatement:
-      "Pokémon TCG tournament judges need fast, well-supported rulings for natural-language rules and game-state questions, not just a lookup tool or an unvalidated AI answer.",
-    solutionSummary:
-      "A judge describes the situation in natural language; the system asks clarifying questions if needed, retrieves the relevant authoritative rules passages, and returns a cited recommendation, rating how strongly the source material actually supports it rather than presenting an unvalidated confidence score.",
-    technicalDecisions:
-      "Introduces each AI capability (LLM calls, structured output, retrieval-augmented generation, evaluation) only as the product needed it, rather than adopting a general AI framework upfront.",
-    buildApproach: "Built in C#/ASP.NET Core as a hands-on AI engineering project.",
-    tags: [
-      "C#",
-      "ASP.NET Core",
-      "RAG / Retrieval",
-      "LLM Integration",
-      "Structured Output",
-    ],
-    githubUrl: "https://github.com/jkhaynes/PokeJudge",
-  },
-  {
-    title: "Loot Singles Fulfillment",
-    status: "In Development",
-    problemStatement:
-      "Loot Card Shop's printed TCGplayer invoices led to wrong-card, quantity, variant, and set errors, and didn't support multiple employees safely picking orders at once.",
-    solutionSummary:
-      "A purpose-built digital picking workflow with set-aware picking, prominent card details, issue reporting, and exclusive order claiming so multiple employees can work concurrently without collisions.",
-    technicalDecisions:
-      "React and TypeScript PWA backed by ASP.NET Core, C#, Entity Framework Core, and Azure SQL.",
-    buildApproach:
-      "Built using GitHub Spec Kit for spec-driven, AI-assisted development, with strict test-driven development following the Red-Green-Refactor cycle.",
-    tags: [
-      "React",
-      "TypeScript",
-      "C#",
-      "ASP.NET Core",
-      "Entity Framework Core",
-      "Azure SQL",
-      "GitHub Spec Kit",
-      "TDD",
-    ],
-    githubUrl: "https://github.com/jkhaynes/loot-singles-fulfillment",
   },
 ];
 
@@ -195,12 +150,11 @@ export default function Home() {
               I build reliable software for messy, real-world problems.
             </p>
             <p className="mt-6 text-lg leading-relaxed text-muted">
-              I have 9+ years of experience building and modernizing
-              production applications, with deep experience in C#/.NET,
-              APIs, architecture, performance, and technical leadership. I
-              use AI as part of a disciplined engineering process, from
-              requirements and design through implementation, testing, and
-              review.
+              I have 9+ years of experience building and modernizing production
+              applications, with deep experience in C#/.NET, APIs, architecture,
+              performance, and technical leadership. I use AI as part of a
+              disciplined engineering process, from requirements and design
+              through implementation, testing, and review.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <Button
@@ -333,31 +287,29 @@ export default function Home() {
             </h2>
             <div className="mt-4 space-y-4 leading-relaxed text-muted">
               <p>
-                I&apos;m a Senior Software Engineer with 9+ years of
-                experience building and modernizing full-stack enterprise
-                applications, with a strong focus on C#/.NET backend
-                development, APIs, Entity Framework, performance, and
-                scalable architecture. I&apos;ve worked across the full
-                stack — .NET, C#, Entity Framework, MySQL, Angular, and
-                TypeScript — while also leading technical projects,
-                mentoring engineers, writing technical designs, and
+                I&apos;m a Senior Software Engineer with 9+ years of experience
+                building and modernizing full-stack enterprise applications,
+                with a strong focus on C#/.NET backend development, APIs, Entity
+                Framework, performance, and scalable architecture. I&apos;ve
+                worked across the full stack — .NET, C#, Entity Framework,
+                MySQL, Angular, and TypeScript — while also leading technical
+                projects, mentoring engineers, writing technical designs, and
                 partnering closely with Product, QA, and DevOps.
               </p>
               <p>
-                Some of the problems I&apos;ve enjoyed working on: reducing
-                a high-volume background job&apos;s runtime by 95%,
-                improving testing and observability to help achieve 6+
-                months of incident-free production, implementing SSO and
-                identity integrations, and modernizing applications and
-                development practices.
+                Some of the problems I&apos;ve enjoyed working on: reducing a
+                high-volume background job&apos;s runtime by 95%, improving
+                testing and observability to help achieve 6+ months of
+                incident-free production, implementing SSO and identity
+                integrations, and modernizing applications and development
+                practices.
               </p>
               <p>
-                I enjoy solving complex engineering problems, improving
-                existing systems, and learning new technologies when
-                they&apos;re the right tool for the job — including,
-                lately, AI-assisted development. I&apos;m still early in
-                that exploration, and there&apos;s more to say about it
-                soon.
+                I enjoy solving complex engineering problems, improving existing
+                systems, and learning new technologies when they&apos;re the
+                right tool for the job — including, lately, AI-assisted
+                development. I&apos;m still early in that exploration, and
+                there&apos;s more to say about it soon.
               </p>
             </div>
           </Container>
@@ -369,8 +321,8 @@ export default function Home() {
               Let&apos;s Connect
             </h2>
             <p className="mt-3 text-muted">
-              Whether you&apos;re hiring, collaborating, or just want to
-              talk shop — I&apos;d love to hear from you.
+              Whether you&apos;re hiring, collaborating, or just want to talk
+              shop — I&apos;d love to hear from you.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <Button
