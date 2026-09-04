@@ -9,12 +9,17 @@
   --color-accent: #b8306f;
   --color-accent-soft: #fbe6ef;
   --color-accent-secondary: #8f5f86;
+  --color-risk: #9b6110;
+  --color-risk-strong: #765019;
+  --color-risk-soft: #fff4dc;
+  --color-product-ink: #101216;
 
   --font-display: var(--font-heading);
   --font-sans: var(--font-inter);
 
   --shadow-soft: 0 20px 45px -28px rgba(43, 31, 39, 0.35);
   --shadow-soft-hover: 0 24px 50px -22px rgba(184, 48, 111, 0.35);
+  --shadow-product: 0 28px 70px -32px rgba(43, 31, 39, 0.65);
 }
 
 @layer base {
@@ -30,7 +35,11 @@
   body {
     margin: 0;
     background:
-      radial-gradient(circle at top left, var(--color-accent-soft) 0, transparent 34rem),
+      radial-gradient(
+        circle at top left,
+        var(--color-accent-soft) 0,
+        transparent 34rem
+      ),
       var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
@@ -38,6 +47,49 @@
 
   a {
     color: inherit;
+    -webkit-tap-highlight-color: rgba(184, 48, 111, 0.16);
+    touch-action: manipulation;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+}
+
+@layer components {
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    border-radius: 9999px;
+    background: var(--color-foreground);
+    color: white;
+    padding: 0.625rem 1rem;
+    font-weight: 600;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  .annotation-marker {
+    position: absolute;
+    display: flex;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid white;
+    border-radius: 9999px;
+    background: var(--color-risk);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
   }
 }
 

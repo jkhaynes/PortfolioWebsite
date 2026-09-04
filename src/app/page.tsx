@@ -137,7 +137,8 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main id="top">
+      <main id="main-content">
+        <div id="top" className="scroll-mt-24" />
         <section className="py-24">
           <Container className="max-w-2xl">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-accent">

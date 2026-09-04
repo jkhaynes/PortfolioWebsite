@@ -17,29 +17,34 @@ const navLinks: NavLink[] = [
 
 export default function Nav() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
-      <Container className="flex flex-wrap items-center justify-between gap-4 py-4">
-        <Link
-          href="/#top"
-          className="rounded font-display text-lg font-semibold tracking-tight text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          Jessica Haynes
-        </Link>
-        <nav aria-label="Primary">
-          <ul className="flex flex-wrap items-center gap-6 text-sm font-medium text-muted">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="transition-colors duration-200 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </Container>
-    </header>
+    <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
+        <Container className="flex flex-col items-start gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-4">
+          <Link
+            href="/#top"
+            className="rounded font-display text-lg font-semibold tracking-tight text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            Jessica Haynes
+          </Link>
+          <nav aria-label="Primary">
+            <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-muted sm:gap-6 sm:text-sm">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="transition-colors duration-200 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </Container>
+      </header>
+    </>
   );
 }
