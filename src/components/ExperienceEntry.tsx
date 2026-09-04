@@ -3,8 +3,13 @@ import Tag from "@/components/Tag";
 export type ExperienceRole = {
   role: string;
   period: string;
-  bullets: string[];
+  bullets: Array<string | ExperienceBullet>;
   /** Present only on roles that need a stable, focusable link target (e.g. for Impact-metric deep links). */
+  anchorId?: string;
+};
+
+export type ExperienceBullet = {
+  text: string;
   anchorId?: string;
 };
 
@@ -17,6 +22,33 @@ type ExperienceEntryProps = {
 
 const roleHeadingFocusStyles =
   "focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent";
+
+function ExperienceBulletList({
+  bullets,
+}: {
+  bullets: ExperienceRole["bullets"];
+}) {
+  return (
+    <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
+      {bullets.map((bullet) => {
+        const text = typeof bullet === "string" ? bullet : bullet.text;
+        const anchorId =
+          typeof bullet === "string" ? undefined : bullet.anchorId;
+
+        return (
+          <li
+            key={text}
+            id={anchorId}
+            tabIndex={anchorId ? -1 : undefined}
+            className={anchorId ? "impact-target" : undefined}
+          >
+            {text}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 export default function ExperienceEntry({
   company,
@@ -47,11 +79,7 @@ export default function ExperienceEntry({
       <p className="text-sm text-muted">{location}</p>
 
       {isSingleRole ? (
-        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
-          {roles[0].bullets.map((bullet) => (
-            <li key={bullet}>{bullet}</li>
-          ))}
-        </ul>
+        <ExperienceBulletList bullets={roles[0].bullets} />
       ) : (
         <div className="mt-4 space-y-6">
           {roles.map((role, index) => (
@@ -75,11 +103,7 @@ export default function ExperienceEntry({
                 </h4>
                 <p className="text-sm text-muted">{role.period}</p>
               </div>
-              <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
-                {role.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
-                ))}
-              </ul>
+              <ExperienceBulletList bullets={role.bullets} />
             </div>
           ))}
         </div>

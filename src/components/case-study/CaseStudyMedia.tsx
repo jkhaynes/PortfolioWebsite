@@ -18,7 +18,7 @@ type CaseStudyMediaProps = {
 
 type NativeCommandProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   command: "show-modal" | "close";
-  commandFor: string;
+  commandfor: string;
 };
 
 export default function CaseStudyMedia({
@@ -39,11 +39,11 @@ export default function CaseStudyMedia({
   const dialogId = useId();
   const openCommandProps: NativeCommandProps = {
     command: "show-modal",
-    commandFor: dialogId,
+    commandfor: dialogId,
   };
   const closeCommandProps: NativeCommandProps = {
     command: "close",
-    commandFor: dialogId,
+    commandfor: dialogId,
   };
 
   function handleClose() {

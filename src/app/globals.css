@@ -100,6 +100,30 @@
     background: rgba(43, 31, 39, 0.78);
     backdrop-filter: blur(4px);
   }
+
+  .impact-target {
+    scroll-margin-top: 6rem;
+    border-radius: 0.5rem;
+  }
+
+  .impact-target:target {
+    animation: impact-target-pulse 1.6s ease-out;
+  }
+}
+
+@keyframes impact-target-pulse {
+  0%,
+  35% {
+    background: color-mix(in srgb, var(--color-accent-soft) 72%, transparent);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 0.35rem;
+  }
+
+  100% {
+    background: transparent;
+    outline: 2px solid transparent;
+    outline-offset: 0.35rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -110,5 +134,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .impact-target:target {
+    animation: none;
+    background: color-mix(in srgb, var(--color-accent-soft) 72%, transparent);
+    outline: 2px solid var(--color-accent);
+    outline-offset: 0.35rem;
   }
 }

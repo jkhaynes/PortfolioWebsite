@@ -8,6 +8,12 @@ test("media dialog opens the selected project image and restores focus", async (
   const pokeJudgeTrigger = page.getByRole("button", {
     name: "View larger: PokéJudge clarification run",
   });
+  const dialogId = await pokeJudgeTrigger.getAttribute("commandfor");
+  expect(dialogId).toBeTruthy();
+  await expect(page.locator(`[id="${dialogId}"]`)).toHaveAttribute(
+    "aria-label",
+    "PokéJudge clarification run",
+  );
   await pokeJudgeTrigger.click();
 
   const dialog = page.getByRole("dialog", {
