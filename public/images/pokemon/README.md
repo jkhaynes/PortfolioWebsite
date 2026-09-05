@@ -9,4 +9,4 @@ Downloaded from the PokeAPI sprites repository on 2026-09-04:
 Repository and contributor credits: https://github.com/PokeAPI/sprites
 Pokémon characters/artwork belong to their respective owners; these are sourced assets, not original portfolio illustrations. The repository describes community sprite contributions in its README.
 
-Files are unmodified transparent PNGs. The hero uses Next Image responsive optimization. Game sprites are staged for Phase 2 and are not requested by the current UI. Ribbon SVGs are original simple interface shapes authored for this portfolio. No generated mockup crops are used.
+Files are unmodified transparent PNGs. The hero uses Next Image responsive optimization. Game sprites load only when Ribbon Roundup opens; both color variants are loaded together to avoid a delay when catching the shiny bonus. Ribbon SVGs are original simple interface shapes authored for this portfolio. No generated mockup crops are used.

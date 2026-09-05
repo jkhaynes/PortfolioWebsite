@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "@/lib/theme-store";
+import RibbonRoundupLauncher from "@/components/RibbonRoundupLauncher";
 
 export default function SylveonPortrait() {
   const theme = useTheme();
@@ -22,6 +23,7 @@ export default function SylveonPortrait() {
       <p className="font-display text-sm text-accent-secondary">
         A little fairy-type charm.
       </p>
+      <RibbonRoundupLauncher />
     </aside>
   );
 }
