@@ -34,7 +34,7 @@ Generic developer portfolios tend to look interchangeable — dark-mode template
 ## 6. Non-Goals
 
 - Not positioning Jessica as an AI specialist or claiming AI expertise she doesn't yet have.
-- Not a literal Pokémon fan site — no characters, sprites, or branded game assets.
+- Not a literal Pokémon fan site — character art and sprites are limited to the explicitly selected Pokémon mode (Feature 20).
 - Not a generic dark-mode-only developer template — the light, pink/blush/mauve identity remains the default experience even after the dark variant ships (Roadmap Feature 18).
 - Not an overly minimal/sterile design.
 - Not a contact form with backend infrastructure (mailto/social links only, for now).
@@ -142,6 +142,8 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 17. **Trading-Card Visual Personality** — Add a restrained, original card-inspired motif (border/glow/rarity-accent/radius/shadow/motion tokens; a small rarity-style marker paired with text, never visual-only) applied mainly to Featured Projects, using the site's existing light pink/blush/mauve palette rather than new bright colors, with all decorative effects disabled under reduced-motion.
 18. **Light/Dark Theme Toggle** — Add a user-facing control to switch between the current light theme and a new dark mauve variant, defaulting to the visitor's `prefers-color-scheme`, persisting their explicit choice, and meeting the same contrast/accessibility bar in both modes. Updates the PRD's theme scope per the revised Non-Goals (§6) and Product Design (§9).
 19. **Accessibility, Responsiveness & Final Polish (Round 2)** — Re-run the Feature 5 audit against everything added in Features 7–18: both themes, the new case-study routes, screenshots/media, and the restructured hierarchy. Verify keyboard, focus, modal, and reduced-motion behavior throughout, and add page titles/meta descriptions/canonical URLs for the new case-study pages.
+
+20. **Sylveon Pokémon Mode** — Add an opt-in third appearance alongside Light and Dark: regular Sylveon art, ivory/blush surfaces, rose actions, and restrained ribbon details. Preserve professional content and actual screenshots. Phase 1 delivers the theme and assets; Phase 2 adds the optional Ribbon Roundup game with a rare shiny bonus. Pokémon uses native light color-scheme, persists explicit selection, and never follows automatically from system preference. Character art and necessary gameplay motion are scoped to this mode; gameplay requires an explicit start.
 
 ## 14. Testing / Evaluation Strategy
 

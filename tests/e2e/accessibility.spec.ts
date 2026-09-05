@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 const routes = ["/", "/work/loot-singles", "/work/pokejudge"] as const;
-const themes = ["light", "dark"] as const;
+const themes = ["light", "dark", "pokemon"] as const;
 
 for (const route of routes) {
   for (const theme of themes) {
@@ -37,14 +37,14 @@ for (const route of routes) {
         headings.map((heading) => Number(heading.tagName.slice(1))),
       );
     for (let index = 1; index < headingLevels.length; index += 1) {
-      expect(headingLevels[index] - headingLevels[index - 1]).toBeLessThanOrEqual(
-        1,
-      );
+      expect(
+        headingLevels[index] - headingLevels[index - 1],
+      ).toBeLessThanOrEqual(1);
     }
 
-    const ids = await page.locator("[id]").evaluateAll((elements) =>
-      elements.map((element) => element.id),
-    );
+    const ids = await page
+      .locator("[id]")
+      .evaluateAll((elements) => elements.map((element) => element.id));
     expect(new Set(ids).size).toBe(ids.length);
 
     await page.keyboard.press("Tab");
@@ -55,7 +55,9 @@ for (const route of routes) {
   });
 }
 
-test("public routes emit unique canonical and social metadata", async ({ page }) => {
+test("public routes emit unique canonical and social metadata", async ({
+  page,
+}) => {
   const expected = [
     {
       route: "/",
@@ -106,7 +108,9 @@ test("public routes emit unique canonical and social metadata", async ({ page })
   }
 });
 
-test("local assets and new-tab links expose safe contracts", async ({ page }) => {
+test("local assets and new-tab links expose safe contracts", async ({
+  page,
+}) => {
   await page.goto("/");
 
   const resume = page.getByRole("link", { name: /Download Resume/ }).first();
@@ -135,16 +139,23 @@ test("local assets and new-tab links expose safe contracts", async ({ page }) =>
   }
 });
 
-test("forced colors preserve visible controls and dialog focus", async ({ page }) => {
+test("forced colors preserve visible controls and dialog focus", async ({
+  page,
+}) => {
   await page.emulateMedia({ forcedColors: "active", reducedMotion: "reduce" });
   await page.goto("/");
 
-  const themeToggle = page.getByRole("button", { name: /Switch to .* theme/ });
+  const themeToggle = page.getByRole("radio", { name: "Light", exact: true });
   await themeToggle.focus();
   await expect(themeToggle).toBeFocused();
-  await expect(themeToggle).toHaveCSS("outline-style", "solid");
+  await expect(themeToggle.locator("+ span")).toHaveCSS(
+    "outline-style",
+    "solid",
+  );
 
-  const mediaTrigger = page.getByRole("button", { name: /^View larger:/ }).first();
+  const mediaTrigger = page
+    .getByRole("button", { name: /^View larger:/ })
+    .first();
   await mediaTrigger.click();
   const close = page.getByRole("dialog").getByRole("button", { name: "Close" });
   await expect(close).toBeFocused();
@@ -178,7 +189,10 @@ test("both themes reflow at 320px without page-level overflow", async ({
   }
 
   await page.goto("/");
-  await page.getByRole("button", { name: /^View larger:/ }).first().click();
+  await page
+    .getByRole("button", { name: /^View larger:/ })
+    .first()
+    .click();
   await expect(
     page.getByRole("dialog").getByRole("button", { name: "Close" }),
   ).toBeVisible();
