@@ -101,7 +101,7 @@ export default function CaseStudyMedia({
         ref={dialogRef}
         aria-label={title}
         onClose={handleClose}
-        className="media-dialog m-auto max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[96rem] overflow-hidden rounded-[2rem] border border-white/15 bg-product-ink p-0 text-white shadow-product"
+        className="media-dialog m-auto max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[96rem] overflow-hidden overscroll-contain rounded-[2rem] border border-white/15 bg-product-ink p-0 text-white shadow-product"
       >
         <div className="flex items-center justify-between gap-4 border-b border-white/15 px-5 py-4">
           <h2 className="font-display text-lg font-semibold">{title}</h2>
@@ -116,7 +116,7 @@ export default function CaseStudyMedia({
             Close
           </button>
         </div>
-        <div className="max-h-[calc(100dvh-8rem)] overflow-auto p-3 sm:p-5">
+        <div className="max-h-[calc(100dvh-8rem)] overflow-auto overscroll-contain p-3 sm:p-5">
           <Image
             src={src}
             alt={alt}
