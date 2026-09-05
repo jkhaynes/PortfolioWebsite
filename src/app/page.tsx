@@ -174,7 +174,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main id="main-content" tabIndex={-1}>
+      <main id="main-content" className="portfolio-home" tabIndex={-1}>
         <div id="top" className="scroll-mt-24" />
         <section className="portfolio-hero py-24">
           <Container className="hero-container max-w-2xl">
@@ -185,6 +185,9 @@ export default function Home() {
               <h1 className="font-display text-5xl font-semibold leading-tight text-foreground sm:text-6xl">
                 Jessica Haynes
               </h1>
+              <div className="pokemon-bow-divider" aria-hidden="true">
+                <span />
+              </div>
               <p className="mt-4 font-display text-2xl leading-snug text-accent-secondary sm:text-3xl">
                 I build reliable software for messy, real-world problems.
               </p>

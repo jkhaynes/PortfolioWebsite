@@ -75,15 +75,15 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 - **Performance**: Fast page loads; no heavy unnecessary assets or render-blocking animations.
 - **Analytics**: Lightweight, privacy-friendly pageview analytics (no invasive tracking/cookies). Ships as its own post-launch feature — not required for initial launch.
 - **Social sharing**: Custom Open Graph metadata (title, description, preview image) so shared links render a polished preview card. Ships as its own post-launch feature — not required for initial launch.
-- **Motion**: Subtle micro-interactions only (hover lift, soft shadow shift, smooth transitions). No card-flip, bounce, or heavy game-like animation.
+- **Motion**: Subtle micro-interactions only (hover lift, soft shadow shift, smooth transitions). No card-flip, bounce, or heavy game-like animation in ordinary portfolio browsing. Feature 20 permits necessary ribbon movement inside the explicitly started game, with optional effects suppressed under reduced motion and slower untimed practice available.
 
 ## 9. Product Design / Interaction Model
 
 - **Palette**: Soft pinks, blush tones, mauves, and warm neutrals — building on and extending the starter scaffold's existing lavender-leaning palette.
 - **Shape language**: Rounded cards and buttons, soft shadows, consistent with a friendly-but-polished feel.
 - **Typography**: Playful but clean — expressive enough to carry personality without sacrificing legibility or professionalism.
-- **Signature motif**: A card-shaped UI treatment with subtle "rarity"/badge-style accents applied to Featured Projects (and optionally Experience entries) — an abstracted nod to collectible-card game aesthetics, using original visual language rather than any literal characters, sprites, or branded assets.
-- **Theme**: Light (pink/blush/mauve) is the default theme. A dark mauve variant is available via a user-facing toggle (Roadmap Feature 18); both must meet the accessibility/contrast bar in this document.
+- **Signature motif**: A card-shaped UI treatment with subtle "rarity"/badge-style accents applied to Featured Projects (and optionally Experience entries) — an abstracted nod to collectible-card game aesthetics, using original visual language in Light and Dark modes. The explicitly selected Pokémon mode adds contained Sylveon artwork and ribbon details (Feature 20).
+- **Theme**: Light (pink/blush/mauve) is the default theme. The selector offers Light, Dark, and Pokémon (Features 18 and 20). With no saved choice, follow the system light/dark preference; Pokémon is selected explicitly and uses native light color-scheme. All three appearances meet the accessibility/contrast bar in this document.
 - **Overall tone target**: Friendly and feminine without being childish; personality-forward without undermining professional credibility for senior engineering roles.
 
 ## 10. High-Level Architecture / Technical Direction

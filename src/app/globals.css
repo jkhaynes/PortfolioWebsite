@@ -559,7 +559,7 @@
   .roundup-dialog {
     margin: auto;
     width: min(30rem, calc(100vw - 1.5rem));
-    max-height: calc(100dvh - 1.5rem);
+    max-height: min(calc(100dvh - 1.5rem), calc(100% - 1.5rem));
     overflow-y: auto;
     overscroll-behavior: contain;
     border: 1px solid var(--color-accent-secondary);
@@ -598,5 +598,278 @@
   .roundup-button:disabled {
     opacity: 0.5;
     cursor: default;
+  }
+}
+
+@layer components {
+  .pokemon-bow-divider {
+    display: none;
+  }
+  [data-theme="pokemon"] body {
+    background: #fce8ef;
+  }
+  [data-theme="pokemon"] .portfolio-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  [data-theme="pokemon"] .portfolio-brand::before,
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2)::before {
+    content: "";
+    display: inline-block;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    max-width: 28rem;
+    margin: 1.25rem 0;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider span {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider::before,
+  [data-theme="pokemon"] .pokemon-bow-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #d78ca8;
+  }
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2) {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: left;
+  }
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2)::after {
+    content: "";
+    flex: 1;
+    min-width: 1rem;
+    height: 1px;
+    background: #d78ca8;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact h2,
+  [data-theme="pokemon"] .portfolio-home #contact h2 {
+    justify-content: center;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact h2::after,
+  [data-theme="pokemon"] .portfolio-home #contact h2::after {
+    flex: 0 1 4rem;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact .grid {
+    border: 1px solid #e4b3c5;
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+    padding-inline: 1rem;
+  }
+  [data-theme="pokemon"] .portfolio-home #about > div,
+  [data-theme="pokemon"] .portfolio-home #contact > div {
+    position: relative;
+    width: calc(100% - 2rem);
+    border: 1px solid #e4b3c5;
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    box-shadow: var(--shadow-soft);
+  }
+  [data-theme="pokemon"] .project-specimen-card {
+    border-color: #d78ca8;
+    background: #f8d9e5;
+    padding: 0.4rem;
+  }
+  [data-theme="pokemon"] .project-specimen-card__surface {
+    background: var(--color-surface);
+  }
+  [data-theme="pokemon"] .project-specimen-card::before {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: -1.15rem;
+    left: 1.25rem;
+    border: 0;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  [data-theme="pokemon"] .project-specimen-card::after {
+    width: 1.8rem;
+    height: 2.7rem;
+    bottom: -0.65rem;
+    background: #e8a2bc;
+  }
+  @media (max-width: 399px) {
+    [data-theme="pokemon"]
+      .portfolio-home
+      :is(section > div > h2, #learning-now h2) {
+      gap: 0.55rem;
+    }
+    [data-theme="pokemon"] .portfolio-home #contact h2::after {
+      display: none;
+    }
+  }
+}
+
+@layer utilities {
+  [data-theme="pokemon"] #impact .opacity-75 {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  :root[data-theme="pokemon"] {
+    scroll-padding-top: 10rem;
+  }
+}
+
+/* A shared printed-paper trim; opaque card interiors keep the pattern off copy. */
+@layer components {
+  [data-theme="pokemon"] {
+    --stationery-pattern: url("/images/pokemon/stationery-pattern.svg");
+  }
+  [data-theme="pokemon"] .project-specimen-card {
+    padding: 0.9rem;
+    background: var(--stationery-pattern) 0 0 / 144px 72px repeat;
+  }
+  [data-theme="pokemon"] .sylveon-portrait {
+    border: 9px solid transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      var(--stationery-pattern) 0 0 / 144px 72px repeat border-box;
+    outline-offset: -9px;
+  }
+  [data-theme="pokemon"] .portfolio-home #contact > div::after {
+    content: "";
+    display: block;
+    height: 36px;
+    margin: 1.5rem -0.5rem -0.5rem;
+    border-radius: 0.5rem;
+    background: var(--stationery-pattern) center 0 / 144px 72px repeat;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider::before,
+  [data-theme="pokemon"] .pokemon-bow-divider::after {
+    height: 12px;
+    border-block: 1px solid #e4b3c5;
+    background: var(--stationery-pattern) center 12px / 144px 72px repeat;
+  }
+}
+
+/* Art layers share the same bounds; only the exposed right ear rotates. */
+.sylveon-portrait__art {
+  position: relative;
+}
+.sylveon-ear-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sylveon-twitching-ear {
+  transform-origin: 199px 175px;
+}
+@keyframes sylveon-ear-twitch {
+  0%,
+  87%,
+  100% {
+    transform: rotate(0);
+  }
+  89% {
+    transform: rotate(-5deg);
+  }
+  90.5% {
+    transform: rotate(2deg);
+  }
+  92% {
+    transform: rotate(-3deg);
+  }
+  94% {
+    transform: rotate(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sylveon-twitching-ear {
+    animation: sylveon-ear-twitch 12s ease-in-out infinite;
+  }
+  body:has(dialog[open]) .sylveon-twitching-ear {
+    animation-play-state: paused;
+  }
+}
+
+@layer components {
+  .project-sylveon-peek {
+    display: none;
+  }
+  [data-theme="pokemon"] .project-specimen-card__surface {
+    padding-bottom: 6rem;
+  }
+  [data-theme="pokemon"] .project-sylveon-peek {
+    display: block;
+    position: absolute;
+    bottom: 0.8rem;
+    right: 3.5rem;
+    width: 112px;
+    height: 100px;
+    mix-blend-mode: multiply;
+    overflow: hidden;
+    z-index: 3;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .project-sylveon-peek > span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("/images/pokemon/sylveon-peek.webp") -27px -16px / 170px 121.39px
+      no-repeat;
+    transform: translateY(105%);
+    opacity: 0;
+    transition:
+      transform 280ms ease-out,
+      opacity 180ms ease-out;
+  }
+  [data-theme="pokemon"] .project-specimen-card:is(:hover, :focus-within) {
+    transform: none;
+    box-shadow: var(--shadow-card-rest);
+  }
+  [data-theme="pokemon"]
+    .project-specimen-card:is(:hover, :focus-within)
+    .project-specimen-card__surface::after {
+    opacity: 0;
+    transform: none;
+  }
+  [data-theme="pokemon"]
+    .project-specimen-card:focus-within
+    .project-sylveon-peek
+    > span {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  @media (hover: hover) {
+    [data-theme="pokemon"]
+      .project-specimen-card:hover
+      .project-sylveon-peek
+      > span {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-theme="pokemon"] .project-sylveon-peek > span {
+      transition: none;
+    }
   }
 }

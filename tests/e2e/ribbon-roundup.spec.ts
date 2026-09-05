@@ -56,7 +56,7 @@ test("game is opt-in, accessible, and traps/restores focus", async ({
   await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
 });
 
-test("keyboard movement, drag, pause and held touch controls", async ({
+test("mouse movement without clicks, keyboard, pause and held touch controls", async ({
   page,
 }) => {
   await openGame(page);
@@ -75,9 +75,11 @@ test("keyboard movement, drag, pause and held touch controls", async ({
   expect(await x()).toBeGreaterThan(50);
   const rect = (await field.boundingBox())!;
   await page.mouse.move(rect.x + 20, rect.y + 80);
-  await page.mouse.down();
   expect(await x()).toBeLessThan(20);
-  await page.mouse.up();
+  await page.mouse.move(rect.x + rect.width * 0.75, rect.y + 80);
+  expect(await x()).toBeCloseTo(75, 0);
+  await page.mouse.move(rect.x + 1, rect.y + 80);
+  expect(await x()).toBe(9);
   const right = page.getByRole("button", { name: "Move right" });
   const buttonRect = (await right.boundingBox())!;
   await page.mouse.move(buttonRect.x + 20, buttonRect.y + 20);
@@ -88,6 +90,9 @@ test("keyboard movement, drag, pause and held touch controls", async ({
   await field.tap({ position: { x: rect.width / 2, y: 80 } });
   expect(await x()).toBeCloseTo(50, 0);
   await page.getByRole("button", { name: "Pause", exact: true }).click();
+  const pausedX = await x();
+  await page.mouse.move(rect.x + rect.width * 0.9, rect.y + 80);
+  expect(await x()).toBe(pausedX);
   const time = await page.getByTestId("roundup-time").textContent();
   await page.clock.runFor(5000);
   await expect(page.getByTestId("roundup-time")).toHaveText(time!);
@@ -126,6 +131,13 @@ test("shiny ribbon transforms the sprite and blocked storage remains playable", 
   await page.clock.runFor(16000);
   await expect(page.getByRole("button", { name: "Play again" })).toBeVisible();
   await expect(page.getByRole("status")).toContainText("Round complete");
+  await expect(page.locator(".roundup-result")).toHaveAttribute(
+    "data-shiny",
+    "true",
+  );
+  await expect(
+    page.getByText("Shiny ribbon found", { exact: false }),
+  ).toBeVisible();
 });
 
 test("timed game finishes, saves a best, and resets for replay", async ({
@@ -143,6 +155,12 @@ test("timed game finishes, saves a best, and resets for replay", async ({
   await expect(page.getByRole("button", { name: "Play again" })).toBeFocused();
   const score = Number(await page.getByTestId("roundup-score").textContent());
   expect(score).toBeGreaterThan(0);
+  await expect(
+    page.getByRole("heading", { name: "Ribbon Royalty" }),
+  ).toBeVisible();
+  await expect(page.locator(".roundup-result__score")).toContainText(
+    String(score),
+  );
   expect(
     await page.evaluate(() =>
       localStorage.getItem("jessbuilds-ribbon-roundup-best-v1"),
@@ -150,6 +168,7 @@ test("timed game finishes, saves a best, and resets for replay", async ({
   ).toBe(String(score));
   await page.getByRole("button", { name: "Play again" }).click();
   await expect(page.getByTestId("roundup-score")).toHaveText("0");
+  await expect(page.locator(".roundup-result")).toHaveCount(0);
   await expect(page.getByTestId("roundup-time")).toHaveText("30s");
   await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "Take a play break" }).click();
@@ -216,4 +235,11 @@ test("practice supports small screens and reduced motion without changing best",
     ),
   ).toBe("240");
   await expect(page.getByRole("status")).toContainText("Practice complete");
+  await expect(
+    page.getByRole("heading", { name: "Practice Pal" }),
+  ).toBeVisible();
+  expect(
+    (await new AxeBuilder({ page }).include(".roundup-dialog").analyze())
+      .violations,
+  ).toEqual([]);
 });

@@ -37,6 +37,7 @@ export default function RibbonRoundup() {
   const heldDirection = useRef(0);
   const dragging = useRef<number | null>(null);
   const descriptionId = useId();
+  const resultId = useId();
 
   function clearInput() {
     keys.current.clear();
@@ -113,8 +114,10 @@ export default function RibbonRoundup() {
     if (game.status === "finished") replay.current?.focus();
   }, [game.status]);
 
-  function drag(event: PointerEvent<HTMLDivElement>) {
-    if (dragging.current !== event.pointerId) return;
+  function followPointer(event: PointerEvent<HTMLDivElement>) {
+    if (model.current.status !== "running") return;
+    if (event.pointerType !== "mouse" && dragging.current !== event.pointerId)
+      return;
     const rect = event.currentTarget.getBoundingClientRect();
     publish(
       movePlayer(
@@ -125,6 +128,16 @@ export default function RibbonRoundup() {
   }
   const shiny = game.shinyUntil > game.elapsed;
   const running = game.status === "running";
+  const rank =
+    game.mode === "practice"
+      ? "Practice Pal"
+      : game.score >= 200
+        ? "Ribbon Royalty"
+        : game.score >= 100
+          ? "Bow Collector"
+          : "Ribbon Rookie";
+  const ribbonsCaught =
+    (game.score - game.bonusesCaught * 50) / 10 + game.bonusesCaught;
   const message =
     game.status === "ready"
       ? "Choose a timed round or relaxed practice."
@@ -138,12 +151,17 @@ export default function RibbonRoundup() {
 
   return (
     <div className="roundup-game">
-      <p id={descriptionId} className="roundup-instructions">
+      <p
+        id={descriptionId}
+        className="roundup-instructions"
+        hidden={game.status === "finished"}
+      >
         Catch pink ribbons for 10 points. A rare sparkling blue ribbon gives 50
-        points and five seconds of shiny Sylveon. Focus the play area and use ←
-        →, hold the buttons, or drag Sylveon.
+        points and five seconds of shiny Sylveon. Move your mouse over the play
+        area to guide Sylveon—no clicking needed. On touchscreens, drag or hold
+        the buttons. You can also focus the play area and use ← →.
       </p>
-      <div className="roundup-stats">
+      <div className="roundup-stats" hidden={game.status === "finished"}>
         <span>
           Score <strong data-testid="roundup-score">{game.score}</strong>
         </span>
@@ -162,6 +180,7 @@ export default function RibbonRoundup() {
       </div>
       <div
         ref={field}
+        hidden={game.status === "finished"}
         className="roundup-field"
         tabIndex={0}
         role="region"
@@ -186,9 +205,9 @@ export default function RibbonRoundup() {
           event.currentTarget.focus();
           dragging.current = event.pointerId;
           event.currentTarget.setPointerCapture(event.pointerId);
-          drag(event);
+          followPointer(event);
         }}
-        onPointerMove={drag}
+        onPointerMove={followPointer}
         onPointerUp={() => {
           dragging.current = null;
         }}
@@ -250,7 +269,64 @@ export default function RibbonRoundup() {
           </div>
         )}
       </div>
-      <p role="status" className="roundup-status">
+      {game.status === "finished" && (
+        <section
+          className="roundup-result"
+          aria-labelledby={resultId}
+          data-shiny={game.bonusesCaught > 0}
+        >
+          <p className="roundup-result__edition">
+            {game.mode === "practice"
+              ? "Untimed practice · keepsake card"
+              : "30-second round · keepsake card"}
+          </p>
+          <Image
+            className="roundup-result__bow"
+            src="/images/pokemon/ribbon-pink.svg"
+            alt=""
+            width={40}
+            height={40}
+            unoptimized
+          />
+          <h3 id={resultId} className="roundup-result__title">
+            {rank}
+          </h3>
+          <div className="roundup-result__portrait" aria-hidden="true">
+            <Image
+              src={`/images/pokemon/sylveon-${game.bonusesCaught > 0 ? "shiny-" : ""}sprite.png`}
+              alt=""
+              width={144}
+              height={144}
+              unoptimized
+            />
+          </div>
+          <p className="roundup-result__score">
+            {game.score}
+            <span>points</span>
+          </p>
+          <p className="roundup-result__detail">
+            {ribbonsCaught} {ribbonsCaught === 1 ? "ribbon" : "ribbons"} caught
+          </p>
+          <p className="roundup-result__badge">
+            {game.bonusesCaught > 0
+              ? "✧ Shiny ribbon found"
+              : "A little fairy-type charm"}
+          </p>
+          <p className="roundup-result__note">
+            {game.mode === "practice"
+              ? "Just for fun. Your timed best stays unchanged."
+              : game.score >= 200
+                ? "A bow-worthy performance."
+                : game.score >= 100
+                  ? "Quite the ribbon collection!"
+                  : "Every collection starts with a little practice."}
+          </p>
+        </section>
+      )}
+      <p
+        role="status"
+        className={`roundup-status${game.status === "finished" ? " sr-only" : ""}`}
+      >
         {message}
       </p>
       <div className="roundup-controls">
@@ -283,6 +359,8 @@ export default function RibbonRoundup() {
                 disabled={!running}
                 aria-label={direction === -1 ? "Move left" : "Move right"}
                 onPointerDown={(event) => {
+                  // Preserve our explicit focus across WebKit's mouse defaults.
+                  event.preventDefault();
                   event.currentTarget.focus();
                   heldDirection.current = direction;
                   event.currentTarget.setPointerCapture(event.pointerId);

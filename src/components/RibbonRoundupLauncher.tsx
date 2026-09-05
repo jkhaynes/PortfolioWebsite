@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { useTheme } from "@/lib/theme-store";
 
@@ -34,18 +35,27 @@ class GameLoadBoundary extends Component<
   }
 }
 
-function GameModal({ onClose }: { onClose: () => void }) {
+function GameModal({
+  onClose,
+  triggerRef,
+}: {
+  onClose: () => void;
+  triggerRef: RefObject<HTMLButtonElement | null>;
+}) {
   const dialog = useRef<HTMLDialogElement>(null);
   const close = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null;
+    // WebKit does not necessarily focus a button when it is clicked.
+    const previous = triggerRef.current;
     const element = dialog.current!;
     element.showModal();
     close.current?.focus();
     return () => {
       element.close();
       queueMicrotask(() => {
+        // React's development effect replay must not steal dialog focus.
+        if (element.isConnected) return;
         const target = previous?.isConnected
           ? previous
           : (document.querySelector<HTMLElement>(
@@ -54,7 +64,7 @@ function GameModal({ onClose }: { onClose: () => void }) {
         target?.focus({ preventScroll: true });
       });
     };
-  }, []);
+  }, [triggerRef]);
   return (
     <dialog
       ref={dialog}
@@ -112,9 +122,11 @@ function GameModal({ onClose }: { onClose: () => void }) {
 
 function Launcher() {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         className="roundup-launcher"
         aria-haspopup="dialog"
@@ -135,7 +147,9 @@ function Launcher() {
         </svg>{" "}
         Take a play break
       </button>
-      {open && <GameModal onClose={() => setOpen(false)} />}
+      {open && (
+        <GameModal triggerRef={triggerRef} onClose={() => setOpen(false)} />
+      )}
     </>
   );
 }

@@ -21,6 +21,9 @@ export default function ProjectShowcase({
       data-accent-tone={accentTone}
       className="project-specimen-card"
     >
+      <span className="project-sylveon-peek" aria-hidden="true">
+        <span />
+      </span>
       <div className="project-specimen-card__surface">
         <div className="project-specimen-card__register">
           <p className="project-feature-marker">
