@@ -18,6 +18,23 @@ export const metadata: Metadata = {
   title: "Loot Singles Fulfillment Case Study | Jessica Haynes",
   description:
     "How Jessica Haynes is designing and engineering a safer, scalable picking workflow for Loot Card Shop's trading-card singles orders.",
+  alternates: {
+    canonical: "/work/loot-singles",
+  },
+  openGraph: {
+    title: "Loot Singles Fulfillment Case Study | Jessica Haynes",
+    description:
+      "How Jessica Haynes is designing and engineering a safer, scalable picking workflow for Loot Card Shop's trading-card singles orders.",
+    url: "/work/loot-singles",
+    siteName: "Jessica Haynes",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Loot Singles Fulfillment Case Study | Jessica Haynes",
+    description:
+      "How Jessica Haynes is designing and engineering a safer, scalable picking workflow for Loot Card Shop's trading-card singles orders.",
+  },
 };
 
 const decisions = [
@@ -101,7 +118,7 @@ export default function LootSinglesCaseStudy() {
   return (
     <>
       <Nav />
-      <main id="main-content" className="pb-24">
+      <main id="main-content" tabIndex={-1} className="pb-24">
         <Container>
           <div id="top" className="scroll-mt-24 pt-8">
             <TextLink href="/#projects" target="_self">

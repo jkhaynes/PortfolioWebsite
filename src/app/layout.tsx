@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.jessbuilds.dev"),
   title,
   description,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title,
     description,

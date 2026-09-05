@@ -173,7 +173,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <div id="top" className="scroll-mt-24" />
         <section className="py-24">
           <Container className="max-w-2xl">

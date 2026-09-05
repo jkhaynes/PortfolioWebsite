@@ -17,6 +17,7 @@
   --color-on-risk: #ffffff;
   --color-inverse-surface: #2b1f27;
   --color-inverse-foreground: #ffffff;
+  --color-console-accent: #fbe6ef;
 
   --font-display: var(--font-heading);
   --font-sans: var(--font-inter);
@@ -56,6 +57,7 @@
     --color-on-risk: #1e1e2e;
     --color-inverse-surface: #cdd6f4;
     --color-inverse-foreground: #1e1e2e;
+    --color-console-accent: #f5c2e7;
     --card-edge-rose: #f5c2e7;
     --card-edge-mauve: #cba6f7;
     --card-edge-soft: #45475a;
@@ -154,7 +156,7 @@
   }
 
   .impact-target:target {
-    animation: impact-target-pulse 1.6s ease-out;
+    animation: impact-target-pulse 3s ease-out;
   }
 
   .project-specimen-card {

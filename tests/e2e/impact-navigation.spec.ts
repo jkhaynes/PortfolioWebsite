@@ -43,6 +43,7 @@ test("impact metrics navigate to and focus their exact evidence", async ({
     await expect(target).toContainText(metric.evidence);
     await expect(target).toBeFocused();
     await expect(target).toHaveCSS("animation-name", "impact-target-pulse");
+    await expect(target).toHaveCSS("animation-duration", "3s");
     await expect
       .poll(() =>
         target.evaluate((element) => element.getBoundingClientRect().top),

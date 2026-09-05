@@ -17,6 +17,23 @@ export const metadata: Metadata = {
   title: "PokéJudge AI Case Study | Jessica Haynes",
   description:
     "How Jessica Haynes built a source-grounded AI workflow that investigates incomplete Pokémon tournament judge calls before recommending a ruling.",
+  alternates: {
+    canonical: "/work/pokejudge",
+  },
+  openGraph: {
+    title: "PokéJudge AI Case Study | Jessica Haynes",
+    description:
+      "How Jessica Haynes built a source-grounded AI workflow that investigates incomplete Pokémon tournament judge calls before recommending a ruling.",
+    url: "/work/pokejudge",
+    siteName: "Jessica Haynes",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PokéJudge AI Case Study | Jessica Haynes",
+    description:
+      "How Jessica Haynes built a source-grounded AI workflow that investigates incomplete Pokémon tournament judge calls before recommending a ruling.",
+  },
 };
 
 const pipeline = [
@@ -92,7 +109,7 @@ export default function PokeJudgeCaseStudy() {
   return (
     <>
       <Nav />
-      <main id="main-content" className="pb-24">
+      <main id="main-content" tabIndex={-1} className="pb-24">
         <Container>
           <div id="top" className="scroll-mt-24 pt-8">
             <TextLink href="/#projects" target="_self">
@@ -153,14 +170,14 @@ export default function PokeJudgeCaseStudy() {
               </div>
               <p className="mt-7 text-white/60">Assessment</p>
               <p>Insufficient — 1 clarifying question needed.</p>
-              <p className="mt-5 text-accent-soft">Clarifying question</p>
+              <p className="mt-5 text-console-accent">Clarifying question</p>
               <p>How many minutes late did the competitor arrive?</p>
               <p className="mt-2 text-white/60">Judge</p>
               <p>Exactly 7 minutes after the round started.</p>
               <p className="mt-5 font-semibold text-emerald-300">
                 Sufficient — generating ruling...
               </p>
-              <p className="mt-5 text-accent-soft">Recommendation</p>
+              <p className="mt-5 text-console-accent">Recommendation</p>
               <p>Assess a penalty for Major Tardiness.</p>
               <p className="mt-5 font-semibold text-emerald-300">
                 Validated Source Support: Strong
