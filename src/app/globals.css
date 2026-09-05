@@ -221,11 +221,7 @@
     background:
       linear-gradient(
         128deg,
-        color-mix(
-          in srgb,
-          var(--specimen-accent) 5%,
-          var(--color-surface)
-        ),
+        color-mix(in srgb, var(--specimen-accent) 5%, var(--color-surface)),
         transparent 32%
       ),
       color-mix(in srgb, var(--color-surface) 96%, var(--card-inset));
@@ -303,11 +299,7 @@
       color-mix(in srgb, var(--specimen-accent) 32%, var(--color-surface));
     box-shadow:
       0 0 0 0.3rem
-        color-mix(
-          in srgb,
-          var(--specimen-accent) 5%,
-          var(--color-surface)
-        ),
+        color-mix(in srgb, var(--specimen-accent) 5%, var(--color-surface)),
       0 10px 24px -18px rgba(43, 31, 39, 0.72);
   }
 
@@ -327,7 +319,8 @@
   .learning-specimen-strip {
     position: relative;
     box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--color-accent-secondary) 8%, transparent),
+      inset 0 0 0 1px
+        color-mix(in srgb, var(--color-accent-secondary) 8%, transparent),
       var(--shadow-soft);
   }
 
@@ -353,41 +346,6 @@
     bottom: 0.65rem;
     border-right: 1px solid var(--card-edge-soft);
     border-bottom: 1px solid var(--card-edge-soft);
-  }
-
-  .theme-toggle {
-    display: inline-flex;
-    min-height: 2.25rem;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    border: 1px solid var(--color-border);
-    border-radius: 9999px;
-    background: color-mix(
-      in srgb,
-      var(--color-surface) 82%,
-      transparent
-    );
-    color: var(--color-muted);
-    padding: 0.4rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-      border-color 180ms ease,
-      background-color 180ms ease,
-      color 180ms ease;
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--color-accent-secondary);
-    background: var(--color-accent-soft);
-    color: var(--color-foreground);
-  }
-
-  .theme-toggle:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
   }
 }
 
@@ -433,5 +391,485 @@
   .project-specimen-card:focus-within .project-specimen-card__surface::after {
     opacity: 0;
     transform: none;
+  }
+}
+
+/* Pokémon is an explicit, light-based appearance. */
+@layer base {
+  :root[data-theme="pokemon"] {
+    color-scheme: light;
+    --color-background: #fff5f5;
+    --color-surface: #fffdfa;
+    --color-foreground: #3e2035;
+    --color-muted: #76535f;
+    --color-border: #eac3cf;
+    --color-accent: #ac365c;
+    --color-accent-soft: #fbe3eb;
+    --color-accent-secondary: #914560;
+    --color-inverse-surface: #3e2035;
+    --color-console-accent: #fbe3eb;
+    --card-edge-rose: #ac365c;
+    --card-edge-mauve: #b95c79;
+    --card-edge-soft: #eac3cf;
+    --card-inset: #fbe3eb;
+    --shadow-soft: 0 18px 40px -28px rgb(145 69 96 / 30%);
+    --shadow-card-rest: 0 18px 40px -28px rgb(145 69 96 / 35%);
+  }
+}
+
+@layer components {
+  .theme-selector {
+    display: inline-flex;
+    flex-shrink: 0;
+    padding: 3px;
+    margin: 0;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 999px;
+    background: var(--color-surface);
+  }
+  .theme-choice {
+    position: relative;
+    cursor: pointer;
+  }
+  .theme-choice input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .theme-choice span {
+    display: flex;
+    min-height: 2.25rem;
+    align-items: center;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .theme-choice input:checked + span {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .theme-choice input:focus-visible + span {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  .theme-choice:hover span {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .sylveon-portrait {
+    display: none;
+  }
+  [data-theme="pokemon"] .hero-container {
+    max-width: 1112px;
+    display: grid;
+    align-items: center;
+    gap: 3rem;
+  }
+  [data-theme="pokemon"] .hero-copy {
+    max-width: 42rem;
+  }
+  [data-theme="pokemon"] .sylveon-portrait {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    width: min(100%, 19rem);
+    padding: 1.5rem 1rem;
+    border: 1px solid var(--color-border);
+    outline: 1px solid var(--color-border);
+    outline-offset: -6px;
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-soft);
+  }
+  .sylveon-portrait__art {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  .sylveon-portrait__art img {
+    width: 100%;
+    height: auto;
+  }
+  .sylveon-ribbon {
+    position: absolute;
+    top: -1px;
+    right: 1.5rem;
+    width: 1.3rem;
+    height: 3rem;
+    background: #edb0c4;
+    border-top: 3px solid #8ac6e6;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+  }
+  [data-theme="pokemon"] .project-specimen-card::after {
+    width: 1.2rem;
+    height: 2rem;
+    right: 1.2rem;
+    bottom: -0.5rem;
+    border: 0;
+    background: #edb0c4;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+  }
+  @media (min-width: 1024px) {
+    [data-theme="pokemon"] .hero-container {
+      grid-template-columns: minmax(0, 1fr) 20rem;
+    }
+  }
+  @media (forced-colors: active) {
+    .theme-choice input:checked + span {
+      outline: 2px solid Highlight;
+      outline-offset: -3px;
+    }
+    .theme-choice input:focus-visible + span {
+      outline: 2px solid CanvasText;
+      outline-offset: 2px;
+    }
+  }
+}
+
+@layer components {
+  .roundup-launcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 999px;
+    padding: 0.65rem 0.85rem;
+    color: var(--color-accent);
+    background: var(--color-surface);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .roundup-launcher:hover {
+    background: var(--color-accent-soft);
+  }
+  .roundup-launcher:focus-visible,
+  .roundup-button:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  .roundup-dialog {
+    margin: auto;
+    width: min(30rem, calc(100vw - 1.5rem));
+    max-height: min(calc(100dvh - 1.5rem), calc(100% - 1.5rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 1.5rem;
+    padding: 0;
+    background: var(--color-surface);
+    color: var(--color-foreground);
+    box-shadow: var(--shadow-soft);
+  }
+  .roundup-dialog::backdrop {
+    background: rgb(62 32 53 / 55%);
+    backdrop-filter: blur(3px);
+  }
+  .roundup-dialog__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .roundup-button {
+    min-height: 44px;
+    border: 1px solid var(--color-accent-secondary);
+    border-radius: 999px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--color-surface);
+    color: var(--color-accent);
+    cursor: pointer;
+  }
+  .roundup-button--primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .roundup-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+@layer components {
+  .pokemon-bow-divider {
+    display: none;
+  }
+  [data-theme="pokemon"] body {
+    background: #fce8ef;
+  }
+  [data-theme="pokemon"] .portfolio-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  [data-theme="pokemon"] .portfolio-brand::before,
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2)::before {
+    content: "";
+    display: inline-block;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    max-width: 28rem;
+    margin: 1.25rem 0;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider span {
+    width: 2.75rem;
+    height: 2.75rem;
+    flex-shrink: 0;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider::before,
+  [data-theme="pokemon"] .pokemon-bow-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #d78ca8;
+  }
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2) {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: left;
+  }
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2)::after {
+    content: "";
+    flex: 1;
+    min-width: 1rem;
+    height: 1px;
+    background: #d78ca8;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact h2,
+  [data-theme="pokemon"] .portfolio-home #contact h2 {
+    justify-content: center;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact h2::after,
+  [data-theme="pokemon"] .portfolio-home #contact h2::after {
+    flex: 0 1 4rem;
+  }
+  [data-theme="pokemon"] .portfolio-home #impact .grid {
+    border: 1px solid #e4b3c5;
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+    padding-inline: 1rem;
+  }
+  [data-theme="pokemon"] .portfolio-home #about > div,
+  [data-theme="pokemon"] .portfolio-home #contact > div {
+    position: relative;
+    width: calc(100% - 2rem);
+    border: 1px solid #e4b3c5;
+    border-radius: 1.5rem;
+    background: var(--color-surface);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    box-shadow: var(--shadow-soft);
+  }
+  [data-theme="pokemon"] .project-specimen-card {
+    border-color: #d78ca8;
+    background: #f8d9e5;
+    padding: 0.4rem;
+  }
+  [data-theme="pokemon"] .project-specimen-card__surface {
+    background: var(--color-surface);
+  }
+  [data-theme="pokemon"] .project-specimen-card::before {
+    width: 2.5rem;
+    height: 2.5rem;
+    top: -1.15rem;
+    left: 1.25rem;
+    border: 0;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  [data-theme="pokemon"] .project-specimen-card::after {
+    width: 1.8rem;
+    height: 2.7rem;
+    bottom: -0.65rem;
+    background: #e8a2bc;
+  }
+  @media (max-width: 399px) {
+    [data-theme="pokemon"]
+      .portfolio-home
+      :is(section > div > h2, #learning-now h2) {
+      gap: 0.55rem;
+    }
+    [data-theme="pokemon"] .portfolio-home #contact h2::after {
+      display: none;
+    }
+  }
+}
+
+@layer utilities {
+  [data-theme="pokemon"] #impact .opacity-75 {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  :root[data-theme="pokemon"] {
+    scroll-padding-top: 10rem;
+  }
+}
+
+/* A shared printed-paper trim; opaque card interiors keep the pattern off copy. */
+@layer components {
+  [data-theme="pokemon"] {
+    --stationery-pattern: url("/images/pokemon/stationery-pattern.svg");
+  }
+  [data-theme="pokemon"] .project-specimen-card {
+    padding: 0.9rem;
+    background: var(--stationery-pattern) 0 0 / 144px 72px repeat;
+  }
+  [data-theme="pokemon"] .sylveon-portrait {
+    border: 9px solid transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      var(--stationery-pattern) 0 0 / 144px 72px repeat border-box;
+    outline-offset: -9px;
+  }
+  [data-theme="pokemon"] .portfolio-home #contact > div::after {
+    content: "";
+    display: block;
+    height: 36px;
+    margin: 1.5rem -0.5rem -0.5rem;
+    border-radius: 0.5rem;
+    background: var(--stationery-pattern) center 0 / 144px 72px repeat;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .pokemon-bow-divider::before,
+  [data-theme="pokemon"] .pokemon-bow-divider::after {
+    height: 12px;
+    border-block: 1px solid #e4b3c5;
+    background: var(--stationery-pattern) center 12px / 144px 72px repeat;
+  }
+}
+
+/* Art layers share the same bounds; only the exposed right ear rotates. */
+.sylveon-portrait__art {
+  position: relative;
+}
+.sylveon-ear-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sylveon-twitching-ear {
+  transform-origin: 199px 175px;
+}
+@keyframes sylveon-ear-twitch {
+  0%,
+  87%,
+  100% {
+    transform: rotate(0);
+  }
+  89% {
+    transform: rotate(-5deg);
+  }
+  90.5% {
+    transform: rotate(2deg);
+  }
+  92% {
+    transform: rotate(-3deg);
+  }
+  94% {
+    transform: rotate(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .sylveon-twitching-ear {
+    animation: sylveon-ear-twitch 12s ease-in-out infinite;
+  }
+  body:has(dialog[open]) .sylveon-twitching-ear {
+    animation-play-state: paused;
+  }
+}
+
+@layer components {
+  .project-sylveon-peek {
+    display: none;
+  }
+  [data-theme="pokemon"] .project-specimen-card__surface {
+    padding-bottom: 6rem;
+  }
+  [data-theme="pokemon"] .project-sylveon-peek {
+    display: block;
+    position: absolute;
+    bottom: 0.8rem;
+    right: 3.5rem;
+    width: 112px;
+    height: 100px;
+    mix-blend-mode: multiply;
+    overflow: hidden;
+    z-index: 3;
+    pointer-events: none;
+  }
+  [data-theme="pokemon"] .project-sylveon-peek > span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("/images/pokemon/sylveon-peek.webp") -27px -16px / 170px 121.39px
+      no-repeat;
+    transform: translateY(105%);
+    opacity: 0;
+    transition:
+      transform 280ms ease-out,
+      opacity 180ms ease-out;
+  }
+  [data-theme="pokemon"] .project-specimen-card:is(:hover, :focus-within) {
+    transform: none;
+    box-shadow: var(--shadow-card-rest);
+  }
+  [data-theme="pokemon"]
+    .project-specimen-card:is(:hover, :focus-within)
+    .project-specimen-card__surface::after {
+    opacity: 0;
+    transform: none;
+  }
+  [data-theme="pokemon"]
+    .project-specimen-card:focus-within
+    .project-sylveon-peek
+    > span {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  @media (hover: hover) {
+    [data-theme="pokemon"]
+      .project-specimen-card:hover
+      .project-sylveon-peek
+      > span {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-theme="pokemon"] .project-sylveon-peek > span {
+      transition: none;
+    }
   }
 }

@@ -13,6 +13,16 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+      testMatch: /(?:theme-toggle|ribbon-roundup|pokemon-polish)\.spec\.ts/,
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+      testMatch: /(?:theme-toggle|ribbon-roundup|pokemon-polish)\.spec\.ts/,
+    },
   ],
   webServer: {
     command: "npm run dev",
