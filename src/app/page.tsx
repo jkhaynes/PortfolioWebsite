@@ -17,11 +17,8 @@ const workPrinciples = [
       <>
         I like understanding the problem I&apos;m solving, asking questions when
         something doesn&apos;t make sense, and working with the people around me
-        to find a good solution. I tend to notice recurring problems and areas
-        of friction, and I care about{" "}
-        <strong className="font-semibold text-foreground">
-          fixing what I can rather than simply getting used to the workaround.
-        </strong>
+        to find a good solution. When I notice the same problem coming up or
+        something making work harder than it needs to be, I work on fixing it.
       </>
     ),
   },
@@ -29,15 +26,11 @@ const workPrinciples = [
     label: "Staying Current",
     body: (
       <>
-        I also think staying current is an important part of being a software
-        engineer. I enjoy learning new technologies, reevaluating the way I
-        work, and finding practical ways to incorporate better tools and
-        approaches. More recently, that has included exploring how AI-assisted
-        development can make me faster and more effective{" "}
-        <strong className="font-semibold text-foreground">
-          without replacing the judgment and understanding that good engineering
-          still requires.
-        </strong>
+        I enjoy learning new technologies, evaluating how I work, and adopting
+        tools and approaches that improve my development process. Recently,
+        I&apos;ve been exploring how AI-assisted development can help me work
+        more efficiently while maintaining the technical understanding and
+        engineering judgment needed to deliver reliable software.
       </>
     ),
   },
@@ -318,7 +311,7 @@ export default function Home() {
             </Grid>
             <p className="mt-10 text-center font-display text-lg text-accent-secondary">
               I try to bring curiosity to my work, keep learning, and leave
-              things a little better than I found them.
+              things better than I found them.
             </p>
           </Container>
         </section>
@@ -338,9 +331,10 @@ export default function Home() {
                   Learning now
                 </h2>
                 <p className="mt-3 max-w-2xl leading-relaxed text-muted">
-                  I’m deepening how I use AI in real engineering work—designing
-                  better agent workflows, evaluating system behavior, and
-                  keeping automation grounded in human judgment.
+                  I&apos;m learning how to use AI more effectively in my
+                  engineering work. That includes building better agent
+                  workflows, checking how systems behave, and deciding where
+                  people need to stay involved in automated processes.
                 </p>
               </div>
               <ul
@@ -373,22 +367,21 @@ export default function Home() {
             </h2>
             <div className="mt-4 space-y-4 leading-relaxed text-muted">
               <p>
-                I&apos;m a Senior Software Engineer with 9+ years of experience
-                building and modernizing full-stack enterprise applications,
-                with a strong focus on C#/.NET backend development, APIs, Entity
-                Framework, performance, and scalable architecture. I&apos;ve
-                worked across the full stack — .NET, C#, Entity Framework,
-                MySQL, Angular, and TypeScript — while also leading technical
-                projects, mentoring engineers, writing technical designs, and
-                partnering closely with Product, QA, and DevOps.
+                I&apos;m a Senior Software Engineer, and I&apos;ve spent the past
+                9+ years building and modernizing full-stack enterprise
+                applications. Most of my work focuses on C#/.NET backends,
+                APIs, and Entity Framework, including improving performance and
+                designing systems that can scale. I also work with MySQL,
+                Angular, and TypeScript. Along the way, I&apos;ve led technical
+                projects, mentored engineers, written technical designs, and
+                worked closely with Product, QA, and DevOps.
               </p>
               <p>
-                Some of the problems I&apos;ve enjoyed working on: reducing a
-                high-volume background job&apos;s runtime by 95%, improving
-                testing and observability to help achieve 6+ months of
-                incident-free production, implementing SSO and identity
-                integrations, and modernizing applications and development
-                practices.
+                I&apos;ve enjoyed figuring out how to cut a high-volume
+                background job&apos;s runtime by 95% and improving testing and
+                observability to help keep production incident-free for 6+
+                months. I&apos;ve also worked on SSO and identity integrations
+                and updated older applications and development practices.
               </p>
               <p>
                 I enjoy solving complex engineering problems, improving existing
@@ -405,8 +398,8 @@ export default function Home() {
               Let&apos;s Connect
             </h2>
             <p className="mt-3 text-muted">
-              Whether you&apos;re hiring, collaborating, or just want to talk
-              shop — I&apos;d love to hear from you.
+              If you&apos;re hiring, have a project in mind, or want to talk
+              shop, I&apos;d love to hear from you.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <Button
