@@ -1,6 +1,7 @@
 import type { StaticImageData } from "next/image";
 import lootOrderDetail from "../../public/work/loot-singles/order-detail-desktop-catalog-cards.png";
 import pokeJudgeRun from "../../public/work/pokejudge/late-arrival-success.png";
+import membershipTierEditor from "../../public/work/loot-membership/tier-editor.png";
 
 export type ProjectMedia = {
   src: StaticImageData;
@@ -91,4 +92,38 @@ export const lootSinglesProject: Project = {
   },
 };
 
-export const projects: Project[] = [pokeJudgeProject, lootSinglesProject];
+export const lootMembershipProject: Project = {
+  title: "Loot Membership Integration",
+  status: "In Development",
+  accentTone: "mauve",
+  problemStatement:
+    "Loot Card Shop had people using member discount codes who weren't eligible. Discord membership needed to be connected to the right Shopify customer.",
+  solutionSummary:
+    "A Shopify app links customers to Discord, resolves membership tiers server-side, and synchronizes customer membership into Shopify while keeping each merchant's data separate.",
+  technicalDecisions:
+    "Tenant-scoped identity and membership in D1, with queued Shopify updates and separate verification-health and eligibility states.",
+  buildApproach:
+    "Specification-driven development with GitHub Spec Kit, supported by unit, integration, contract, and browser tests.",
+  tags: [
+    "TypeScript",
+    "React Router",
+    "Shopify API",
+    "Discord OAuth2",
+    "Cloudflare Workers",
+    "D1",
+  ],
+  caseStudyUrl: "/work/loot-membership",
+  media: {
+    src: membershipTierEditor,
+    alt: "Loot membership tier editor with Discord role mappings, role priority, and a Shopify customer tag.",
+    title: "Loot membership tier editor",
+    caption: "Discord roles mapped to Shopify membership · App screenshot",
+    objectClassName: "object-cover object-top",
+  },
+};
+
+export const projects: Project[] = [
+  pokeJudgeProject,
+  lootSinglesProject,
+  lootMembershipProject,
+];

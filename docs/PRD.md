@@ -38,7 +38,7 @@ Generic developer portfolios tend to look interchangeable — dark-mode template
 - Not a generic dark-mode-only developer template — the light, pink/blush/mauve identity remains the default experience even after the dark variant ships (Roadmap Feature 18).
 - Not an overly minimal/sterile design.
 - Not a contact form with backend infrastructure (mailto/social links only, for now).
-- Not a fully multi-page site — the homepage remains a single-page scroll; only Featured Projects with a full case study get a dedicated route (Roadmap Features 11–12).
+- Not a fully multi-page site — the homepage remains a single-page scroll; only Featured Projects with a full case study get a dedicated route (Roadmap Features 11–12 and 21).
 
 ## 7. Functional Requirements
 
@@ -89,7 +89,7 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 ## 10. High-Level Architecture / Technical Direction
 
 - Built on the existing Next.js + TypeScript + Tailwind starter scaffold.
-- Primarily a single-page site with anchor navigation. Featured Projects that get a full case study (Loot Singles, PokéJudge) get their own dedicated routes (e.g. `/work/loot-singles`, `/work/pokejudge`) per Roadmap Features 11–12; this introduces minimal additional routing rather than a full multi-page restructure.
+- Primarily a single-page site with anchor navigation. Featured Projects that get a full case study (Loot Singles, PokéJudge, Loot Membership Integration) get their own dedicated routes (e.g. `/work/loot-singles`, `/work/pokejudge`, `/work/loot-membership`) per Roadmap Features 11–12 and 21; this introduces minimal additional routing rather than a full multi-page restructure.
 - No backend/server infrastructure required for contact (mailto-based) or resume (static PDF asset).
 
 ## 11. Data / Integration Strategy
@@ -144,6 +144,8 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 19. **Accessibility, Responsiveness & Final Polish (Round 2)** — Re-run the Feature 5 audit against everything added in Features 7–18: both themes, the new case-study routes, screenshots/media, and the restructured hierarchy. Verify keyboard, focus, modal, and reduced-motion behavior throughout, and add page titles/meta descriptions/canonical URLs for the new case-study pages.
 
 20. **Sylveon Pokémon Mode** — Add an opt-in third appearance alongside Light and Dark: regular Sylveon art, ivory/blush surfaces, rose actions, and restrained ribbon details. Preserve professional content and actual screenshots. Phase 1 delivers the theme and assets; Phase 2 adds the optional Ribbon Roundup game with a rare shiny bonus. Pokémon uses native light color-scheme, persists explicit selection, and never follows automatically from system preference. Character art and necessary gameplay motion are scoped to this mode; gameplay requires an explicit start.
+
+21. **Loot Membership Integration Case Study** — Add a third featured project and `/work/loot-membership`, explaining the discount-code eligibility problem, Discord-to-Shopify membership flow, sole developer/designer ownership, tenant isolation, and reliable synchronization. Use a labeled architecture illustration, distinguish implemented foundations from ongoing work, and preserve all three themes. This extends the dedicated case-study routing in §6 and §10 without changing the homepage's single-page structure.
 
 ## 14. Testing / Evaluation Strategy
 
