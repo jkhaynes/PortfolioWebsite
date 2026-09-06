@@ -6,7 +6,7 @@ test("featured projects use the specimen-card motif without losing content", asy
   await page.goto("/");
 
   const cards = page.locator("[data-project-card]");
-  await expect(cards).toHaveCount(2);
+  await expect(cards).toHaveCount(3);
 
   const pokeJudge = cards.filter({ hasText: "PokéJudge AI" });
   const loot = cards.filter({ hasText: "Loot Singles Fulfillment" });
@@ -14,10 +14,18 @@ test("featured projects use the specimen-card motif without losing content", asy
   await expect(loot).toHaveAttribute("data-accent-tone", "rose");
 
   for (const card of [pokeJudge, loot]) {
-    await expect(card.getByText("Featured build", { exact: true })).toBeVisible();
-    await expect(card.getByText("In Development", { exact: true })).toBeVisible();
-    await expect(card.getByRole("button", { name: /^View larger:/ })).toBeVisible();
-    await expect(card.getByRole("link", { name: "View Case Study" })).toBeVisible();
+    await expect(
+      card.getByText("Featured build", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      card.getByText("In Development", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      card.getByRole("button", { name: /^View larger:/ }),
+    ).toBeVisible();
+    await expect(
+      card.getByRole("link", { name: "View Case Study" }),
+    ).toBeVisible();
     await expect(card.getByRole("link", { name: "View GitHub" })).toBeVisible();
     await expect(card.locator(".specimen-facet")).toHaveAttribute(
       "aria-hidden",
@@ -58,7 +66,9 @@ for (const viewport of [
   { width: 768, height: 1024 },
   { width: 1440, height: 1000 },
 ]) {
-  test(`specimen motif avoids overflow at ${viewport.width}px`, async ({ page }) => {
+  test(`specimen motif avoids overflow at ${viewport.width}px`, async ({
+    page,
+  }) => {
     await page.setViewportSize(viewport);
     await page.goto("/");
     await expect(page.locator("[data-project-card]").first()).toBeVisible();

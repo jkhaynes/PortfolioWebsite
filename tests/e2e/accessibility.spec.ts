@@ -1,7 +1,12 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const routes = ["/", "/work/loot-singles", "/work/pokejudge"] as const;
+const routes = [
+  "/",
+  "/work/loot-singles",
+  "/work/pokejudge",
+  "/work/loot-membership",
+] as const;
 const themes = ["light", "dark", "pokemon"] as const;
 
 for (const route of routes) {

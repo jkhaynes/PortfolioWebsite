@@ -78,7 +78,12 @@ for (const viewport of [
   }) => {
     await page.setViewportSize(viewport);
 
-    for (const path of ["/", "/work/loot-singles", "/work/pokejudge"]) {
+    for (const path of [
+      "/",
+      "/work/loot-singles",
+      "/work/pokejudge",
+      "/work/loot-membership",
+    ]) {
       await page.goto(path);
       await expect
         .poll(() =>
@@ -105,16 +110,16 @@ for (const viewport of [
   });
 }
 
-test("featured project media preserves both case-study actions", async ({
+test("featured project media preserves all case-study actions", async ({
   page,
 }) => {
   await page.goto("/");
 
   await expect(page.getByRole("link", { name: "View Case Study" })).toHaveCount(
-    2,
+    3,
   );
   await expect(page.getByRole("button", { name: /^View larger:/ })).toHaveCount(
-    2,
+    3,
   );
 
   await expect(page.locator('link[rel="preload"][as="image"]')).toHaveCount(1);

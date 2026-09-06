@@ -26,7 +26,12 @@ for (const [theme, label] of [
     await expect
       .poll(() => page.evaluate((key) => localStorage.getItem(key), storageKey))
       .toBe(theme);
-    for (const path of ["/", "/work/pokejudge", "/work/loot-singles"]) {
+    for (const path of [
+      "/",
+      "/work/pokejudge",
+      "/work/loot-singles",
+      "/work/loot-membership",
+    ]) {
       await page.goto(path);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
       await expect(
@@ -145,7 +150,12 @@ test("three themes avoid overflow on every route", async ({ page }) => {
     });
     for (const width of [320, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 1000 });
-      for (const path of ["/", "/work/pokejudge", "/work/loot-singles"]) {
+      for (const path of [
+        "/",
+        "/work/pokejudge",
+        "/work/loot-singles",
+        "/work/loot-membership",
+      ]) {
         await page.goto(path);
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
         await expect
