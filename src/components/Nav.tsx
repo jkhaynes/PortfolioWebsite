@@ -23,28 +23,25 @@ export default function Nav() {
         Skip to main content
       </a>
       <header className="sticky top-0 z-50 border-b border-border/70 bg-background/80 backdrop-blur-md">
-        <Container className="flex flex-col items-start gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-4">
+        <Container className="site-nav-layout">
           <Link
             href="/#top"
-            className="portfolio-brand rounded font-display text-lg font-semibold tracking-tight text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="portfolio-brand flex min-h-11 items-center rounded font-display text-lg font-semibold tracking-tight text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             Jessica Haynes
           </Link>
-          <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-3 sm:w-auto sm:justify-end">
-            <nav aria-label="Primary">
-              <ul className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-muted sm:gap-6 sm:text-sm">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="transition-colors duration-200 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <nav aria-label="Primary" className="site-nav-primary">
+            <ul className="site-nav-links">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="site-nav-link">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <div className="site-nav-theme">
             <ThemeToggle />
           </div>
         </Container>

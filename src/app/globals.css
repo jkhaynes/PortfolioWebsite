@@ -110,6 +110,190 @@
 }
 
 @layer components {
+  .site-nav-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    justify-items: start;
+    gap: 0.5rem;
+    padding-block: 0.5rem;
+  }
+
+  .site-nav-primary {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  .site-nav-links {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 0.85fr) minmax(0, 1fr) minmax(0, 1.3fr)
+      minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface);
+  }
+
+  .site-nav-link {
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    color: var(--color-foreground);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .site-nav-link:hover,
+  .site-nav-link:active {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  .site-nav-link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: -2px;
+    background: var(--color-accent-soft);
+  }
+
+  .site-nav-theme {
+    grid-area: 1 / 2;
+  }
+
+  .theme-mobile {
+    position: relative;
+  }
+
+  .theme-mobile-trigger {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding-inline: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-accent-secondary);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .theme-mobile-chevron {
+    margin-left: 0.25rem;
+  }
+
+  .theme-mobile-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.5rem);
+    z-index: 1;
+    width: 11rem;
+    margin: 0;
+    padding: 0.375rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.875rem;
+    background: var(--color-surface);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 16%);
+  }
+
+  .theme-mobile-option {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding-inline: 0.75rem;
+    border-radius: 0.5rem;
+    color: var(--color-foreground);
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .theme-mobile-option input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .theme-mobile-check {
+    visibility: hidden;
+  }
+
+  .theme-mobile-option:has(input:checked) {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .theme-mobile-option input:checked ~ .theme-mobile-check {
+    visibility: visible;
+  }
+
+  .theme-mobile-trigger[aria-expanded="true"] .theme-mobile-chevron {
+    transform: rotate(180deg);
+  }
+
+  .theme-mobile-trigger:focus-visible,
+  .theme-mobile-option:has(input:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .theme-mobile-option:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  .site-nav-theme .theme-selector {
+    display: none;
+  }
+
+  .site-nav-theme .theme-choice span {
+    min-height: 2.75rem;
+  }
+
+  @media (min-width: 1024px) {
+    .theme-mobile {
+      display: none;
+    }
+    .site-nav-theme .theme-selector {
+      display: inline-flex;
+    }
+    .site-nav-layout {
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding-block: 0.75rem;
+    }
+    .site-nav-primary {
+      grid-area: 1 / 2;
+    }
+    .site-nav-theme {
+      grid-area: 1 / 3;
+    }
+    .site-nav-links {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+    .site-nav-link {
+      padding-inline: 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
+
   .skip-link {
     position: fixed;
     left: 1rem;
@@ -729,9 +913,9 @@
   }
 }
 
-@media (max-width: 767px) {
-  :root[data-theme="pokemon"] {
-    scroll-padding-top: 10rem;
+@media (max-width: 1023px) {
+  :root {
+    scroll-padding-top: 9rem;
   }
 }
 
@@ -833,8 +1017,8 @@
     display: block;
     width: 100%;
     height: 100%;
-    background: url("/images/pokemon/sylveon-peek.webp") -27px -16px / 170px 121.39px
-      no-repeat;
+    background: url("/images/pokemon/sylveon-peek.webp") -27px -16px / 170px
+      121.39px no-repeat;
     transform: translateY(105%);
     opacity: 0;
     transition:
