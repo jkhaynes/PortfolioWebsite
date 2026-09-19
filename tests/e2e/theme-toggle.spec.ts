@@ -169,3 +169,58 @@ test("three themes avoid overflow on every route", async ({ page }) => {
     }
   }
 });
+
+test("dark mode uses the mauve night palette", async ({ page }) => {
+  await page.addInitScript(
+    (key) => localStorage.setItem(key, "dark"),
+    storageKey,
+  );
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  // Pre-hydration init script path.
+  await expect
+    .poll(() =>
+      page
+        .locator('meta[name="theme-color"]')
+        .evaluateAll((metas) => metas.map((m) => m.getAttribute("content"))),
+    )
+    .toEqual(expect.arrayContaining(["#1a1220"]));
+  await expect
+    .poll(() =>
+      page
+        .locator('meta[name="theme-color"]')
+        .evaluateAll((metas) =>
+          metas.every((m) => m.getAttribute("content") === "#1a1220"),
+        ),
+    )
+    .toBe(true);
+  // background-color is the solid layer under the body's radial glow.
+  await expect(page.locator("body")).toHaveCSS(
+    "background-color",
+    "rgb(26, 18, 32)",
+  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS(
+    "color",
+    "rgb(246, 233, 241)",
+  );
+
+  // Runtime toggle path: leave Dark, come back, meta must follow.
+  await page.getByRole("radio", { name: "Light", exact: true }).click();
+  await page.getByRole("radio", { name: "Dark", exact: true }).click();
+  await expect
+    .poll(() =>
+      page
+        .locator('meta[name="theme-color"]')
+        .evaluateAll((metas) => metas.map((m) => m.getAttribute("content"))),
+    )
+    .toEqual(expect.arrayContaining(["#1a1220"]));
+  await expect
+    .poll(() =>
+      page
+        .locator('meta[name="theme-color"]')
+        .evaluateAll((metas) =>
+          metas.every((m) => m.getAttribute("content") === "#1a1220"),
+        ),
+    )
+    .toBe(true);
+});

@@ -4,7 +4,7 @@ export type Theme = "light" | "dark" | "pokemon";
 
 export const THEME_COLORS: Record<Theme, string> = {
   light: "#fdf6f6",
-  dark: "#1e1e2e",
+  dark: "#1a1220",
   pokemon: "#fff5f5",
 };
 
@@ -22,6 +22,21 @@ export const themeInitScript = `(() => {
   const root = document.documentElement;
   root.dataset.theme = theme;
   root.style.colorScheme = theme === "dark" ? "dark" : "light";
-  document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", ${JSON.stringify(THEME_COLORS)}[theme]);
+  const color = ${JSON.stringify(THEME_COLORS)}[theme];
+  const updateMetas = () => {
+    document.querySelectorAll('meta[name="theme-color"]')
+      .forEach((meta) => meta.setAttribute("content", color));
+  };
+  updateMetas();
+  new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "childList") {
+        for (const node of mutation.addedNodes) {
+          if (node.name === "theme-color") {
+            node.setAttribute("content", color);
+          }
+        }
+      }
+    }
+  }).observe(document.head, { childList: true });
 })();`;
