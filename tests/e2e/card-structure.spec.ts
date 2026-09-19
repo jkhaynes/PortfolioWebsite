@@ -140,3 +140,20 @@ test("pokemon cards keep the bow and bookmark ribbon", async ({ page }) => {
   expect(await computed(page, card, "::after", "clip-path")).not.toBe("none");
   expect(await computed(page, card, "::after", "mask-image")).toBe("none");
 });
+
+for (const theme of ["light", "dark", "pokemon"] as const) {
+  test(`framed panels line up with the other sections in ${theme} mode`, async ({
+    page,
+  }) => {
+    await openTheme(page, theme);
+    for (const width of [1280, 390]) {
+      await page.setViewportSize({ width, height: 900 });
+      const strip = (await page.locator("#impact .grid").boundingBox())!;
+      for (const panel of ["#about > div", "#contact > div"]) {
+        const box = (await page.locator(panel).boundingBox())!;
+        expect(Math.abs(box.x - strip.x)).toBeLessThan(1);
+        expect(Math.abs(box.width - strip.width)).toBeLessThan(1);
+      }
+    }
+  });
+}

@@ -907,6 +907,11 @@
   }
   .portfolio-home :is(#about, #contact) > div {
     position: relative;
+    /* The frame is the Container itself, so inset it by the Container's px-4
+       to line up with the other sections. !important beats its w-full and
+       max-w-[1112px] utilities (keep 1112px in sync with Container.tsx). */
+    width: calc(100% - 2rem) !important;
+    max-width: calc(1112px - 2rem) !important;
     padding: clamp(1.25rem, 4vw, 2.5rem);
   }
   /* Pokémon keeps today's frame colors and an unshadowed impact strip. */
