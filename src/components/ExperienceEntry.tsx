@@ -1,17 +1,5 @@
 import Tag from "@/components/Tag";
-
-export type ExperienceRole = {
-  role: string;
-  period: string;
-  bullets: Array<string | ExperienceBullet>;
-  /** Present only on roles that need a stable, focusable link target (e.g. for Impact-metric deep links). */
-  anchorId?: string;
-};
-
-export type ExperienceBullet = {
-  text: string;
-  anchorId?: string;
-};
+import type { ExperienceRole } from "@/data/experience";
 
 type ExperienceEntryProps = {
   company: string;
