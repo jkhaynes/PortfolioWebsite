@@ -1533,3 +1533,118 @@
     padding: 1.25rem 1.5rem;
   }
 }
+
+/* Review R12: the career line above Experience. One rose track, a stop per
+   role, "promoted" written on the track into each promotion, and a Pearl
+   halo on the current role. */
+@layer components {
+  .career-line {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .career-stop {
+    position: relative;
+    padding: 1.125rem 0.5rem 0 0;
+  }
+  /* The track: each stop draws the segment to the next one. */
+  .career-stop:not(:last-child)::after {
+    position: absolute;
+    top: calc(1.125rem + 6px);
+    left: 7px;
+    width: 100%;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-accent);
+    content: "";
+  }
+  .career-stop__why {
+    position: absolute;
+    top: 0.3rem;
+    right: calc(100% - 7px);
+    width: calc(100% - 1.25rem);
+    overflow: hidden;
+    color: var(--color-muted);
+    font-size: 0.6875rem;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .career-stop__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    border-radius: 0.5rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  .career-stop__link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+  .career-stop__dot {
+    position: relative;
+    z-index: 1;
+    width: 15px;
+    height: 15px;
+    margin-bottom: 0.5rem;
+    border: 3px solid var(--color-accent);
+    border-radius: 50%;
+    background: var(--color-background);
+    transition: transform 160ms ease;
+  }
+  .career-stop__link:hover .career-stop__dot {
+    transform: scale(1.2);
+  }
+  .career-stop__link[aria-current="step"] .career-stop__dot {
+    box-shadow:
+      0 0 0 3px var(--color-background),
+      0 0 0 7px var(--pearl-2),
+      0 0 0 8px var(--pearl-3);
+  }
+  .career-stop__role {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .career-stop__link:hover .career-stop__role {
+    color: var(--color-accent);
+  }
+  .career-stop__meta {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+  }
+
+  /* Phones: one row that scrolls inside itself. */
+  @media (max-width: 639px) {
+    .career-line {
+      display: flex;
+      margin-inline: -1rem;
+      padding: 0.25rem 1rem 0.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 1rem;
+    }
+    .career-stop {
+      flex: 0 0 7.375rem;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .career-stop__link[aria-current="step"] .career-stop__dot {
+      animation: career-pearl 4s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes career-pearl {
+  50% {
+    box-shadow:
+      0 0 0 3px var(--color-background),
+      0 0 0 7px var(--pearl-3),
+      0 0 0 8px var(--pearl-1);
+  }
+}

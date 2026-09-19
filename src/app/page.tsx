@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import Card from "@/components/Card";
+import CareerLine from "@/components/CareerLine";
 import Container from "@/components/Container";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
@@ -188,6 +189,7 @@ export default function Home() {
             >
               Experience
             </h2>
+            <CareerLine experience={experience} />
             <div className="space-y-10">
               {experience.map((entry) => (
                 <ExperienceEntry
