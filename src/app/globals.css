@@ -1255,3 +1255,137 @@
     }
   }
 }
+
+/* Review R7/R8: Featured Projects as a hand of cards. Kept last so it wins
+   over the card hover rules above in every theme, including Pokémon. */
+@layer components {
+  /* The title link stretches over the card, so the whole card is one link. */
+  .project-card-link::after {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    content: "";
+  }
+  .project-card-link:focus-visible {
+    outline: none;
+  }
+  .project-specimen-card:has(.project-card-link:focus-visible) {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  /* Below 1024px: a row you swipe through, no tilt or overlap. */
+  .project-hand {
+    display: flex;
+    gap: 1rem;
+    margin-inline: -1rem;
+    padding: 0.5rem 1rem 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .project-hand > [data-project-card] {
+    flex: 0 0 82%;
+    scroll-snap-align: center;
+  }
+  .project-hand .project-specimen-card__surface {
+    padding: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    /* All cards share one grid cell; transforms fan them into a hand. */
+    .project-hand {
+      display: grid;
+      justify-items: center;
+      margin-inline: 0;
+      padding: 2.5rem 0 1.5rem;
+      overflow: visible;
+    }
+    .project-hand > [data-project-card] {
+      --hand-x: 0rem;
+      --hand-r: 0deg;
+      --hand-y: 0rem;
+      grid-area: 1 / 1;
+      width: 18.5rem;
+      transform-origin: 50% 130%;
+      transform: translateX(var(--hand-x)) rotate(var(--hand-r))
+        translateY(var(--hand-y));
+      transition:
+        transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 400ms ease,
+        filter 400ms ease;
+    }
+    .project-hand > [data-project-card]:nth-child(1) {
+      --hand-x: -11.875rem;
+      --hand-r: -9deg;
+      --hand-y: 1.125rem;
+      z-index: 1;
+    }
+    .project-hand > [data-project-card]:nth-child(2) {
+      z-index: 2;
+    }
+    .project-hand > [data-project-card]:nth-child(3) {
+      --hand-x: 11.875rem;
+      --hand-r: 9deg;
+      --hand-y: 1.125rem;
+      z-index: 3;
+    }
+    /* Bringing a card forward is not motion, so it applies everywhere. */
+    .project-hand > [data-project-card]:is(:hover, :focus-within) {
+      z-index: 5;
+    }
+  }
+
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    /* Hovering the hand spreads it; the pointed-at card straightens and rises. */
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card]:nth-child(1) {
+      --hand-x: -15rem;
+    }
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card]:nth-child(3) {
+      --hand-x: 15rem;
+    }
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card] {
+      filter: saturate(0.85) brightness(0.92);
+    }
+    .project-hand > [data-project-card]:is(:hover, :focus-within) {
+      --hand-r: 0deg;
+      --hand-y: -2.125rem;
+      filter: none;
+      box-shadow: var(--shadow-card-active);
+    }
+
+    /* Dealt once: cards rise from a stack and fan out one after another. */
+    .project-hand[data-dealt="true"] > [data-project-card] {
+      animation: project-deal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    }
+    .project-hand[data-dealt="true"] > [data-project-card]:nth-child(1) {
+      animation-delay: 50ms;
+    }
+    .project-hand[data-dealt="true"] > [data-project-card]:nth-child(2) {
+      animation-delay: 200ms;
+    }
+    .project-hand[data-dealt="true"] > [data-project-card]:nth-child(3) {
+      animation-delay: 350ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-hand > [data-project-card] {
+      transition: none;
+    }
+  }
+}
+
+@keyframes project-deal {
+  from {
+    transform: translateY(5.5rem) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(var(--hand-x)) rotate(var(--hand-r))
+      translateY(var(--hand-y));
+    opacity: 1;
+  }
+}

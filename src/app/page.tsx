@@ -5,6 +5,7 @@ import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import ImpactMetricLink from "@/components/ImpactMetricLink";
 import Nav from "@/components/Nav";
+import ProjectHand from "@/components/ProjectHand";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
 import SylveonPortrait from "@/components/SylveonPortrait";
@@ -263,11 +264,11 @@ export default function Home() {
             >
               Featured Projects
             </h2>
-            <Grid>
+            <ProjectHand>
               {projects.map((project) => (
                 <ProjectShowcase key={project.title} {...project} />
               ))}
-            </Grid>
+            </ProjectHand>
           </Container>
         </section>
 

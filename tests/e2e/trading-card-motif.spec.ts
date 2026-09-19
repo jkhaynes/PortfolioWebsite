@@ -20,13 +20,8 @@ test("featured projects use the specimen-card motif without losing content", asy
     await expect(
       card.getByText("In Development", { exact: true }),
     ).toBeVisible();
-    await expect(
-      card.getByRole("button", { name: /^View larger:/ }),
-    ).toBeVisible();
-    await expect(
-      card.getByRole("link", { name: "View Case Study" }),
-    ).toBeVisible();
-    await expect(card.getByRole("link", { name: "View GitHub" })).toBeVisible();
+    await expect(card.getByRole("link")).toHaveCount(1);
+    await expect(card.getByRole("button")).toHaveCount(0);
     await expect(card.locator(".specimen-facet")).toHaveAttribute(
       "aria-hidden",
       "true",
@@ -54,9 +49,14 @@ test("reduced motion keeps the static motif without lift or sheen", async ({
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
 
+  // The hand stays still: hovering doesn't lift or straighten a card.
   const card = page.locator("[data-project-card]").first();
-  await card.hover();
-  await expect(card).toHaveCSS("transform", "none");
+  await card.scrollIntoViewIfNeeded();
+  const before = await card.evaluate((element) => getComputedStyle(element).transform);
+  // Aim inside the rotated card: its bounding box corners are empty space.
+  const box = (await card.boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.35, box.y + box.height / 2);
+  expect(await card.evaluate((element) => getComputedStyle(element).transform)).toBe(before);
   await expect(card.locator(".project-specimen-card__surface")).toBeVisible();
   await expect(card.getByText("Featured build", { exact: true })).toBeVisible();
 });

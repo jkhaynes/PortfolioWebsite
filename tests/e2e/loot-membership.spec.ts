@@ -13,7 +13,7 @@ test("membership project opens its case study and returns to featured projects",
   await expect(
     card.getByRole("link", { name: /GitHub|Live Demo/ }),
   ).toHaveCount(0);
-  await card.getByRole("link", { name: "View Case Study" }).click();
+  await card.getByRole("link", { name: "Loot Membership Integration" }).click();
   await expect(page).toHaveURL(/\/work\/loot-membership$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Loot Membership Integration",

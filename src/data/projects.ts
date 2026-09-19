@@ -16,6 +16,10 @@ export type Project = {
   title: string;
   status: string;
   accentTone: "rose" | "mauve";
+  /** One line for the homepage card; the full story lives on the case study. */
+  cardSummary: string;
+  /** TL;DR outcome on the case-study card back. */
+  outcome: string;
   problemStatement: string;
   solutionSummary: string;
   technicalDecisions: string;
@@ -31,6 +35,10 @@ export const pokeJudgeProject: Project = {
   title: "PokéJudge AI",
   status: "In Development",
   accentTone: "mauve",
+  cardSummary:
+    "An AI rules assistant that asks the right questions before it recommends a cited ruling.",
+  outcome:
+    "End-to-end pipeline with grounding validation and Source Support",
   problemStatement:
     "Pokémon TCG tournament judges need fast, well-supported rulings for natural-language rules and game-state questions, not just a lookup tool or an unvalidated AI answer.",
   solutionSummary:
@@ -63,6 +71,9 @@ export const lootSinglesProject: Project = {
   title: "Loot Singles Fulfillment",
   status: "In Development",
   accentTone: "rose",
+  cardSummary:
+    "A set-aware picking app built to prevent wrong-card mistakes and order collisions.",
+  outcome: "Order detail with set, condition and variant up front",
   problemStatement:
     "Loot Card Shop's printed TCGplayer invoices led to wrong-card, quantity, variant, and set errors, and didn't support multiple employees safely picking orders at once.",
   solutionSummary:
@@ -96,6 +107,9 @@ export const lootMembershipProject: Project = {
   title: "Loot Membership Integration",
   status: "In Development",
   accentTone: "mauve",
+  cardSummary:
+    "A Shopify app that ties member discounts to verified Discord roles.",
+  outcome: "Tier editor mapping Discord roles to Shopify customer tags",
   problemStatement:
     "Loot Card Shop had people using member discount codes who weren't eligible. Discord membership needed to be connected to the right Shopify customer.",
   solutionSummary:
@@ -122,6 +136,7 @@ export const lootMembershipProject: Project = {
   },
 };
 
+// The set order: the homepage hand and each case study's "Next in the set".
 export const projects: Project[] = [
   pokeJudgeProject,
   lootSinglesProject,
