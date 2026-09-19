@@ -1389,3 +1389,74 @@
     opacity: 1;
   }
 }
+
+/* Review R10: each case study opens as the back of its homepage card. It
+   reuses the card's Pearl frame (and Pokémon stationery) but stays put. */
+@layer components {
+  .case-card-back {
+    margin-block: 3rem;
+    border-radius: 1.9rem;
+    padding: 0.5rem;
+  }
+  .case-card-back:is(:hover, :focus-within) {
+    transform: none;
+    box-shadow: var(--shadow-card-rest);
+  }
+  .case-card-back .case-card-back__face {
+    display: grid;
+    gap: 2rem;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+  }
+  .case-card-back__register {
+    margin-bottom: 0;
+  }
+  @media (min-width: 1024px) {
+    .case-card-back .case-card-back__face {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      column-gap: 3.5rem;
+      padding: 2.5rem;
+    }
+    .case-card-back__register,
+    .case-tldr {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .case-tldr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.5rem;
+    margin: 0;
+    border-top: 1px solid
+      color-mix(in srgb, var(--specimen-accent) 22%, var(--color-surface));
+    padding-top: 1.5rem;
+    font-size: 0.875rem;
+  }
+  @media (min-width: 768px) {
+    .case-tldr {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .case-tldr dt {
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .case-tldr dd {
+    margin: 0.35rem 0 0;
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+  [data-theme="pokemon"] .case-card-back .case-card-back__face {
+    padding-bottom: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    [data-theme="pokemon"] .case-card-back .case-card-back__face {
+      padding-bottom: 2.5rem;
+    }
+  }
+}

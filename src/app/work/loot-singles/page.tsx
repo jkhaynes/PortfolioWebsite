@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Button from "@/components/Button";
+import CaseStudyHero from "@/components/case-study/CaseStudyHero";
 import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
 import {
   FlowStep,
@@ -8,7 +9,6 @@ import {
 } from "@/components/case-study/CaseStudyPrimitives";
 import Container from "@/components/Container";
 import Nav from "@/components/Nav";
-import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
 import { lootSinglesProject } from "@/data/projects";
 import lootDashboard from "../../../../public/work/loot-singles/dashboard-sample-orders.png";
@@ -126,38 +126,15 @@ export default function LootSinglesCaseStudy() {
             </TextLink>
           </div>
 
-          <header className="grid gap-10 py-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-14 lg:py-16">
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-accent">
-                Product case study
-              </p>
-              <h1 className="mt-4 max-w-3xl text-balance font-display text-5xl font-semibold leading-[1.02] text-foreground sm:text-6xl">
-                {lootSinglesProject.title}
-              </h1>
-              <p className="mt-5 max-w-xl text-pretty text-xl leading-relaxed text-accent-secondary sm:text-2xl">
-                A safer picking workflow for a trading-card shop preparing to
-                scale beyond paper invoices.
-              </p>
-              <dl className="mt-7 grid max-w-xl grid-cols-2 gap-x-6 gap-y-4 text-sm">
-                <div>
-                  <dt className="text-muted">Role</dt>
-                  <dd className="mt-1 font-semibold text-foreground">
-                    Sole developer & product designer
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted">Status</dt>
-                  <dd className="mt-1 font-semibold text-foreground">
-                    {lootSinglesProject.status}
-                  </dd>
-                </div>
-              </dl>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {lootSinglesProject.tags.map((tag) => (
-                  <Tag key={tag}>{tag}</Tag>
-                ))}
-              </div>
-              <div className="mt-8 flex flex-wrap gap-3">
+          <CaseStudyHero
+            project={lootSinglesProject}
+            kicker="Product case study"
+            summary="A safer picking workflow for a trading-card shop preparing to scale beyond paper invoices."
+            role="Sole developer & product designer"
+            status="In development · order-detail foundation built"
+            stack="React, TypeScript, ASP.NET Core, Azure SQL"
+            actions={
+              <>
                 {lootSinglesProject.githubUrl && (
                   <Button href={lootSinglesProject.githubUrl}>
                     View GitHub
@@ -170,20 +147,22 @@ export default function LootSinglesCaseStudy() {
                 >
                   See the workflow ↓
                 </TextLink>
-              </div>
-            </div>
-            <CaseStudyMedia
-              src={lootOrderDetail}
-              alt="Loot Singles order detail screen showing sample-order cards and their set, condition, variant, and quantity details."
-              title="Loot Singles order detail"
-              caption="Implemented order-detail foundation"
-              context="Sample data"
-              priority
-              sizes="(min-width: 1024px) 54vw, calc(100vw - 2rem)"
-              aspectClassName="aspect-[6/5]"
-              objectClassName="object-cover object-left"
-            />
-          </header>
+              </>
+            }
+            art={
+              <CaseStudyMedia
+                src={lootOrderDetail}
+                alt="Loot Singles order detail screen showing sample-order cards and their set, condition, variant, and quantity details."
+                title="Loot Singles order detail"
+                caption="Implemented order-detail foundation"
+                context="Sample data"
+                priority
+                sizes="(min-width: 1024px) 50vw, calc(100vw - 4rem)"
+                aspectClassName="aspect-[6/5]"
+                objectClassName="object-cover object-left"
+              />
+            }
+          />
 
           <section
             aria-labelledby="context-heading"
