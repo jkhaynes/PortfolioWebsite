@@ -83,3 +83,27 @@ test("pokemon keeps bows on the brand, divider and headers", async ({ page }) =>
     expect(await computed(page, selector, pseudo, "mask-image")).toBe("none");
   }
 });
+
+for (const theme of ["light", "dark"] as const) {
+  test(`impact, about and contact are framed in ${theme} mode`, async ({
+    page,
+  }) => {
+    await openTheme(page, theme);
+    for (const selector of ["#impact .grid", "#about > div", "#contact > div"]) {
+      for (const side of ["top", "right", "bottom", "left"]) {
+        expect(
+          await computed(page, selector, null, `border-${side}-width`),
+        ).toBe("1px");
+        expect(
+          await computed(page, selector, null, `border-${side}-style`),
+        ).toBe("solid");
+      }
+      expect(
+        await computed(page, selector, null, "border-top-left-radius"),
+      ).toBe("24px");
+      expect(
+        await computed(page, selector, null, "background-color"),
+      ).not.toBe("rgba(0, 0, 0, 0)");
+    }
+  });
+}

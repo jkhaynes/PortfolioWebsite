@@ -243,7 +243,7 @@ export default function Home() {
             <h2 className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-muted">
               Impact &amp; Highlights
             </h2>
-            <div className="grid grid-cols-2 gap-6 border-y border-border py-10 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-6 py-10 sm:grid-cols-4">
               {stats.map((stat) => (
                 <ImpactMetricLink key={stat.label} {...stat} />
               ))}
