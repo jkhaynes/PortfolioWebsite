@@ -7,8 +7,8 @@ export default function HeroPortrait() {
         unoptimized
         src="/images/jessica-haynes-portrait.webp"
         alt="Portrait of Jessica Haynes"
-        width={480}
-        height={480}
+        width={600}
+        height={750}
       />
     </div>
   );
