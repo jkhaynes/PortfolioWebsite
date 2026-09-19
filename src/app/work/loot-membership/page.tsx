@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import TextLink from "@/components/TextLink";
 import CaseStudyHero from "@/components/case-study/CaseStudyHero";
 import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
+import NextInSet from "@/components/case-study/NextInSet";
 import {
   FlowStep,
   SectionHeading,
@@ -383,6 +384,8 @@ export default function LootMembershipCaseStudy() {
               Explore more projects
             </TextLink>
           </div>
+
+          <NextInSet current={project} />
         </Container>
       </main>
     </>

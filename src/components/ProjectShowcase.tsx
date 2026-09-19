@@ -11,7 +11,8 @@ export default function ProjectShowcase({
   tags,
   caseStudyUrl,
   media,
-}: Project) {
+  imageSizes = "(min-width: 1024px) 296px, 82vw",
+}: Project & { imageSizes?: string }) {
   return (
     <article
       data-project-card
@@ -38,7 +39,7 @@ export default function ProjectShowcase({
               alt={media.alt}
               fill
               priority={media.priority}
-              sizes="(min-width: 1024px) 296px, 82vw"
+              sizes={imageSizes}
               className={media.objectClassName}
             />
           </div>

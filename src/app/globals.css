@@ -1460,3 +1460,60 @@
     }
   }
 }
+
+/* After each case study, the rest of the set: the next card, the other one,
+   and an invitation to get in touch. */
+@layer components {
+  .next-set {
+    display: grid;
+    gap: 1.25rem;
+    border-top: 1px solid var(--color-border);
+    padding-top: 3rem;
+  }
+  .next-set__heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    color: var(--color-foreground);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+  .next-set__heading .specimen-facet {
+    width: 1.1rem;
+    height: 1.1rem;
+    color: var(--color-accent);
+  }
+  .next-set__heading::after {
+    flex: 1;
+    min-width: 1rem;
+    height: 1px;
+    background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+    content: "";
+  }
+  .next-set__row {
+    display: grid;
+    gap: 1.25rem;
+    align-items: start;
+  }
+  @media (min-width: 768px) {
+    .next-set__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .next-set .project-specimen-card {
+    height: auto;
+  }
+  .next-set__connect {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px dashed
+      color-mix(in srgb, var(--color-accent) 40%, transparent);
+    border-radius: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+}

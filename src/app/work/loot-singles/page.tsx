@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Button from "@/components/Button";
 import CaseStudyHero from "@/components/case-study/CaseStudyHero";
 import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
+import NextInSet from "@/components/case-study/NextInSet";
 import {
   FlowStep,
   SectionHeading,
@@ -539,6 +540,8 @@ export default function LootSinglesCaseStudy() {
               </TextLink>
             </div>
           </section>
+
+          <NextInSet current={lootSinglesProject} />
         </Container>
       </main>
     </>
