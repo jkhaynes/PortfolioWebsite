@@ -172,6 +172,8 @@ test("forced colors preserve visible controls and dialog focus", async ({
 test("both themes reflow at 320px without page-level overflow", async ({
   page,
 }) => {
+  // 12 page loads (3 themes x 4 routes) outgrow the 30s default under load.
+  test.setTimeout(60000);
   await page.setViewportSize({ width: 320, height: 568 });
 
   for (const theme of themes) {
