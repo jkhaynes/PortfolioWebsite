@@ -171,29 +171,22 @@ test("three themes avoid overflow on every route", async ({ page }) => {
 });
 
 test("dark mode uses the mauve night palette", async ({ page }) => {
+  const themeColors = () =>
+    page
+      .locator('meta[name="theme-color"]')
+      .evaluateAll((metas) => metas.map((m) => m.getAttribute("content")));
+
   await page.addInitScript(
     (key) => localStorage.setItem(key, "dark"),
     storageKey,
   );
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-  // Pre-hydration init script path.
-  await expect
-    .poll(() =>
-      page
-        .locator('meta[name="theme-color"]')
-        .evaluateAll((metas) => metas.map((m) => m.getAttribute("content"))),
-    )
-    .toEqual(expect.arrayContaining(["#1a1220"]));
-  await expect
-    .poll(() =>
-      page
-        .locator('meta[name="theme-color"]')
-        .evaluateAll((metas) =>
-          metas.every((m) => m.getAttribute("content") === "#1a1220"),
-        ),
-    )
-    .toBe(true);
+  // Exactly one tag, still dark after hydration (React must not re-insert one).
+  await expect(
+    page.getByRole("radio", { name: "Dark", exact: true }),
+  ).toBeChecked();
+  await expect.poll(themeColors).toEqual(["#1a1220"]);
   // background-color is the solid layer under the body's radial glow.
   await expect(page.locator("body")).toHaveCSS(
     "background-color",
@@ -207,20 +200,5 @@ test("dark mode uses the mauve night palette", async ({ page }) => {
   // Runtime toggle path: leave Dark, come back, meta must follow.
   await page.getByRole("radio", { name: "Light", exact: true }).click();
   await page.getByRole("radio", { name: "Dark", exact: true }).click();
-  await expect
-    .poll(() =>
-      page
-        .locator('meta[name="theme-color"]')
-        .evaluateAll((metas) => metas.map((m) => m.getAttribute("content"))),
-    )
-    .toEqual(expect.arrayContaining(["#1a1220"]));
-  await expect
-    .poll(() =>
-      page
-        .locator('meta[name="theme-color"]')
-        .evaluateAll((metas) =>
-          metas.every((m) => m.getAttribute("content") === "#1a1220"),
-        ),
-    )
-    .toBe(true);
+  await expect.poll(themeColors).toEqual(["#1a1220"]);
 });

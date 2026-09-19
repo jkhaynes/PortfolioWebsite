@@ -22,21 +22,11 @@ export const themeInitScript = `(() => {
   const root = document.documentElement;
   root.dataset.theme = theme;
   root.style.colorScheme = theme === "dark" ? "dark" : "light";
-  const color = ${JSON.stringify(THEME_COLORS)}[theme];
-  const updateMetas = () => {
-    document.querySelectorAll('meta[name="theme-color"]')
-      .forEach((meta) => meta.setAttribute("content", color));
-  };
-  updateMetas();
-  new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      if (mutation.type === "childList") {
-        for (const node of mutation.addedNodes) {
-          if (node.name === "theme-color") {
-            node.setAttribute("content", color);
-          }
-        }
-      }
-    }
-  }).observe(document.head, { childList: true });
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute("content", ${JSON.stringify(THEME_COLORS)}[theme]);
 })();`;

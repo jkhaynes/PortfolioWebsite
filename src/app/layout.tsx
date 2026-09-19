@@ -43,7 +43,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "light dark",
-  themeColor: "#fdf6f6",
+  // No themeColor here: themeInitScript owns that tag. A React-managed copy
+  // gets re-inserted at hydration once the script has changed its color.
 };
 
 export default function RootLayout({
