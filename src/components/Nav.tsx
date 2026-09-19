@@ -1,20 +1,8 @@
 import Link from "next/link";
 import Container from "@/components/Container";
+import ExternalLinkMark from "@/components/ExternalLinkMark";
+import NavLinks from "@/components/NavLinks";
 import ThemeToggle from "@/components/ThemeToggle";
-
-type NavLink = {
-  label: string;
-  href: string;
-};
-
-// Each future feature should append its own section's link here
-// at the same time it adds that section to the page.
-const navLinks: NavLink[] = [
-  { label: "Home", href: "/#top" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Contact", href: "/#contact" },
-];
 
 export default function Nav() {
   return (
@@ -31,17 +19,19 @@ export default function Nav() {
             Jessica Haynes
           </Link>
           <nav aria-label="Primary" className="site-nav-primary">
-            <ul className="site-nav-links">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="site-nav-link">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <NavLinks />
           </nav>
           <div className="site-nav-theme">
+            <a
+              href="/Jessica_Haynes_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-umami-event="resume_download"
+              className="site-nav-resume"
+            >
+              Résumé
+              <ExternalLinkMark />
+            </a>
             <ThemeToggle />
           </div>
         </Container>
