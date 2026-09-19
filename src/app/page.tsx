@@ -2,6 +2,7 @@ import Button from "@/components/Button";
 import Card from "@/components/Card";
 import CareerLine from "@/components/CareerLine";
 import Container from "@/components/Container";
+import EarlierRoles from "@/components/EarlierRoles";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import ImpactMetricLink from "@/components/ImpactMetricLink";
@@ -73,6 +74,14 @@ const stats = [
     href: "#impact-support-escalations",
   },
 ] as const;
+
+const recentExperience = experience.filter((entry) => !entry.earlier);
+const earlierExperience = experience.filter((entry) => entry.earlier);
+const earlierPeriods = earlierExperience
+  .flatMap((entry) => entry.roles)
+  .flatMap((role) => role.period.match(/\d{4}/g) ?? [])
+  .map(Number);
+const earlierYears = `${Math.min(...earlierPeriods)} – ${Math.max(...earlierPeriods)}`;
 
 export default function Home() {
   return (
@@ -191,13 +200,31 @@ export default function Home() {
             </h2>
             <CareerLine experience={experience} />
             <div className="space-y-10">
-              {experience.map((entry) => (
+              {recentExperience.map((entry) => (
                 <ExperienceEntry
                   key={`${entry.company}-${entry.roles[0].role}`}
                   {...entry}
                 />
               ))}
             </div>
+            <EarlierRoles
+              count={earlierExperience.flatMap((entry) => entry.roles).length}
+              years={earlierYears}
+            >
+              {earlierExperience.map((entry) => (
+                <ExperienceEntry
+                  key={`${entry.company}-${entry.roles[0].role}`}
+                  {...entry}
+                />
+              ))}
+            </EarlierRoles>
+            <TextLink
+              href="/Jessica_Haynes_Resume.pdf"
+              trackEvent="resume_download"
+              className="experience-resume"
+            >
+              View full résumé
+            </TextLink>
           </Container>
         </section>
 
