@@ -1329,9 +1329,12 @@
       --hand-y: 1.125rem;
       z-index: 3;
     }
-    /* Bringing a card forward is not motion, so it applies everywhere. */
+    /* Bringing a card forward is not motion, so it applies everywhere. The
+       transform is restated so no theme's card hover can pull it out of the hand. */
     .project-hand > [data-project-card]:is(:hover, :focus-within) {
       z-index: 5;
+      transform: translateX(var(--hand-x)) rotate(var(--hand-r))
+        translateY(var(--hand-y));
     }
   }
 
@@ -1387,6 +1390,45 @@
     transform: translateX(var(--hand-x)) rotate(var(--hand-r))
       translateY(var(--hand-y));
     opacity: 1;
+  }
+}
+
+/* Pokémon hand: Sylveon peeks over the top edge of the card you pick, from
+   behind it, instead of inside the card where she would cover its text. */
+@layer components {
+  [data-theme="pokemon"] .project-hand .project-sylveon-peek {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    /* Headroom so her ears clear the section heading. */
+    [data-theme="pokemon"] .project-hand {
+      padding-top: 4.5rem;
+    }
+    [data-theme="pokemon"] .project-hand .project-sylveon-peek {
+      display: block;
+      z-index: -1;
+      top: auto;
+      right: 1.75rem;
+      bottom: calc(100% - 0.9rem);
+      mix-blend-mode: normal;
+    }
+    [data-theme="pokemon"] .project-hand .project-sylveon-peek > span {
+      background-image: url("/images/pokemon/sylveon-peek-cutout.webp");
+      transition-delay: 120ms;
+    }
+  }
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    /* The paper stays pink: a lighter dim than the other themes. */
+    [data-theme="pokemon"]
+      .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card] {
+      filter: saturate(0.92) brightness(0.98);
+    }
+    [data-theme="pokemon"]
+      .project-hand
+      > [data-project-card]:is(:hover, :focus-within) {
+      filter: none;
+    }
   }
 }
 

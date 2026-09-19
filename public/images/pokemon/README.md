@@ -14,3 +14,4 @@ The PokeAPI files are unmodified transparent PNGs. The hero uses the original ar
 stationery-pattern.svg is an original seamless vector tile authored for this portfolio: pink bows, dashed ribbon curves, and small blue/pink diamond accents. It is used as decorative trim with opaque text surfaces.
 
 - sylveon-peek.webp: user-provided artwork from il_fullxfull.6878140653_hael.webp, copied unchanged for the project-card hover reveal. Artist/source URL was not supplied.
+- sylveon-peek-cutout.webp: sylveon-peek.webp with the white background around the figure made transparent (edge flood fill, figure untouched), so Sylveon can peek from behind the homepage hand cards.

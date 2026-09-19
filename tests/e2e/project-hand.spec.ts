@@ -111,3 +111,31 @@ test("on mobile the hand becomes a swipeable row without tilt", async ({
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
   ).toBe(true);
 });
+
+test("in Pokémon mode the hand lifts in place and Sylveon peeks over the picked card", async ({
+  page,
+}) => {
+  await page.addInitScript(() => localStorage.setItem("jessbuilds-theme", "pokemon"));
+  await openProjects(page, 1440);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "pokemon");
+  const cards = page.locator("[data-project-card]");
+  const side = cards.nth(0);
+  // Let the deal finish: the card rests fanned to the left.
+  await expect.poll(() => angle(side)).toBe(-9);
+
+  // Aim inside the rotated card; its bounding box corners are empty space.
+  const box = (await side.boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.4, box.y + box.height / 2);
+  await expect.poll(() => angle(side)).toBe(0);
+  // Still spread to the left of the hand and lifted, not snapped to the middle.
+  const offset = await side.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform));
+  expect(offset.e).toBeLessThan(-200);
+  expect(offset.f).toBeLessThan(-30);
+
+  // Sylveon sits above the card's top edge, clear of its text.
+  const peek = side.locator(".project-sylveon-peek > span");
+  await expect.poll(() => peek.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+  const peekBox = (await side.locator(".project-sylveon-peek").boundingBox())!;
+  const status = (await side.getByText("In Development", { exact: true }).boundingBox())!;
+  expect(peekBox.y + peekBox.height).toBeLessThanOrEqual(status.y);
+});
