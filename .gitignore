@@ -18,3 +18,4 @@ test-results/
 
 # Local workflow planning artifacts (planning_artifacts: local per docs/PRD.md)
 .project-plans/
+docs/superpowers/plans/
