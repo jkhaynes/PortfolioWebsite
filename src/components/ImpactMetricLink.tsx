@@ -65,7 +65,7 @@ export default function ImpactMetricLink({
         {value}
       </span>
       <span className="mt-2 text-sm text-muted">{label}</span>
-      <span className="mt-3 text-xs font-semibold text-accent opacity-75 transition-opacity group-hover:opacity-100">
+      <span className="mt-3 text-xs font-semibold text-accent">
         View evidence <span aria-hidden="true">↓</span>
       </span>
     </a>

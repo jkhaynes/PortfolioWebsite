@@ -952,11 +952,6 @@
   }
 }
 
-@layer utilities {
-  [data-theme="pokemon"] #impact .opacity-75 {
-    opacity: 1;
-  }
-}
 
 @media (max-width: 1023px) {
   :root {
