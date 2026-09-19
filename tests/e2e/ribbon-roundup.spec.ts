@@ -3,8 +3,27 @@ import { expect, test, type Page } from "@playwright/test";
 
 test.use({ hasTouch: true });
 
+// install() alone starts the fake clock at real time and lets it run, so
+// pausing at a Node-side `new Date()` can land in the page's past under load.
+async function pauseClock(page: Page) {
+  const start = Date.now();
+  await page.clock.install({ time: start });
+  await page.clock.pauseAt(start + 60_000);
+}
+
 async function openGame(page: Page) {
   await page.goto("/");
+  // Below 1024px the theme radios live behind the "Theme" menu button.
+  const themeMenu = page.getByRole("button", { name: "Theme", exact: true });
+  if (await themeMenu.isVisible()) {
+    // Retry until hydrated: a click before hydration is a no-op.
+    await expect(async () => {
+      await themeMenu.click();
+      await expect(themeMenu).toHaveAttribute("aria-expanded", "true", {
+        timeout: 1000,
+      });
+    }).toPass();
+  }
   await expect(
     page.getByRole("radio", { name: "Light", exact: true }),
   ).toBeChecked();
@@ -60,8 +79,7 @@ test("mouse movement without clicks, keyboard, pause and held touch controls", a
   page,
 }) => {
   await openGame(page);
-  await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  await pauseClock(page);
   await page.getByRole("button", { name: "Start 30-second round" }).click();
   const field = page.getByRole("region", { name: "Ribbon catching play area" });
   const x = () =>
@@ -116,8 +134,7 @@ test("shiny ribbon transforms the sprite and blocked storage remains playable", 
   await page.evaluate(() => {
     Math.random = () => 0.1;
   });
-  await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  await pauseClock(page);
   await page.getByRole("button", { name: "Start 30-second round" }).click();
   const field = page.getByRole("region", { name: "Ribbon catching play area" });
   const rect = (await field.boundingBox())!;
@@ -148,8 +165,7 @@ test("timed game finishes, saves a best, and resets for replay", async ({
   await page.evaluate(() => {
     Math.random = () => 0.5;
   });
-  await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  await pauseClock(page);
   await page.getByRole("button", { name: "Start 30-second round" }).click();
   await page.clock.runFor(31000);
   await expect(page.getByRole("button", { name: "Play again" })).toBeFocused();
