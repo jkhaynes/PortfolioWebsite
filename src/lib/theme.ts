@@ -4,7 +4,7 @@ export type Theme = "light" | "dark" | "pokemon";
 
 export const THEME_COLORS: Record<Theme, string> = {
   light: "#fdf6f6",
-  dark: "#1e1e2e",
+  dark: "#1a1220",
   pokemon: "#fff5f5",
 };
 
@@ -22,6 +22,11 @@ export const themeInitScript = `(() => {
   const root = document.documentElement;
   root.dataset.theme = theme;
   root.style.colorScheme = theme === "dark" ? "dark" : "light";
-  document.querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", ${JSON.stringify(THEME_COLORS)}[theme]);
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute("content", ${JSON.stringify(THEME_COLORS)}[theme]);
 })();`;
