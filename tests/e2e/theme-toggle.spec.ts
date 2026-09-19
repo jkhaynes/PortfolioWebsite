@@ -92,7 +92,7 @@ test("blocked storage preserves the current explicit choice", async ({
   await page.getByRole("radio", { name: "Pokémon" }).click();
   await page.emulateMedia({ colorScheme: "dark" });
   await expect(page.locator("html")).toHaveAttribute("data-theme", "pokemon");
-  await page.getByRole("link", { name: "Projects", exact: true }).click();
+  await page.getByRole("link", { name: "Work", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "pokemon");
 });
 
