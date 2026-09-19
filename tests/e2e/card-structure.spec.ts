@@ -109,27 +109,31 @@ for (const theme of ["light", "dark"] as const) {
 }
 
 for (const theme of ["light", "dark"] as const) {
-  test(`project cards get a gradient frame and top-edge sparkle in ${theme} mode`, async ({
+  test(`project cards get a pearl foil frame with an auto shimmer in ${theme} mode`, async ({
     page,
   }) => {
     await openTheme(page, theme);
     const card = "[data-project-card]";
-    expect(await computed(page, card, null, "background-image")).toContain(
-      "linear-gradient",
-    );
+    const background = await computed(page, card, null, "background-image");
+    // Pearl band over the rose-to-mauve base: two gradient layers.
+    expect(background.match(/linear-gradient/g)?.length).toBe(2);
+    expect(await computed(page, "html", null, "--pearl-1")).toBe("#fff4f8");
     expect(await computed(page, card, null, "border-top-width")).toBe("0px");
-    expect(await computed(page, card, "::after", "mask-image")).toContain(
-      SPARKLE,
+    expect(await computed(page, card, "::before", "content")).toBe("none");
+    expect(await computed(page, card, "::after", "animation-name")).toBe(
+      "card-shimmer",
     );
-    expect(await computed(page, card, "::before", "border-top-left-radius")).toBe(
-      "999px",
-    );
-    // The sparkle sits on the top edge, above the card box.
-    expect(
-      parseFloat(await computed(page, card, "::after", "top")),
-    ).toBeLessThan(0);
+    expect(await computed(page, card, "::after", "mask-image")).not.toBe("none");
   });
 }
+
+test("the card shimmer stops with reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openTheme(page, "dark");
+  expect(
+    await computed(page, "[data-project-card]", "::after", "animation-name"),
+  ).toBe("none");
+});
 
 test("pokemon cards keep the bow and bookmark ribbon", async ({ page }) => {
   await openTheme(page, "pokemon");
@@ -139,6 +143,7 @@ test("pokemon cards keep the bow and bookmark ribbon", async ({ page }) => {
   );
   expect(await computed(page, card, "::after", "clip-path")).not.toBe("none");
   expect(await computed(page, card, "::after", "mask-image")).toBe("none");
+  expect(await computed(page, card, "::after", "animation-name")).toBe("none");
 });
 
 for (const theme of ["light", "dark", "pokemon"] as const) {
