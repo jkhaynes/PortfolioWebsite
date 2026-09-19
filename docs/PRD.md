@@ -179,4 +179,4 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 - Exact analytics provider — to be decided during implementation (Feature 6).
 - Source of the OG preview image — likely derived from a hero visual, finalized during Feature 6 (Analytics & Social Metadata) unless Jessica supplies one earlier.
 - A contact form is intentionally deferred beyond this initial release (see Non-Goals). Dedicated case-study routes and a light/dark theme toggle are no longer deferred — see Roadmap Features 11, 12, and 18 (§13.1).
-- Exact dark-theme palette values (Feature 18) and whether "Currently Exploring" is removed entirely or replaced with a compact strip (Feature 16) — to be decided when each feature is planned.
+- Dark-theme palette (Feature 18): decided 2026-09-18. The initial Catppuccin Mocha values were replaced with a warm "mauve night" palette (page #1a1220, surface #2a1e30, text #f6e9f1, rose accent #f4a7cb, mauve #c9a0dc) so dark mode carries the pink/mauve identity. Whether "Currently Exploring" is removed entirely or replaced with a compact strip (Feature 16) is to be decided when that feature is planned.

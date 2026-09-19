@@ -42,30 +42,30 @@
 
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --color-background: #1e1e2e;
-    --color-foreground: #cdd6f4;
-    --color-muted: #bac2de;
-    --color-surface: #313244;
-    --color-border: #45475a;
-    --color-accent: #f5c2e7;
-    --color-accent-soft: #453047;
-    --color-accent-secondary: #cba6f7;
+    --color-background: #1a1220;
+    --color-foreground: #f6e9f1;
+    --color-muted: #cbb4c6;
+    --color-surface: #2a1e30;
+    --color-border: #3d2c44;
+    --color-accent: #f4a7cb;
+    --color-accent-soft: #3a2440;
+    --color-accent-secondary: #c9a0dc;
     --color-risk: #e5c890;
     --color-risk-strong: #f9e2af;
-    --color-risk-soft: #40362e;
-    --color-on-accent: #1e1e2e;
-    --color-on-risk: #1e1e2e;
-    --color-inverse-surface: #cdd6f4;
-    --color-inverse-foreground: #1e1e2e;
-    --color-console-accent: #f5c2e7;
-    --card-edge-rose: #f5c2e7;
-    --card-edge-mauve: #cba6f7;
-    --card-edge-soft: #45475a;
-    --card-inset: #313244;
-    --shadow-soft: 0 20px 45px -28px rgba(10, 10, 20, 0.72);
-    --shadow-soft-hover: 0 24px 50px -22px rgba(203, 166, 247, 0.3);
-    --shadow-card-rest: 0 20px 45px -28px rgba(10, 10, 20, 0.82);
-    --shadow-card-active: 0 25px 54px -25px rgba(203, 166, 247, 0.4);
+    --color-risk-soft: #3b2a26;
+    --color-on-accent: #1a1220;
+    --color-on-risk: #1a1220;
+    --color-inverse-surface: #f6e9f1;
+    --color-inverse-foreground: #1a1220;
+    --color-console-accent: #f4a7cb;
+    --card-edge-rose: #f4a7cb;
+    --card-edge-mauve: #c9a0dc;
+    --card-edge-soft: #3d2c44;
+    --card-inset: #2a1e30;
+    --shadow-soft: 0 20px 45px -28px rgba(8, 4, 10, 0.75);
+    --shadow-soft-hover: 0 24px 50px -22px rgba(244, 167, 203, 0.28);
+    --shadow-card-rest: 0 20px 45px -28px rgba(8, 4, 10, 0.85);
+    --shadow-card-active: 0 25px 54px -25px rgba(244, 167, 203, 0.32);
   }
 
   * {
