@@ -31,10 +31,7 @@ export default function CaseStudyHero({
   ];
 
   return (
-    <header
-      data-accent-tone={project.accentTone}
-      className="project-specimen-card case-card-back"
-    >
+    <header className="project-specimen-card case-card-back">
       <div className="project-specimen-card__surface case-card-back__face">
         <div className="project-specimen-card__register case-card-back__register">
           <p className="project-feature-marker">

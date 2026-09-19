@@ -6,7 +6,6 @@ import type { Project } from "@/data/projects";
 export default function ProjectShowcase({
   title,
   status,
-  accentTone,
   cardSummary,
   tags,
   caseStudyUrl,
@@ -14,11 +13,7 @@ export default function ProjectShowcase({
   imageSizes = "(min-width: 1024px) 296px, 82vw",
 }: Project & { imageSizes?: string }) {
   return (
-    <article
-      data-project-card
-      data-accent-tone={accentTone}
-      className="project-specimen-card"
-    >
+    <article data-project-card className="project-specimen-card">
       <span className="project-sylveon-peek" aria-hidden="true">
         <span />
       </span>

@@ -387,10 +387,6 @@
       border-color 220ms ease;
   }
 
-  .project-specimen-card[data-accent-tone="mauve"] {
-    --specimen-accent: var(--card-edge-mauve);
-  }
-
   .project-specimen-card::before,
   .project-specimen-card::after {
     position: absolute;

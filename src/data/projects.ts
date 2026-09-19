@@ -15,7 +15,6 @@ export type ProjectMedia = {
 export type Project = {
   title: string;
   status: string;
-  accentTone: "rose" | "mauve";
   /** One line for the homepage card; the full story lives on the case study. */
   cardSummary: string;
   /** TL;DR outcome on the case-study card back. */
@@ -34,7 +33,6 @@ export type Project = {
 export const pokeJudgeProject: Project = {
   title: "PokéJudge AI",
   status: "In Development",
-  accentTone: "mauve",
   cardSummary:
     "An AI rules assistant that asks the right questions before it recommends a cited ruling.",
   outcome:
@@ -70,7 +68,6 @@ export const pokeJudgeProject: Project = {
 export const lootSinglesProject: Project = {
   title: "Loot Singles Fulfillment",
   status: "In Development",
-  accentTone: "rose",
   cardSummary:
     "A set-aware picking app built to prevent wrong-card mistakes and order collisions.",
   outcome: "Order detail with set, condition and variant up front",
@@ -106,7 +103,6 @@ export const lootSinglesProject: Project = {
 export const lootMembershipProject: Project = {
   title: "Loot Membership Integration",
   status: "In Development",
-  accentTone: "mauve",
   cardSummary:
     "A Shopify app that ties member discounts to verified Discord roles.",
   outcome: "Tier editor mapping Discord roles to Shopify customer tags",

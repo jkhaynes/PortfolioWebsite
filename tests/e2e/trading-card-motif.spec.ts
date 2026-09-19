@@ -10,8 +10,11 @@ test("featured projects use the specimen-card motif without losing content", asy
 
   const pokeJudge = cards.filter({ hasText: "PokéJudge AI" });
   const loot = cards.filter({ hasText: "Loot Singles Fulfillment" });
-  await expect(pokeJudge).toHaveAttribute("data-accent-tone", "mauve");
-  await expect(loot).toHaveAttribute("data-accent-tone", "rose");
+  // One set, one color: every card shares the accent.
+  const markerColors = await cards
+    .locator(".project-feature-marker")
+    .evaluateAll((markers) => markers.map((m) => getComputedStyle(m).color));
+  expect(new Set(markerColors).size).toBe(1);
 
   for (const card of [pokeJudge, loot]) {
     await expect(
