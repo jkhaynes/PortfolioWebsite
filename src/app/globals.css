@@ -38,6 +38,11 @@
   :root {
     background: var(--color-background);
     color-scheme: light;
+    /* Card-structure glyph (review R2): the sparkle, tinted by the accent. */
+    --sparkle-mask: url("/images/motif/sparkle.svg") center / contain
+      no-repeat;
+    --motif-mask: var(--sparkle-mask);
+    --motif-fill: var(--color-accent);
   }
 
   :root[data-theme="dark"] {
@@ -452,29 +457,19 @@
   }
 
   .specimen-facet {
-    position: relative;
     display: inline-block;
     flex: 0 0 auto;
-    width: 0.72rem;
-    height: 0.72rem;
-    border: 1px solid currentColor;
-    color: inherit;
-    transform: rotate(45deg);
-  }
-
-  .specimen-facet::after {
-    position: absolute;
-    top: 50%;
-    left: -1px;
-    width: calc(100% + 2px);
-    border-top: 1px solid currentColor;
-    content: "";
-    transform: rotate(-45deg);
+    width: 0.8rem;
+    height: 0.8rem;
+    background: currentColor;
+    -webkit-mask: var(--sparkle-mask);
+    mask: var(--sparkle-mask);
+    forced-color-adjust: none;
   }
 
   .specimen-facet--quiet {
-    width: 0.65rem;
-    height: 0.65rem;
+    width: 0.7rem;
+    height: 0.7rem;
     color: var(--color-accent-secondary);
   }
 
@@ -598,6 +593,14 @@
     --card-inset: #fbe3eb;
     --shadow-soft: 0 18px 40px -28px rgb(145 69 96 / 30%);
     --shadow-card-rest: 0 18px 40px -28px rgb(145 69 96 / 35%);
+    --motif-mask: none;
+    --motif-fill: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  @media (forced-colors: active) {
+    :root:not([data-theme="pokemon"]) {
+      --motif-fill: CanvasText;
+    }
   }
 }
 
