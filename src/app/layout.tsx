@@ -18,7 +18,7 @@ const inter = Inter({
 
 const title = "Jessica Haynes | Software Engineer";
 const description =
-  "Senior Software Engineer with 9+ years building full-stack enterprise applications — C#/.NET, backend performance, scalable architecture.";
+  "Senior Software Engineer with 9+ years building full-stack enterprise applications: C#/.NET, backend performance, scalable architecture.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.jessbuilds.dev"),

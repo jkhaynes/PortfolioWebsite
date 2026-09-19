@@ -158,7 +158,7 @@ export default function RibbonRoundup() {
       >
         Catch pink ribbons for 10 points. A rare sparkling blue ribbon gives 50
         points and five seconds of shiny Sylveon. Move your mouse over the play
-        area to guide Sylveon—no clicking needed. On touchscreens, drag or hold
+        area to guide Sylveon. No clicking needed. On touchscreens, drag or hold
         the buttons. You can also focus the play area and use ← →.
       </p>
       <div className="roundup-stats" hidden={game.status === "finished"}>
