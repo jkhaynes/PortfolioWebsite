@@ -44,3 +44,42 @@ for (const theme of ["light", "dark", "pokemon"] as const) {
     }
   });
 }
+
+for (const theme of ["light", "dark"] as const) {
+  test(`brand, name divider and headers carry the sparkle in ${theme} mode`, async ({
+    page,
+  }) => {
+    await openTheme(page, theme);
+    expect(
+      await computed(page, ".portfolio-brand", "::before", "mask-image"),
+    ).toContain(SPARKLE);
+    await expect(page.locator(".motif-divider")).toBeVisible();
+    expect(
+      await computed(page, ".motif-divider span", null, "mask-image"),
+    ).toContain(SPARKLE);
+    for (const heading of ["#projects h2", "#experience h2", "#about h2"]) {
+      expect(await computed(page, heading, "::before", "mask-image")).toContain(
+        SPARKLE,
+      );
+      expect(await computed(page, heading, "::after", "height")).toBe("1px");
+    }
+    // Decorative only: accessible names are unchanged.
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Featured Projects", exact: true }),
+    ).toBeVisible();
+  });
+}
+
+test("pokemon keeps bows on the brand, divider and headers", async ({ page }) => {
+  await openTheme(page, "pokemon");
+  for (const [selector, pseudo] of [
+    [".portfolio-brand", "::before"],
+    ["#projects h2", "::before"],
+    [".motif-divider span", null],
+  ] as const) {
+    expect(await computed(page, selector, pseudo, "background-image")).toContain(
+      BOW,
+    );
+    expect(await computed(page, selector, pseudo, "mask-image")).toBe("none");
+  }
+});

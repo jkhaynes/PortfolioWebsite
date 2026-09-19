@@ -789,75 +789,101 @@
 }
 
 @layer components {
-  .pokemon-bow-divider {
-    display: none;
-  }
-  [data-theme="pokemon"] body {
-    background: #fce8ef;
-  }
-  [data-theme="pokemon"] .portfolio-brand {
+  /* Shared card structure (review R2): brand mark, name divider and section
+     headers in every theme. The glyph comes from --motif-fill/--motif-mask. */
+  .portfolio-brand {
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
   }
-  [data-theme="pokemon"] .portfolio-brand::before,
-  [data-theme="pokemon"]
-    .portfolio-home
-    :is(section > div > h2, #learning-now h2)::before {
+  .portfolio-brand::before,
+  .portfolio-home :is(section > div > h2, #learning-now h2)::before {
     content: "";
     display: inline-block;
     flex-shrink: 0;
-    width: 2rem;
-    height: 2rem;
-    background: url("/images/pokemon/ribbon-pink.svg") center / contain
-      no-repeat;
+    width: 1.1rem;
+    height: 1.1rem;
     pointer-events: none;
   }
-  [data-theme="pokemon"] .pokemon-bow-divider {
+  .portfolio-home :is(section > div > h2, #learning-now h2)::before {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .portfolio-home #impact h2::before {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+  .portfolio-brand::before,
+  .portfolio-home :is(section > div > h2, #learning-now h2)::before,
+  .motif-divider span {
+    background: var(--motif-fill);
+    -webkit-mask: var(--motif-mask);
+    mask: var(--motif-mask);
+    forced-color-adjust: none;
+  }
+  .motif-divider {
     display: flex;
     align-items: center;
     gap: 0.85rem;
     max-width: 28rem;
     margin: 1.25rem 0;
   }
-  [data-theme="pokemon"] .pokemon-bow-divider span {
-    width: 2.75rem;
-    height: 2.75rem;
+  .motif-divider span {
+    width: 1.4rem;
+    height: 1.4rem;
     flex-shrink: 0;
-    background: url("/images/pokemon/ribbon-pink.svg") center / contain
-      no-repeat;
   }
-  [data-theme="pokemon"] .pokemon-bow-divider::before,
-  [data-theme="pokemon"] .pokemon-bow-divider::after {
+  .motif-divider::before,
+  .motif-divider::after,
+  .portfolio-home :is(section > div > h2, #learning-now h2)::after {
     content: "";
-    flex: 1;
     height: 1px;
-    background: #d78ca8;
+    background: color-mix(in srgb, var(--card-edge-rose) 45%, transparent);
   }
-  [data-theme="pokemon"]
-    .portfolio-home
-    :is(section > div > h2, #learning-now h2) {
+  .motif-divider::before,
+  .motif-divider::after {
+    flex: 1;
+  }
+  .portfolio-home :is(section > div > h2, #learning-now h2) {
     display: flex;
     align-items: center;
     gap: 0.8rem;
     text-align: left;
   }
+  .portfolio-home :is(section > div > h2, #learning-now h2)::after {
+    flex: 1;
+    min-width: 1rem;
+  }
+  .portfolio-home #impact h2,
+  .portfolio-home #contact h2 {
+    justify-content: center;
+  }
+  .portfolio-home #impact h2::after,
+  .portfolio-home #contact h2::after {
+    flex: 0 1 4rem;
+  }
+
+  /* Pokémon keeps its page pink, larger bows and its own rule color. */
+  [data-theme="pokemon"] body {
+    background: #fce8ef;
+  }
+  [data-theme="pokemon"] .portfolio-brand::before,
+  [data-theme="pokemon"]
+    .portfolio-home
+    :is(section > div > h2, #learning-now h2)::before {
+    width: 2rem;
+    height: 2rem;
+  }
+  [data-theme="pokemon"] .motif-divider span {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  [data-theme="pokemon"] .motif-divider::before,
+  [data-theme="pokemon"] .motif-divider::after,
   [data-theme="pokemon"]
     .portfolio-home
     :is(section > div > h2, #learning-now h2)::after {
-    content: "";
-    flex: 1;
-    min-width: 1rem;
-    height: 1px;
     background: #d78ca8;
-  }
-  [data-theme="pokemon"] .portfolio-home #impact h2,
-  [data-theme="pokemon"] .portfolio-home #contact h2 {
-    justify-content: center;
-  }
-  [data-theme="pokemon"] .portfolio-home #impact h2::after,
-  [data-theme="pokemon"] .portfolio-home #contact h2::after {
-    flex: 0 1 4rem;
   }
   [data-theme="pokemon"] .portfolio-home #impact .grid {
     border: 1px solid #e4b3c5;
@@ -899,12 +925,10 @@
     background: #e8a2bc;
   }
   @media (max-width: 399px) {
-    [data-theme="pokemon"]
-      .portfolio-home
-      :is(section > div > h2, #learning-now h2) {
+    .portfolio-home :is(section > div > h2, #learning-now h2) {
       gap: 0.55rem;
     }
-    [data-theme="pokemon"] .portfolio-home #contact h2::after {
+    .portfolio-home #contact h2::after {
       display: none;
     }
   }
@@ -947,8 +971,8 @@
     background: var(--stationery-pattern) center 0 / 144px 72px repeat;
     pointer-events: none;
   }
-  [data-theme="pokemon"] .pokemon-bow-divider::before,
-  [data-theme="pokemon"] .pokemon-bow-divider::after {
+  [data-theme="pokemon"] .motif-divider::before,
+  [data-theme="pokemon"] .motif-divider::after {
     height: 12px;
     border-block: 1px solid #e4b3c5;
     background: var(--stationery-pattern) center 12px / 144px 72px repeat;
