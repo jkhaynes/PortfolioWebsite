@@ -158,6 +158,7 @@ test("forced colors preserve visible controls and dialog focus", async ({
     "solid",
   );
 
+  await page.goto("/work/loot-singles");
   const mediaTrigger = page
     .getByRole("button", { name: /^View larger:/ })
     .first();
@@ -195,7 +196,7 @@ test("both themes reflow at 320px without page-level overflow", async ({
     }
   }
 
-  await page.goto("/");
+  await page.goto("/work/loot-singles");
   await page
     .getByRole("button", { name: /^View larger:/ })
     .first()

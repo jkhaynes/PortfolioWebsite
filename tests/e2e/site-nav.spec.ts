@@ -19,17 +19,13 @@ test("primary nav links are Work, Experience, About and Contact", async ({
   );
 });
 
-test("the résumé button shows in the desktop nav only", async ({ page }) => {
-  const resume = page.getByRole("banner").getByRole("link", { name: /Résumé/ });
-
+test("the résumé lives in the page, not the nav", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
-  await expect(resume).toBeVisible();
-  await expect(resume).toHaveAttribute("href", "/Jessica_Haynes_Resume.pdf");
-  await expect(resume).toHaveAttribute("target", "_blank");
-
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(resume).toBeHidden();
+  await expect(
+    page.getByRole("banner").getByRole("link", { name: /Résumé|Resume/ }),
+  ).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Download Resume" }).first()).toBeVisible();
 });
 
 test("the nav marks the section in view as the current location", async ({

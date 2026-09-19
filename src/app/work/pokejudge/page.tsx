@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Button from "@/components/Button";
+import CaseStudyHero from "@/components/case-study/CaseStudyHero";
 import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
+import NextInSet from "@/components/case-study/NextInSet";
 import {
   FlowStep,
   SectionHeading,
@@ -8,7 +10,6 @@ import {
 } from "@/components/case-study/CaseStudyPrimitives";
 import Container from "@/components/Container";
 import Nav from "@/components/Nav";
-import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
 import { pokeJudgeProject } from "@/data/projects";
 import lateArrivalEvaluation from "../../../../public/work/pokejudge/late-arrival-success.png";
@@ -117,38 +118,15 @@ export default function PokeJudgeCaseStudy() {
             </TextLink>
           </div>
 
-          <header className="grid gap-10 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14 lg:py-16">
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-accent">
-                AI systems case study
-              </p>
-              <h1 className="mt-4 max-w-3xl text-balance font-display text-5xl font-semibold leading-[1.02] text-foreground sm:text-6xl">
-                {pokeJudgeProject.title}
-              </h1>
-              <p className="mt-5 max-w-xl text-pretty text-xl leading-relaxed text-accent-secondary sm:text-2xl">
-                A source-grounded decision-support system that investigates an
-                incomplete judge call before recommending a ruling.
-              </p>
-              <dl className="mt-7 grid max-w-xl grid-cols-2 gap-x-6 gap-y-4 text-sm">
-                <div>
-                  <dt className="text-muted">Role</dt>
-                  <dd className="mt-1 font-semibold text-foreground">
-                    Sole developer & product designer
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted">Current form</dt>
-                  <dd className="mt-1 font-semibold text-foreground">
-                    Local .NET console application
-                  </dd>
-                </div>
-              </dl>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {pokeJudgeProject.tags.map((tag) => (
-                  <Tag key={tag}>{tag}</Tag>
-                ))}
-              </div>
-              <div className="mt-8 flex flex-wrap gap-3">
+          <CaseStudyHero
+            project={pokeJudgeProject}
+            kicker="AI systems case study"
+            summary="A source-grounded decision-support system that investigates an incomplete judge call before recommending a ruling."
+            role="Sole developer & product designer"
+            status="In development · local .NET console app"
+            stack="C#, .NET, Gemini embeddings, xUnit"
+            actions={
+              <>
                 {pokeJudgeProject.githubUrl && (
                   <Button href={pokeJudgeProject.githubUrl}>View GitHub</Button>
                 )}
@@ -159,34 +137,35 @@ export default function PokeJudgeCaseStudy() {
                 >
                   See the pipeline ↓
                 </TextLink>
+              </>
+            }
+            art={
+              <div className="min-w-0 overflow-hidden rounded-[2rem] border border-foreground/15 bg-product-ink p-6 font-mono text-sm leading-relaxed text-white shadow-product sm:p-8">
+                <div className="flex gap-2" aria-hidden="true">
+                  <span className="h-2.5 w-2.5 rounded-full bg-risk" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-accent-soft" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+                </div>
+                <p className="mt-7 text-white/60">Assessment</p>
+                <p>Insufficient — 1 clarifying question needed.</p>
+                <p className="mt-5 text-console-accent">Clarifying question</p>
+                <p>How many minutes late did the competitor arrive?</p>
+                <p className="mt-2 text-white/60">Judge</p>
+                <p>Exactly 7 minutes after the round started.</p>
+                <p className="mt-5 font-semibold text-emerald-300">
+                  Sufficient — generating ruling...
+                </p>
+                <p className="mt-5 text-console-accent">Recommendation</p>
+                <p>Assess a penalty for Major Tardiness.</p>
+                <p className="mt-5 font-semibold text-emerald-300">
+                  Validated Source Support: Strong
+                </p>
+                <p className="mt-2 text-white/60">
+                  2 turns · 2 explicit citations · no conflicts
+                </p>
               </div>
-            </div>
-
-            <div className="min-w-0 overflow-hidden rounded-[2rem] border border-foreground/15 bg-product-ink p-6 font-mono text-sm leading-relaxed text-white shadow-product sm:p-8">
-              <div className="flex gap-2" aria-hidden="true">
-                <span className="h-2.5 w-2.5 rounded-full bg-risk" />
-                <span className="h-2.5 w-2.5 rounded-full bg-accent-soft" />
-                <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-              </div>
-              <p className="mt-7 text-white/60">Assessment</p>
-              <p>Insufficient — 1 clarifying question needed.</p>
-              <p className="mt-5 text-console-accent">Clarifying question</p>
-              <p>How many minutes late did the competitor arrive?</p>
-              <p className="mt-2 text-white/60">Judge</p>
-              <p>Exactly 7 minutes after the round started.</p>
-              <p className="mt-5 font-semibold text-emerald-300">
-                Sufficient — generating ruling...
-              </p>
-              <p className="mt-5 text-console-accent">Recommendation</p>
-              <p>Assess a penalty for Major Tardiness.</p>
-              <p className="mt-5 font-semibold text-emerald-300">
-                Validated Source Support: Strong
-              </p>
-              <p className="mt-2 text-white/60">
-                2 turns · 2 explicit citations · no conflicts
-              </p>
-            </div>
-          </header>
+            }
+          />
 
           <section className="grid gap-12 border-t border-border py-16 lg:grid-cols-2 lg:gap-20">
             <div>
@@ -436,6 +415,8 @@ export default function PokeJudgeCaseStudy() {
               </TextLink>
             </div>
           </section>
+
+          <NextInSet current={pokeJudgeProject} />
         </Container>
       </main>
     </>

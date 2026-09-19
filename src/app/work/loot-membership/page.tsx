@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import Nav from "@/components/Nav";
-import Tag from "@/components/Tag";
 import TextLink from "@/components/TextLink";
+import CaseStudyHero from "@/components/case-study/CaseStudyHero";
 import CaseStudyMedia from "@/components/case-study/CaseStudyMedia";
+import NextInSet from "@/components/case-study/NextInSet";
 import {
   FlowStep,
   SectionHeading,
@@ -70,46 +71,32 @@ export default function LootMembershipCaseStudy() {
               ← Featured projects
             </TextLink>
           </div>
-          <header className="grid gap-10 py-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-14 lg:py-16">
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-accent">
-                Integration case study
-              </p>
-              <h1 className="mt-4 max-w-3xl text-balance font-display text-5xl font-semibold leading-[1.02] text-foreground sm:text-6xl">
-                {project.title}
-              </h1>
-              <p className="mt-5 max-w-xl text-pretty text-xl leading-relaxed text-accent-secondary sm:text-2xl">
-                Making member benefits depend on verified membership.
-              </p>
-              <p className="mt-6 text-sm text-muted">
-                Sole developer &amp; designer
-              </p>
-              <p className="mt-6 text-sm font-semibold text-foreground">
-                {project.status}
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Tag key={tag}>{tag}</Tag>
-                ))}
-              </div>
-              <div className="mt-8">
-                <TextLink href="#workflow" target="_self">
-                  See how membership flows ↓
-                </TextLink>
-              </div>
-            </div>
-            <CaseStudyMedia
-              src={tierEditor}
-              alt="Tier editor showing the Hoardling membership's Discord role, priority, Shopify customer tag, and deactivation control."
-              title="Loot membership tier editor"
-              caption="Configure the link between Discord roles and Shopify tags"
-              context="App screenshot"
-              priority
-              sizes="(min-width: 1024px) 54vw, calc(100vw - 2rem)"
-              aspectClassName="aspect-[15/13]"
-              objectClassName="object-contain"
-            />
-          </header>
+          <CaseStudyHero
+            project={project}
+            kicker="Integration case study"
+            summary="Making member benefits depend on verified membership."
+            role="Sole developer & designer"
+            status="In development"
+            stack="TypeScript, React Router, Cloudflare Workers, D1"
+            actions={
+              <TextLink href="#workflow" target="_self">
+                See how membership flows ↓
+              </TextLink>
+            }
+            art={
+              <CaseStudyMedia
+                src={tierEditor}
+                alt="Tier editor showing the Hoardling membership's Discord role, priority, Shopify customer tag, and deactivation control."
+                title="Loot membership tier editor"
+                caption="Configure the link between Discord roles and Shopify tags"
+                context="App screenshot"
+                priority
+                sizes="(min-width: 1024px) 50vw, calc(100vw - 4rem)"
+                aspectClassName="aspect-[15/13]"
+                objectClassName="object-contain"
+              />
+            }
+          />
 
           <section
             aria-labelledby="context-heading"
@@ -397,6 +384,8 @@ export default function LootMembershipCaseStudy() {
               Explore more projects
             </TextLink>
           </div>
+
+          <NextInSet current={project} />
         </Container>
       </main>
     </>
