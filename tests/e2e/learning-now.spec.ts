@@ -17,7 +17,7 @@ test("learning now is a compact, non-interactive theme strip", async ({
     section.getByRole("heading", { name: "Learning now" }),
   ).toHaveCount(1);
   await expect(section).toContainText(
-    "I’m deepening how I use AI in real engineering work—designing better agent workflows, evaluating system behavior, and keeping automation grounded in human judgment.",
+    "I'm learning how to use AI more effectively in my engineering work. That includes building better agent workflows, checking how systems behave, and deciding where people need to stay involved in automated processes.",
   );
 
   const themeList = section.getByRole("list", {
