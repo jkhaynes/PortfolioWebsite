@@ -79,7 +79,23 @@ test("the hand is dealt once when the section comes into view", async ({
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto("/");
   const hand = page.locator(".project-hand");
-  await page.locator("#projects").scrollIntoViewIfNeeded();
+  // Waiting below the fold: held back and hidden, not dealt yet.
+  await expect(hand).toHaveAttribute("data-dealt", "pending");
+  await expect(hand.locator("[data-project-card]").first()).toHaveCSS("opacity", "0");
+
+  // Just peeking over the fold is not enough to deal.
+  await page.evaluate(() => {
+    const top = document.querySelector(".project-hand")!.getBoundingClientRect().top;
+    window.scrollBy(0, top - window.innerHeight + 80);
+  });
+  await page.waitForTimeout(300);
+  await expect(hand).toHaveAttribute("data-dealt", "pending");
+
+  // Well into view: the deal plays.
+  await page.evaluate(() => {
+    const top = document.querySelector(".project-hand")!.getBoundingClientRect().top;
+    window.scrollBy(0, top - window.innerHeight / 2);
+  });
   await expect(hand).toHaveAttribute("data-dealt", "true");
 });
 
