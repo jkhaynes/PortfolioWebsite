@@ -13,7 +13,7 @@ Make the climb from Programmer to Team Lead visible at a glance and make Experie
 | Topic | Decision |
 |---|---|
 | Career line | A compact metro line above the entries: one continuous rose line, one stop per role, oldest on the left |
-| Stops | Programmer 2016, Senior Developer 2017, Team Lead 2019, Lead Developer 2020, Senior III 2022, Team Lead / Senior IV 2024 |
+| Stops | Programmer 2016, Senior Developer 2017, Senior Developer (Growers Edge) 2019, Lead Developer 2020, Senior III 2022, Team Lead / Senior IV 2024 |
 | Stop labels | Short role name, then "Company · year" underneath; the current stop reads "8am · 2024 – now" |
 | Promotions | The word "promoted" sits on the track leading into a promotion: into Senior Developer (Proplanner) and into Team Lead / Senior IV (8am). Company changes are not labeled |
 | Current role | Its stop keeps the normal look and gains a Pearl halo; no other stop is highlighted |

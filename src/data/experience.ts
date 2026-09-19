@@ -87,8 +87,8 @@ export const experience: ExperienceCompany[] = [
     roles: [
       {
         role: "Senior Software Engineer (Team Lead)",
-        shortRole: "Team Lead",
-        anchorId: "experience-growers-edge-team-lead",
+        shortRole: "Senior Developer",
+        anchorId: "experience-growers-edge-senior-developer",
         period: "Feb 2019 – Jan 2020",
         bullets: [
           "Served as technical lead across multiple projects, owning design and delivery",

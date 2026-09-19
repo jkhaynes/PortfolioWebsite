@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 const STOPS = [
   { role: "Programmer", meta: "Proplanner · 2016", href: "#experience-proplanner-programmer" },
   { role: "Senior Developer", meta: "Proplanner · 2017", href: "#experience-proplanner-senior-developer", promoted: true },
-  { role: "Team Lead", meta: "Growers Edge · 2019", href: "#experience-growers-edge-team-lead" },
+  { role: "Senior Developer", meta: "Growers Edge · 2019", href: "#experience-growers-edge-senior-developer" },
   { role: "Lead Developer", meta: "Proplanner · 2020", href: "#experience-proplanner-lead-developer" },
   { role: "Senior III", meta: "8am · 2022", href: "#experience-8am-senior-iii" },
   { role: "Team Lead / Senior IV", meta: "8am · 2024 – now", href: "#experience-8am-team-lead", promoted: true },
