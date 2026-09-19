@@ -186,8 +186,8 @@ export default function PokeJudgeCaseStudy() {
               </SectionHeading>
               <p className="mt-5 leading-relaxed text-muted">
                 A generic chatbot can fill gaps with plausible assumptions.
-                PokéJudge retrieves first so the source material—not a model’s
-                general Pokémon knowledge—determines which unknown facts matter
+                PokéJudge retrieves first so the source material, not a model’s
+                general Pokémon knowledge, determines which unknown facts matter
                 and whether the evidence supports a recommendation.
               </p>
             </div>
@@ -307,7 +307,7 @@ export default function PokeJudgeCaseStudy() {
               <Decision title="Source Support, not model confidence">
                 Strong, Partial, or Insufficient is derived from retrieved
                 authority, citation coverage, fact sufficiency, and source
-                conflict. It describes the available evidence—not how persuasive
+                conflict. It describes the available evidence, not how persuasive
                 the model sounds.
               </Decision>
               <Decision title="Evaluation includes the investigation">
@@ -330,7 +330,7 @@ export default function PokeJudgeCaseStudy() {
                 outside the repair described by the retrieved passage, so the
                 model reported Insufficient support for a concrete remedy. The
                 validator rated the cited passage Strong only for the narrower
-                conclusion that this repair did not apply—not for a penalty the
+                conclusion that this repair did not apply, not for a penalty the
                 corpus could not support.
               </p>
               <p className="mt-4 max-w-4xl text-sm leading-relaxed text-risk-strong">
