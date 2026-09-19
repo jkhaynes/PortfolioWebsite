@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Container from "@/components/Container";
-import ExternalLinkMark from "@/components/ExternalLinkMark";
 import NavLinks from "@/components/NavLinks";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -22,16 +21,6 @@ export default function Nav() {
             <NavLinks />
           </nav>
           <div className="site-nav-theme">
-            <a
-              href="/Jessica_Haynes_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-umami-event="resume_download"
-              className="site-nav-resume"
-            >
-              Résumé
-              <ExternalLinkMark />
-            </a>
             <ThemeToggle />
           </div>
         </Container>
