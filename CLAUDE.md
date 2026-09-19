@@ -1,22 +1,15 @@
 # Project Instructions
 
-This repository uses the reusable Claude Code workflow under `.claude/skills/`.
+## Feature workflow
 
-## Workflow bootstrap
+New features use the Superpowers skill flow. The custom skills under `.claude/skills/` (`plan-work`, `implement-work`, `review-work`, `review-pr`, `create-pr` and the rest) are legacy: do not use them for new work unless explicitly asked.
 
-`docs/PRD.md` is intentionally **not** included in the starter repository.
+1. `superpowers:brainstorming` to settle the design. Skip it when an approved spec or design review already covers the feature.
+2. `superpowers:writing-plans` to write the plan to `docs/superpowers/plans/YYYY-MM-DD-<slug>.md`.
+3. `superpowers:subagent-driven-development` (default) or `superpowers:executing-plans` to implement the plan task by task, test first.
+4. `superpowers:finishing-a-development-branch` to verify the branch and open the PR.
 
-Before using `plan-work`, `implement-work`, or the downstream review/PR workflow for the first time, use the `create-prd` skill to establish:
-
-- the project's canonical unit-of-work terminology;
-- roadmap structure;
-- branch naming;
-- planning artifact behavior;
-- whether learning mode is enabled.
-
-Once created, `docs/PRD.md` becomes the canonical source for these workflow decisions.
-
-Do not invent a parallel workflow configuration in this file that can drift from the PRD.
+`docs/PRD.md` stays the canonical source for product scope, the roadmap and branch naming (`feature/<slug>` off `main`). Do not duplicate those decisions here.
 
 ## Existing scaffold
 
@@ -29,7 +22,7 @@ Do not substantially expand the site until the PRD has been created and reviewed
 - Prefer simple, readable implementations.
 - Keep changes scoped to the current approved unit of work.
 - Do not commit secrets or local credentials.
-- Use the repository's workflow skills rather than allowing planning, implementation, review, and PR creation to collapse into one autonomous agent step.
+- Follow the Superpowers flow above rather than allowing planning, implementation, review, and PR creation to collapse into one autonomous agent step.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

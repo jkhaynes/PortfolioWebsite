@@ -104,8 +104,8 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 workflow:
   unit_of_work: "feature"
   unit_of_work_plural: "features"
-  plan_root: ".project-plans"
-  work_folder_pattern: "<NN>-<slug>"
+  plan_root: "docs/superpowers/plans"
+  plan_file_pattern: "YYYY-MM-DD-<slug>.md"
   branch_pattern: "feature/<slug>"
   base_branch: "main"
   planning_artifacts: "local"
