@@ -8,6 +8,7 @@ import Nav from "@/components/Nav";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
 import SylveonPortrait from "@/components/SylveonPortrait";
+import HeroPortrait from "@/components/HeroPortrait";
 import { projects } from "@/data/projects";
 
 const workPrinciples = [
@@ -235,6 +236,7 @@ export default function Home() {
               </div>
             </div>
             <SylveonPortrait />
+            <HeroPortrait />
           </Container>
         </section>
 
