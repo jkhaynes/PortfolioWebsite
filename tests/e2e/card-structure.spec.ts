@@ -107,3 +107,36 @@ for (const theme of ["light", "dark"] as const) {
     }
   });
 }
+
+for (const theme of ["light", "dark"] as const) {
+  test(`project cards get a gradient frame and top-edge sparkle in ${theme} mode`, async ({
+    page,
+  }) => {
+    await openTheme(page, theme);
+    const card = "[data-project-card]";
+    expect(await computed(page, card, null, "background-image")).toContain(
+      "linear-gradient",
+    );
+    expect(await computed(page, card, null, "border-top-width")).toBe("0px");
+    expect(await computed(page, card, "::after", "mask-image")).toContain(
+      SPARKLE,
+    );
+    expect(await computed(page, card, "::before", "border-top-left-radius")).toBe(
+      "999px",
+    );
+    // The sparkle sits on the top edge, above the card box.
+    expect(
+      parseFloat(await computed(page, card, "::after", "top")),
+    ).toBeLessThan(0);
+  });
+}
+
+test("pokemon cards keep the bow and bookmark ribbon", async ({ page }) => {
+  await openTheme(page, "pokemon");
+  const card = "[data-project-card]";
+  expect(await computed(page, card, "::before", "background-image")).toContain(
+    BOW,
+  );
+  expect(await computed(page, card, "::after", "clip-path")).not.toBe("none");
+  expect(await computed(page, card, "::after", "mask-image")).toBe("none");
+});
