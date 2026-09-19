@@ -9,6 +9,7 @@ import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
 import SylveonPortrait from "@/components/SylveonPortrait";
 import HeroPortrait from "@/components/HeroPortrait";
+import PokemonModeHint from "@/components/PokemonModeHint";
 import { projects } from "@/data/projects";
 
 const workPrinciples = [
@@ -290,107 +291,81 @@ export default function Home() {
           </Container>
         </section>
 
-        <section id="how-i-work" className="pb-24">
-          <Container className="max-w-3xl">
-            <h2 className="font-display text-2xl font-semibold text-foreground">
-              How I Work
+        <section id="about" aria-labelledby="about-heading" className="pb-24">
+          <Container>
+            <h2
+              id="about-heading"
+              tabIndex={-1}
+              className="font-display text-2xl font-semibold text-foreground focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              About
             </h2>
-            <p className="mt-4 max-w-2xl font-display text-xl leading-snug text-foreground">
-              I&apos;m a collaborative developer who cares about quality,
-              follow-through, and continuing to grow.
+            <p className="mt-4 max-w-3xl leading-relaxed text-muted">
+              I&apos;m a senior software engineer who builds and modernizes
+              full-stack enterprise applications, mostly C#/.NET backends, APIs
+              and Entity Framework, with MySQL, Angular and TypeScript
+              alongside. I&apos;ve led technical projects, mentored engineers,
+              written technical designs, and worked closely with Product, QA
+              and DevOps.
             </p>
-            <Grid className="mt-8">
-              {workPrinciples.map((principle) => (
-                <Card key={principle.label}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
-                    {principle.label}
-                  </p>
-                  <p className="mt-3 leading-relaxed text-muted">
-                    {principle.body}
-                  </p>
-                </Card>
-              ))}
-            </Grid>
-            <p className="mt-10 text-center font-display text-lg text-accent-secondary">
+            <p className="about-pull-quote">
               I try to bring curiosity to my work, keep learning, and leave
               things better than I found them.
             </p>
-          </Container>
-        </section>
 
-        <section
-          id="learning-now"
-          aria-labelledby="learning-now-heading"
-          className="pb-24"
-        >
-          <Container>
-            <div className="learning-specimen-strip overflow-hidden rounded-3xl border border-border bg-surface shadow-soft lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-              <div className="p-6 sm:p-8">
-                <h2
-                  id="learning-now-heading"
-                  className="font-display text-2xl font-semibold text-foreground"
-                >
-                  Learning now
-                </h2>
-                <p className="mt-3 max-w-2xl leading-relaxed text-muted">
-                  I&apos;m learning how to use AI more effectively in my
-                  engineering work. That includes building better agent
-                  workflows, checking how systems behave, and deciding where
-                  people need to stay involved in automated processes.
-                </p>
-              </div>
+            <section
+              id="how-i-work"
+              aria-labelledby="how-i-work-heading"
+              className="mt-10"
+            >
+              <h3 id="how-i-work-heading" className="about-subheading">
+                How I work
+              </h3>
+              <Grid className="mt-4">
+                {workPrinciples.map((principle) => (
+                  <Card key={principle.label}>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+                      {principle.label}
+                    </p>
+                    <p className="mt-3 leading-relaxed text-muted">
+                      {principle.body}
+                    </p>
+                  </Card>
+                ))}
+              </Grid>
+            </section>
+
+            <section
+              id="learning-now"
+              aria-labelledby="learning-now-heading"
+              className="mt-10"
+            >
+              <h3 id="learning-now-heading" className="about-subheading">
+                Learning now
+              </h3>
+              <p className="mt-3 max-w-3xl leading-relaxed text-muted">
+                I&apos;m learning how to use AI more effectively in my
+                engineering work. That includes building better agent
+                workflows, checking how systems behave, and deciding where
+                people need to stay involved in automated processes.
+              </p>
               <ul
                 aria-label="Current learning themes"
-                className="grid border-t border-border sm:grid-cols-3 sm:divide-x sm:divide-border lg:border-l lg:border-t-0"
+                className="mt-4 flex flex-wrap gap-2"
               >
                 {learningThemes.map((theme) => (
-                  <li
-                    key={theme}
-                    className="flex min-h-24 items-center gap-3 border-t border-border px-6 py-5 first:border-t-0 sm:min-h-0 sm:border-t-0 sm:px-5"
-                  >
+                  <li key={theme} className="learning-chip">
                     <span
                       aria-hidden="true"
                       className="specimen-facet specimen-facet--quiet"
                     />
-                    <span className="text-pretty text-sm font-semibold leading-snug text-foreground">
-                      {theme}
-                    </span>
+                    {theme}
                   </li>
                 ))}
               </ul>
-            </div>
-          </Container>
-        </section>
+            </section>
 
-        <section id="about" className="pb-24">
-          <Container className="max-w-2xl">
-            <h2 className="font-display text-2xl font-semibold text-foreground">
-              About Me
-            </h2>
-            <div className="mt-4 space-y-4 leading-relaxed text-muted">
-              <p>
-                I&apos;m a Senior Software Engineer, and I&apos;ve spent the past
-                9+ years building and modernizing full-stack enterprise
-                applications. Most of my work focuses on C#/.NET backends,
-                APIs, and Entity Framework, including improving performance and
-                designing systems that can scale. I also work with MySQL,
-                Angular, and TypeScript. Along the way, I&apos;ve led technical
-                projects, mentored engineers, written technical designs, and
-                worked closely with Product, QA, and DevOps.
-              </p>
-              <p>
-                I&apos;ve enjoyed figuring out how to cut a high-volume
-                background job&apos;s runtime by 95% and improving testing and
-                observability to help keep production incident-free for 6+
-                months. I&apos;ve also worked on SSO and identity integrations
-                and updated older applications and development practices.
-              </p>
-              <p>
-                I enjoy solving complex engineering problems, improving existing
-                systems, and learning new technologies when they&apos;re the
-                right tool for the job.
-              </p>
-            </div>
+            <PokemonModeHint />
           </Container>
         </section>
 

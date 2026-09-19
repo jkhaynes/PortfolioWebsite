@@ -31,18 +31,18 @@ test("learning now is a compact, non-interactive theme strip", async ({
   await expect(section.getByRole("button")).toHaveCount(0);
 });
 
-test("learning now sits between work principles and about without old copy", async ({
+test("learning now follows how I work inside about, without old copy", async ({
   page,
 }) => {
   await page.goto("/");
 
   const order = await page
-    .locator("main > section")
+    .locator("#about section")
     .evaluateAll((sections) => sections.map((section) => section.id));
   expect(order.indexOf("learning-now")).toBeGreaterThan(
     order.indexOf("how-i-work"),
   );
-  expect(order.indexOf("learning-now")).toBeLessThan(order.indexOf("about"));
+  expect(order.indexOf("how-i-work")).toBeGreaterThanOrEqual(0);
 
   await expect(
     page.getByRole("heading", { name: "Currently Exploring" }),
