@@ -2,6 +2,7 @@ import type { StaticImageData } from "next/image";
 import lootOrderDetail from "../../public/work/loot-singles/order-detail-desktop-catalog-cards.png";
 import pokeJudgeRun from "../../public/work/pokejudge/late-arrival-success.png";
 import membershipTierEditor from "../../public/work/loot-membership/tier-editor.png";
+import pricewatchStatusPage from "../../public/work/pricewatch/status-page.png";
 
 export type ProjectMedia = {
   src: StaticImageData;
@@ -132,9 +133,37 @@ export const lootMembershipProject: Project = {
   },
 };
 
+export const pricewatchProject: Project = {
+  title: "pricewatch",
+  status: "Live",
+  cardSummary:
+    "A Go CLI that prices an 8,800-card collection on 1,000 API requests a day.",
+  outcome: "~915 requests a day to keep 4,900 prices current",
+  problemStatement:
+    "An 8,800-card Pokémon collection can't be priced in one go on a free API budget of 100 requests an hour and 1,000 a day, and a Normal and a Reverse Holo of the same card can differ in price by more than any movement being tracked.",
+  solutionSummary:
+    "Each hourly run prices a bounded slice of the cards that are due, saves progress in SQLite so the next run carries on, and publishes a public status page. Rows that can't be matched to exactly one print are reported instead of guessed.",
+  technicalDecisions:
+    "Value tiers decide how often a card is checked, pacing follows the API's own remaining count, and a two-stage Ctrl-C keeps completed work saved.",
+  buildApproach:
+    "Built in Go to learn the language after nine years of C#, standard library first with two third-party packages, and offline tests using a fake clock.",
+  tags: ["Go", "SQLite", "GitHub Actions", "PokéWallet API", "Concurrency"],
+  githubUrl: "https://github.com/jkhaynes/pricewatch",
+  demoUrl: "https://jkhaynes.github.io/pricewatch-site",
+  caseStudyUrl: "/work/pricewatch",
+  media: {
+    src: pricewatchStatusPage,
+    alt: "The pricewatch status page showing the price index, the biggest movers and the schedule of every card.",
+    title: "pricewatch status page",
+    caption: "Live status page · Rebuilt every hour",
+    objectClassName: "object-cover object-top",
+  },
+};
+
 // The set order: the homepage hand and each case study's "Next in the set".
 export const projects: Project[] = [
   pokeJudgeProject,
   lootSinglesProject,
   lootMembershipProject,
+  pricewatchProject,
 ];

@@ -31,6 +31,16 @@ const STUDIES = [
       Stack: "TypeScript, React Router, Cloudflare Workers, D1",
     },
   },
+  {
+    path: "/work/pricewatch",
+    title: "pricewatch",
+    tldr: {
+      Role: "Sole developer",
+      Status: "Live · runs hourly on GitHub Actions",
+      Outcome: "~915 requests a day to keep 4,900 prices current",
+      Stack: "Go, SQLite, GitHub Actions, PokéWallet API",
+    },
+  },
 ] as const;
 
 for (const study of STUDIES) {

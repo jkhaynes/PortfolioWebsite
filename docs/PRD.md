@@ -89,7 +89,7 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 ## 10. High-Level Architecture / Technical Direction
 
 - Built on the existing Next.js + TypeScript + Tailwind starter scaffold.
-- Primarily a single-page site with anchor navigation. Featured Projects that get a full case study (Loot Singles, PokéJudge, Loot Membership Integration) get their own dedicated routes (e.g. `/work/loot-singles`, `/work/pokejudge`, `/work/loot-membership`) per Roadmap Features 11–12 and 21; this introduces minimal additional routing rather than a full multi-page restructure.
+- Primarily a single-page site with anchor navigation. Featured Projects that get a full case study (Loot Singles, PokéJudge, Loot Membership Integration, pricewatch) get their own dedicated routes (e.g. `/work/loot-singles`, `/work/pokejudge`, `/work/loot-membership`, `/work/pricewatch`) per Roadmap Features 11–12, 21 and 22; this introduces minimal additional routing rather than a full multi-page restructure.
 - No backend/server infrastructure required for contact (mailto-based) or resume (static PDF asset).
 
 ## 11. Data / Integration Strategy
@@ -146,6 +146,8 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 20. **Sylveon Pokémon Mode** — Add an opt-in third appearance alongside Light and Dark: regular Sylveon art, ivory/blush surfaces, rose actions, and restrained ribbon details. Preserve professional content and actual screenshots. Phase 1 delivers the theme and assets; Phase 2 adds the optional Ribbon Roundup game with a rare shiny bonus. Pokémon uses native light color-scheme, persists explicit selection, and never follows automatically from system preference. Character art and necessary gameplay motion are scoped to this mode; gameplay requires an explicit start.
 
 21. **Loot Membership Integration Case Study** — Add a third featured project and `/work/loot-membership`, explaining the discount-code eligibility problem, Discord-to-Shopify membership flow, sole developer/designer ownership, tenant isolation, and reliable synchronization. Use a labeled architecture illustration, distinguish implemented foundations from ongoing work, and preserve all three themes. This extends the dedicated case-study routing in §6 and §10 without changing the homepage's single-page structure.
+
+22. **pricewatch Case Study** — Add a fourth featured project and `/work/pricewatch`: a live Go CLI that prices an 8,800-card collection on a 1,000-request daily API budget. Show a real run's console output in the hero (the one thing the public status page doesn't show), the run pipeline, value tiers and budget, the refuse-to-guess matching rule with the status page screenshot, engineering decisions, and short comparisons from C#. Status is Live; the only remaining work shown is matching the cards that can't be priced yet. The homepage hand fans four cards. Preserves all three themes.
 
 ## 14. Testing / Evaluation Strategy
 
