@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 // Visitor-facing copy uses commas and periods, not em dashes. Terminal output
 // samples (monospace panels) are quoted program output and may keep them.
-for (const path of ["/", "/work/pokejudge", "/work/loot-singles", "/work/loot-membership"]) {
+for (const path of ["/", "/work/pokejudge", "/work/loot-singles", "/work/loot-membership", "/work/pricewatch"]) {
   test(`${path} copy has no em dashes`, async ({ page }) => {
     await page.goto(path);
     const copy = await page.evaluate(() => {

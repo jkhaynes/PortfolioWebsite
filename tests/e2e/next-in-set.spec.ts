@@ -4,6 +4,7 @@ const SET = [
   { path: "/work/pokejudge", next: "Loot Singles Fulfillment", other: "Loot Membership Integration", n: 1 },
   { path: "/work/loot-singles", next: "Loot Membership Integration", other: "pricewatch", n: 2 },
   { path: "/work/loot-membership", next: "pricewatch", other: "PokéJudge AI", n: 3 },
+  { path: "/work/pricewatch", next: "PokéJudge AI", other: "Loot Singles Fulfillment", n: 4 },
 ] as const;
 
 for (const { path, next, other, n } of SET) {
