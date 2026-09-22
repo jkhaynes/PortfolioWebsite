@@ -18,6 +18,12 @@ const SET = [
     href: "/work/loot-membership",
     summary: "A Shopify app that ties member discounts to verified Discord roles.",
   },
+  {
+    title: "pricewatch",
+    href: "/work/pricewatch",
+    summary:
+      "A Go CLI that prices an 8,800-card collection on 1,000 API requests a day.",
+  },
 ] as const;
 
 // Rotation of an element in degrees, read from its computed transform matrix.
@@ -36,12 +42,12 @@ async function openProjects(page: Page, width: number) {
   await page.locator("#projects").scrollIntoViewIfNeeded();
 }
 
-test("the hand holds three compact cards that each open their case study", async ({
+test("the hand holds four compact cards that each open their case study", async ({
   page,
 }) => {
   await openProjects(page, 1280);
   const cards = page.locator("[data-project-card]");
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(4);
 
   for (const [index, project] of SET.entries()) {
     const card = cards.nth(index);
@@ -62,8 +68,11 @@ test("on desktop the cards fan out, overlap and straighten on hover", async ({
   await openProjects(page, 1280);
   const cards = page.locator("[data-project-card]");
   await expect.poll(() => angle(cards.nth(0))).toBeLessThan(-5);
-  await expect.poll(() => angle(cards.nth(1))).toBe(0);
-  await expect.poll(() => angle(cards.nth(2))).toBeGreaterThan(5);
+  await expect.poll(() => angle(cards.nth(1))).toBeLessThan(0);
+  await expect.poll(() => angle(cards.nth(1))).toBeGreaterThan(-5);
+  await expect.poll(() => angle(cards.nth(2))).toBeGreaterThan(0);
+  await expect.poll(() => angle(cards.nth(2))).toBeLessThan(5);
+  await expect.poll(() => angle(cards.nth(3))).toBeGreaterThan(5);
 
   const first = (await cards.nth(0).boundingBox())!;
   const second = (await cards.nth(1).boundingBox())!;
@@ -120,7 +129,7 @@ test("on mobile the hand becomes a swipeable row without tilt", async ({
     await hand.evaluate((element) => element.scrollWidth > element.clientWidth),
   ).toBe(true);
   const cards = page.locator("[data-project-card]");
-  for (let index = 0; index < 3; index += 1) {
+  for (let index = 0; index < 4; index += 1) {
     expect(await angle(cards.nth(index))).toBe(0);
   }
   expect(
@@ -137,7 +146,7 @@ test("in Pokémon mode the hand lifts in place and Sylveon peeks over the picked
   const cards = page.locator("[data-project-card]");
   const side = cards.nth(0);
   // Let the deal finish: the card rests fanned to the left.
-  await expect.poll(() => angle(side)).toBe(-9);
+  await expect.poll(() => angle(side)).toBe(-10);
 
   // Aim inside the rotated card; its bounding box corners are empty space.
   const box = (await side.boundingBox())!;
