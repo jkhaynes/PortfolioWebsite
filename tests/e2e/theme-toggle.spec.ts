@@ -31,6 +31,7 @@ for (const [theme, label] of [
       "/work/pokejudge",
       "/work/loot-singles",
       "/work/loot-membership",
+      "/work/pricewatch",
     ]) {
       await page.goto(path);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
@@ -155,6 +156,7 @@ test("three themes avoid overflow on every route", async ({ page }) => {
         "/work/pokejudge",
         "/work/loot-singles",
         "/work/loot-membership",
+        "/work/pricewatch",
       ]) {
         await page.goto(path);
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);

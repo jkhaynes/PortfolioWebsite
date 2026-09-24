@@ -6,7 +6,7 @@ test("featured projects use the specimen-card motif without losing content", asy
   await page.goto("/");
 
   const cards = page.locator("[data-project-card]");
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(4);
 
   const pokeJudge = cards.filter({ hasText: "PokéJudge AI" });
   const loot = cards.filter({ hasText: "Loot Singles Fulfillment" });

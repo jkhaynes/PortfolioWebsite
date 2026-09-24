@@ -1285,19 +1285,28 @@
         filter 400ms ease;
     }
     .project-hand > [data-project-card]:nth-child(1) {
-      --hand-x: -11.875rem;
-      --hand-r: -9deg;
-      --hand-y: 1.125rem;
+      --hand-x: -17.8rem;
+      --hand-r: -10deg;
+      --hand-y: 1.75rem;
       z-index: 1;
     }
     .project-hand > [data-project-card]:nth-child(2) {
+      --hand-x: -5.95rem;
+      --hand-r: -3.5deg;
+      --hand-y: 0.25rem;
       z-index: 2;
     }
     .project-hand > [data-project-card]:nth-child(3) {
-      --hand-x: 11.875rem;
-      --hand-r: 9deg;
-      --hand-y: 1.125rem;
+      --hand-x: 5.95rem;
+      --hand-r: 3.5deg;
+      --hand-y: 0.25rem;
       z-index: 3;
+    }
+    .project-hand > [data-project-card]:nth-child(4) {
+      --hand-x: 17.8rem;
+      --hand-r: 10deg;
+      --hand-y: 1.75rem;
+      z-index: 4;
     }
     /* Bringing a card forward is not motion, so it applies everywhere. The
        transform is restated so no theme's card hover can pull it out of the hand. */
@@ -1312,11 +1321,19 @@
     /* Hovering the hand spreads it; the pointed-at card straightens and rises. */
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
       > [data-project-card]:nth-child(1) {
-      --hand-x: -15rem;
+      --hand-x: -22rem;
+    }
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card]:nth-child(2) {
+      --hand-x: -7.4rem;
     }
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
       > [data-project-card]:nth-child(3) {
-      --hand-x: 15rem;
+      --hand-x: 7.4rem;
+    }
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card]:nth-child(4) {
+      --hand-x: 22rem;
     }
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
       > [data-project-card] {
@@ -1345,6 +1362,9 @@
     }
     .project-hand[data-dealt="true"] > [data-project-card]:nth-child(3) {
       animation-delay: 350ms;
+    }
+    .project-hand[data-dealt="true"] > [data-project-card]:nth-child(4) {
+      animation-delay: 500ms;
     }
   }
 
