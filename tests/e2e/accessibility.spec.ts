@@ -6,6 +6,7 @@ const routes = [
   "/work/loot-singles",
   "/work/pokejudge",
   "/work/loot-membership",
+  "/privacy",
 ] as const;
 const themes = ["light", "dark", "pokemon"] as const;
 
@@ -78,6 +79,11 @@ test("public routes emit unique canonical and social metadata", async ({
       route: "/work/pokejudge",
       canonical: "https://www.jessbuilds.dev/work/pokejudge",
       title: "PokéJudge AI Case Study | Jessica Haynes",
+    },
+    {
+      route: "/privacy",
+      canonical: "https://www.jessbuilds.dev/privacy",
+      title: "Privacy Policy | Jessica Haynes",
     },
   ] as const;
 
@@ -173,8 +179,8 @@ test("forced colors preserve visible controls and dialog focus", async ({
 test("both themes reflow at 320px without page-level overflow", async ({
   page,
 }) => {
-  // 12 page loads (3 themes x 4 routes) outgrow the 30s default under load.
-  test.setTimeout(60000);
+  // 15 page loads (3 themes x 5 routes) outgrow the 30s default under load.
+  test.setTimeout(75000);
   await page.setViewportSize({ width: 320, height: 568 });
 
   for (const theme of themes) {
