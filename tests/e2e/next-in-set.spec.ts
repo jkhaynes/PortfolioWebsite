@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const SET = [
+  { path: "/work/job-hunt-pipeline", next: "PokéJudge AI", other: "Loot Singles Fulfillment", n: 1 },
   { path: "/work/pokejudge", next: "Loot Singles Fulfillment", other: "Loot Membership Integration", n: 2 },
   { path: "/work/loot-singles", next: "Loot Membership Integration", other: "pricewatch", n: 3 },
   { path: "/work/loot-membership", next: "pricewatch", other: "Job Hunt Pipeline", n: 4 },

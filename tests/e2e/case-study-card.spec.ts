@@ -2,6 +2,16 @@ import { expect, test } from "@playwright/test";
 
 const STUDIES = [
   {
+    path: "/work/job-hunt-pipeline",
+    title: "Job Hunt Pipeline",
+    tldr: {
+      Role: "Sole developer",
+      Status: "Live · runs daily on GitHub Actions",
+      Outcome: "181 roles screened, 16 surfaced, 7 applications in two days",
+      Stack: "C#, .NET 10, Claude, GitHub Actions, Gmail API",
+    },
+  },
+  {
     path: "/work/pokejudge",
     title: "PokéJudge AI",
     tldr: {

@@ -83,6 +83,7 @@ for (const viewport of [
       "/work/pokejudge",
       "/work/loot-membership",
       "/work/pricewatch",
+      "/work/job-hunt-pipeline",
     ]) {
       await page.goto(path);
       await expect
