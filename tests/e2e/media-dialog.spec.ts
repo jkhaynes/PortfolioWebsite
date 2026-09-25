@@ -83,6 +83,7 @@ for (const viewport of [
       "/work/pokejudge",
       "/work/loot-membership",
       "/work/pricewatch",
+      "/work/job-hunt-pipeline",
     ]) {
       await page.goto(path);
       await expect
@@ -118,7 +119,7 @@ test("featured project cards link to case studies and keep one preloaded image",
   await page.goto("/");
   const cards = page.locator("[data-project-card]");
 
-  await expect(cards.getByRole("link")).toHaveCount(4);
+  await expect(cards.getByRole("link")).toHaveCount(5);
   await expect(page.getByRole("button", { name: /^View larger:/ })).toHaveCount(
     0,
   );

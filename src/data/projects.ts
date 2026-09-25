@@ -3,6 +3,7 @@ import lootOrderDetail from "../../public/work/loot-singles/order-detail-desktop
 import pokeJudgeRun from "../../public/work/pokejudge/late-arrival-success.png";
 import membershipTierEditor from "../../public/work/loot-membership/tier-editor.png";
 import pricewatchStatusPage from "../../public/work/pricewatch/status-page.png";
+import jobHuntDigest from "../../public/work/job-hunt-pipeline/digest-demo.png";
 
 export type ProjectMedia = {
   src: StaticImageData;
@@ -29,6 +30,33 @@ export type Project = {
   demoUrl?: string;
   caseStudyUrl?: string;
   media?: ProjectMedia;
+};
+
+export const jobHuntProject: Project = {
+  title: "Job Hunt Pipeline",
+  status: "Live",
+  cardSummary:
+    "A daily AI job search that screens LinkedIn roles against my rules and resume.",
+  outcome: "181 roles screened, 16 surfaced, 7 applications in two days",
+  problemStatement:
+    "LinkedIn alert emails say 30+ new jobs but show about six, and not the best six, so the rest meant checking postings by hand for pay, remote rules and stack.",
+  solutionSummary:
+    "A daily GitHub Actions run collects new roles from alert emails and saved searches, drops the ones that fail hard rules with free checks first, scores the rest against a resume with Claude, and emails one digest card per role worth a look.",
+  technicalDecisions:
+    "Checks are ordered by cost, scoring and fact extraction share one Claude call per role, runs have usage and time budgets with a carry-over queue, and every personal setting lives in one config file.",
+  buildApproach:
+    "Built in C# on .NET 10, calling Claude through the Claude Code CLI on a Max subscription, with an offline self-test of 51 checks and a public template repo.",
+  tags: ["C#", ".NET 10", "Claude Code", "GitHub Actions", "Gmail API"],
+  githubUrl: "https://github.com/jkhaynes/job-hunt-pipeline-template",
+  caseStudyUrl: "/work/job-hunt-pipeline",
+  media: {
+    src: jobHuntDigest,
+    alt: "A sample Job Hunt Pipeline digest with role cards showing fit scores and must-haves checklists.",
+    title: "Job Hunt Pipeline digest",
+    caption: "Sample digest · Fictional roles",
+    objectClassName: "object-cover object-top",
+    priority: true,
+  },
 };
 
 export const pokeJudgeProject: Project = {
@@ -62,7 +90,6 @@ export const pokeJudgeProject: Project = {
     title: "PokéJudge clarification run",
     caption: "Live clarification and grounding run",
     objectClassName: "object-cover object-left-top",
-    priority: true,
   },
 };
 
@@ -162,6 +189,7 @@ export const pricewatchProject: Project = {
 
 // The set order: the homepage hand and each case study's "Next in the set".
 export const projects: Project[] = [
+  jobHuntProject,
   pokeJudgeProject,
   lootSinglesProject,
   lootMembershipProject,

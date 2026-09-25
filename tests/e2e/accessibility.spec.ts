@@ -7,6 +7,7 @@ const routes = [
   "/work/pokejudge",
   "/work/loot-membership",
   "/work/pricewatch",
+  "/work/job-hunt-pipeline",
   "/privacy",
 ] as const;
 const themes = ["light", "dark", "pokemon"] as const;
@@ -85,6 +86,11 @@ test("public routes emit unique canonical and social metadata", async ({
       route: "/work/pricewatch",
       canonical: "https://www.jessbuilds.dev/work/pricewatch",
       title: "pricewatch Case Study | Jessica Haynes",
+    },
+    {
+      route: "/work/job-hunt-pipeline",
+      canonical: "https://www.jessbuilds.dev/work/job-hunt-pipeline",
+      title: "Job Hunt Pipeline Case Study | Jessica Haynes",
     },
     {
       route: "/privacy",
