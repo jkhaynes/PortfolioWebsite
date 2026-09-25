@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 
 const SET = [
-  { path: "/work/pokejudge", next: "Loot Singles Fulfillment", other: "Loot Membership Integration", n: 1 },
-  { path: "/work/loot-singles", next: "Loot Membership Integration", other: "pricewatch", n: 2 },
-  { path: "/work/loot-membership", next: "pricewatch", other: "PokéJudge AI", n: 3 },
-  { path: "/work/pricewatch", next: "PokéJudge AI", other: "Loot Singles Fulfillment", n: 4 },
+  { path: "/work/pokejudge", next: "Loot Singles Fulfillment", other: "Loot Membership Integration", n: 2 },
+  { path: "/work/loot-singles", next: "Loot Membership Integration", other: "pricewatch", n: 3 },
+  { path: "/work/loot-membership", next: "pricewatch", other: "Job Hunt Pipeline", n: 4 },
+  { path: "/work/pricewatch", next: "Job Hunt Pipeline", other: "PokéJudge AI", n: 5 },
 ] as const;
 
 for (const { path, next, other, n } of SET) {
@@ -17,7 +17,7 @@ for (const { path, next, other, n } of SET) {
     await expect(cards).toHaveCount(2);
     await expect(cards.nth(0).getByRole("link")).toHaveAccessibleName(next);
     await expect(cards.nth(1).getByRole("link")).toHaveAccessibleName(other);
-    await expect(section).toContainText(`Case study ${n} of 4. Up next: ${next}.`);
+    await expect(section).toContainText(`Case study ${n} of 5. Up next: ${next}.`);
 
     await expect(section.getByRole("link", { name: "Email Me" })).toHaveAttribute(
       "href",

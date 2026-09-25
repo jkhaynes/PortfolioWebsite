@@ -1285,33 +1285,39 @@
         filter 400ms ease;
     }
     .project-hand > [data-project-card]:nth-child(1) {
-      --hand-x: -17.8rem;
+      --hand-x: -18rem;
       --hand-r: -10deg;
       --hand-y: 1.75rem;
       z-index: 1;
     }
     .project-hand > [data-project-card]:nth-child(2) {
-      --hand-x: -5.95rem;
-      --hand-r: -3.5deg;
-      --hand-y: 0.25rem;
+      --hand-x: -9rem;
+      --hand-r: -5deg;
+      --hand-y: 0.4rem;
       z-index: 2;
     }
     .project-hand > [data-project-card]:nth-child(3) {
-      --hand-x: 5.95rem;
-      --hand-r: 3.5deg;
-      --hand-y: 0.25rem;
+      --hand-x: 0rem;
+      --hand-r: 0deg;
+      --hand-y: 0rem;
       z-index: 3;
     }
     .project-hand > [data-project-card]:nth-child(4) {
-      --hand-x: 17.8rem;
+      --hand-x: 9rem;
+      --hand-r: 5deg;
+      --hand-y: 0.4rem;
+      z-index: 4;
+    }
+    .project-hand > [data-project-card]:nth-child(5) {
+      --hand-x: 18rem;
       --hand-r: 10deg;
       --hand-y: 1.75rem;
-      z-index: 4;
+      z-index: 5;
     }
     /* Bringing a card forward is not motion, so it applies everywhere. The
        transform is restated so no theme's card hover can pull it out of the hand. */
     .project-hand > [data-project-card]:is(:hover, :focus-within) {
-      z-index: 5;
+      z-index: 6;
       transform: translateX(var(--hand-x)) rotate(var(--hand-r))
         translateY(var(--hand-y));
     }
@@ -1325,14 +1331,14 @@
     }
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
       > [data-project-card]:nth-child(2) {
-      --hand-x: -7.4rem;
-    }
-    .project-hand:has([data-project-card]:is(:hover, :focus-within))
-      > [data-project-card]:nth-child(3) {
-      --hand-x: 7.4rem;
+      --hand-x: -11rem;
     }
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
       > [data-project-card]:nth-child(4) {
+      --hand-x: 11rem;
+    }
+    .project-hand:has([data-project-card]:is(:hover, :focus-within))
+      > [data-project-card]:nth-child(5) {
       --hand-x: 22rem;
     }
     .project-hand:has([data-project-card]:is(:hover, :focus-within))
@@ -1365,6 +1371,9 @@
     }
     .project-hand[data-dealt="true"] > [data-project-card]:nth-child(4) {
       animation-delay: 500ms;
+    }
+    .project-hand[data-dealt="true"] > [data-project-card]:nth-child(5) {
+      animation-delay: 650ms;
     }
   }
 

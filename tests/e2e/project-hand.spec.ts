@@ -2,6 +2,12 @@ import { expect, test, type Locator, type Page } from "@playwright/test";
 
 const SET = [
   {
+    title: "Job Hunt Pipeline",
+    href: "/work/job-hunt-pipeline",
+    summary:
+      "A daily AI job search that screens LinkedIn roles against my rules and resume.",
+  },
+  {
     title: "PokéJudge AI",
     href: "/work/pokejudge",
     summary:
@@ -42,12 +48,12 @@ async function openProjects(page: Page, width: number) {
   await page.locator("#projects").scrollIntoViewIfNeeded();
 }
 
-test("the hand holds four compact cards that each open their case study", async ({
+test("the hand holds five compact cards that each open their case study", async ({
   page,
 }) => {
   await openProjects(page, 1280);
   const cards = page.locator("[data-project-card]");
-  await expect(cards).toHaveCount(4);
+  await expect(cards).toHaveCount(5);
 
   for (const [index, project] of SET.entries()) {
     const card = cards.nth(index);
@@ -67,12 +73,13 @@ test("on desktop the cards fan out, overlap and straighten on hover", async ({
 }) => {
   await openProjects(page, 1280);
   const cards = page.locator("[data-project-card]");
-  await expect.poll(() => angle(cards.nth(0))).toBeLessThan(-5);
-  await expect.poll(() => angle(cards.nth(1))).toBeLessThan(0);
-  await expect.poll(() => angle(cards.nth(1))).toBeGreaterThan(-5);
-  await expect.poll(() => angle(cards.nth(2))).toBeGreaterThan(0);
-  await expect.poll(() => angle(cards.nth(2))).toBeLessThan(5);
-  await expect.poll(() => angle(cards.nth(3))).toBeGreaterThan(5);
+  await expect.poll(() => angle(cards.nth(0))).toBeLessThan(-9);
+  await expect.poll(() => angle(cards.nth(1))).toBeLessThan(-3);
+  await expect.poll(() => angle(cards.nth(1))).toBeGreaterThan(-9);
+  await expect.poll(() => angle(cards.nth(2))).toBe(0);
+  await expect.poll(() => angle(cards.nth(3))).toBeGreaterThan(3);
+  await expect.poll(() => angle(cards.nth(3))).toBeLessThan(9);
+  await expect.poll(() => angle(cards.nth(4))).toBeGreaterThan(9);
 
   const first = (await cards.nth(0).boundingBox())!;
   const second = (await cards.nth(1).boundingBox())!;
@@ -129,7 +136,7 @@ test("on mobile the hand becomes a swipeable row without tilt", async ({
     await hand.evaluate((element) => element.scrollWidth > element.clientWidth),
   ).toBe(true);
   const cards = page.locator("[data-project-card]");
-  for (let index = 0; index < 4; index += 1) {
+  for (let index = 0; index < 5; index += 1) {
     expect(await angle(cards.nth(index))).toBe(0);
   }
   expect(
@@ -161,6 +168,6 @@ test("in Pokémon mode the hand lifts in place and Sylveon peeks over the picked
   const peek = side.locator(".project-sylveon-peek > span");
   await expect.poll(() => peek.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
   const peekBox = (await side.locator(".project-sylveon-peek").boundingBox())!;
-  const status = (await side.getByText("In Development", { exact: true }).boundingBox())!;
+  const status = (await side.getByText("Live", { exact: true }).boundingBox())!;
   expect(peekBox.y + peekBox.height).toBeLessThanOrEqual(status.y);
 });
