@@ -351,7 +351,7 @@ export default function PricewatchCaseStudy() {
             <div className="mt-10">
               <CaseStudyMedia
                 src={statusPage}
-                alt="The live pricewatch status page: price index, biggest movers, the schedule of every card and the request budget."
+                alt="The live pricewatch status page: price index, coverage and the week's biggest price moves."
                 title="pricewatch status page"
                 caption="Rebuilt from the database after every hourly run"
                 context="Live status page"

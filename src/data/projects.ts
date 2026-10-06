@@ -180,7 +180,7 @@ export const pricewatchProject: Project = {
   caseStudyUrl: "/work/pricewatch",
   media: {
     src: pricewatchStatusPage,
-    alt: "The pricewatch status page showing the price index, the biggest movers and the schedule of every card.",
+    alt: "The pricewatch status page showing the price index, coverage and the week's biggest price moves.",
     title: "pricewatch status page",
     caption: "Live status page · Rebuilt every hour",
     objectClassName: "object-cover object-top",
