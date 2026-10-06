@@ -48,7 +48,7 @@ const STUDIES = [
       Role: "Sole developer",
       Status: "Live · runs hourly on GitHub Actions",
       Outcome: "~915 requests a day to keep 4,900 prices current",
-      Stack: "Go, SQLite, GitHub Actions, PokéWallet API",
+      Stack: "Go, SQLite, GitHub Actions, PokéWallet API, MCP",
     },
   },
 ] as const;

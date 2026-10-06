@@ -79,6 +79,34 @@ const fromCSharp = [
   },
 ] as const;
 
+// Real answers from the collection database as of Oct 5, 2026.
+const conversation = [
+  {
+    question: "Which Pokémon is worth the most across every card I own?",
+    answer:
+      "Pikachu, by a long way. 52 cards worth $2,849.93, and one of them, Pikachu with Grey Felt Hat, is over a third of that at $1,015.89.",
+    head: ["Pokémon", "Cards", "Value"],
+    rows: [
+      ["Pikachu", "52", "$2,849.93"],
+      ["Sylveon", "21", "$2,361.85"],
+      ["Umbreon", "8", "$1,553.93"],
+    ],
+  },
+  {
+    question: "Is TCG Collector overvaluing my chase cards?",
+    answer:
+      "Mostly no. Nearly every card worth $100 or more is within a few dollars of market. Four are listed more than $50 high.",
+    head: ["Card", "Listed", "Market"],
+    rows: [
+      ["Paradise Resort (Staff)", "$641.76", "$433.51"],
+      ["Umbreon ex", "$1,410.28", "$1,326.66"],
+      ["Pikachu with Grey Felt Hat", "$1,081.11", "$1,015.89"],
+      ["Sylveon ex", "$533.18", "$476.49"],
+    ],
+    asOf: "data_as_of Oct 5, 2026",
+  },
+];
+
 const built = [
   "Collection import with reported, never guessed, matches",
   "Bounded, resumable pricing runs with a worker pool",
@@ -86,10 +114,12 @@ const built = [
   "Hourly GitHub Actions runs against a private data repo",
   "Public status page rebuilt every run",
   "Offline tests with a fake clock for the worker pool",
+  "Special prints priced from their own products: ball, Energy and Rocket reverse holos, and Prerelease, Staff, Worlds and 30th Anniversary promos",
+  "MCP server so Claude can answer questions about the collection",
 ];
 
 const planned = [
-  "Special prints now reported as unsupported: ball and Energy reverse holos, Cosmos, Prize Pack, stamps and promos (about 9% of the collection)",
+  "Prints still reported as unsupported: Cosmos, Prize Pack, set stamps and some promos (about 3% of the collection)",
   "Rows the import reports as unmatched or ambiguous",
 ];
 
@@ -111,7 +141,7 @@ export default function PricewatchCaseStudy() {
             summary="A Go CLI that prices an 8,800-card Pokémon collection on a free budget of 1,000 API requests a day, and never guesses which print a card is."
             role="Sole developer"
             status="Live · runs hourly on GitHub Actions"
-            stack="Go, SQLite, GitHub Actions, PokéWallet API"
+            stack="Go, SQLite, GitHub Actions, PokéWallet API, MCP"
             actions={
               <>
                 <Button
@@ -321,7 +351,7 @@ export default function PricewatchCaseStudy() {
             <div className="mt-10">
               <CaseStudyMedia
                 src={statusPage}
-                alt="The live pricewatch status page: price index, biggest movers, the schedule of every card and the request budget."
+                alt="The live pricewatch status page: price index, coverage and the week's biggest price moves."
                 title="pricewatch status page"
                 caption="Rebuilt from the database after every hourly run"
                 context="Live status page"
@@ -332,7 +362,96 @@ export default function PricewatchCaseStudy() {
             </div>
           </section>
 
-          <section aria-labelledby="decisions-heading" className="py-20">
+          <section aria-labelledby="ask-heading" className="py-20">
+            <SectionHeading label="Ask it anything" id="ask-heading">
+              Questions in plain English
+            </SectionHeading>
+            <p className="mt-5 max-w-3xl leading-relaxed text-muted">
+              <code className="font-mono text-sm">pricewatch mcp</code> is a
+              local MCP server. Claude starts it, and seven read-only tools
+              answer questions from the same database the hourly job writes.
+            </p>
+            <div className="mt-10 grid items-start gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+              <ol
+                aria-label="Example conversation with pricewatch"
+                className="grid gap-5 rounded-3xl border border-border bg-surface p-5 sm:p-7"
+              >
+                {conversation.map(({ question, answer, head, rows, asOf }) => (
+                  <li key={question} className="grid gap-4">
+                    <p className="max-w-[85%] justify-self-end rounded-2xl rounded-br-sm bg-accent-soft px-4 py-2.5 font-medium text-foreground">
+                      {question}
+                    </p>
+                    <div className="grid gap-3 text-sm">
+                      <span className="justify-self-start rounded-md bg-risk-soft px-2 py-0.5 font-mono text-xs text-risk-strong">
+                        pricewatch · query
+                      </span>
+                      <p className="leading-relaxed text-foreground">
+                        {answer}
+                      </p>
+                      <table className="w-full border-collapse tabular-nums">
+                        <thead>
+                          <tr className="border-b border-border text-left text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                            {head.map((cell, i) => (
+                              <th
+                                key={cell}
+                                scope="col"
+                                className={`py-1.5 ${i > 0 ? "text-right" : ""}`}
+                              >
+                                {cell}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rows.map((row) => (
+                            <tr key={row[0]} className="border-b border-border">
+                              {row.map((cell, i) => (
+                                <td
+                                  key={i}
+                                  className={`py-2 ${i > 0 ? "text-right" : ""}`}
+                                >
+                                  {cell}
+                                </td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {asOf && (
+                        <p className="font-mono text-xs text-muted">{asOf}</p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="grid gap-10">
+                <Decision title="Read-only, enforced by SQLite">
+                  The database opens with{" "}
+                  <code className="font-mono text-sm">mode=ro</code> and{" "}
+                  <code className="font-mono text-sm">query_only</code>, so
+                  even the raw SQL tool can&apos;t write. SQLite enforces it,
+                  not a check on the query text.
+                </Decision>
+                <Decision title="Every answer is dated">
+                  Results carry{" "}
+                  <code className="font-mono text-sm">data_as_of</code>. If a
+                  fresh copy can&apos;t be downloaded, the server answers from
+                  its cache and says the data is stale.
+                </Decision>
+                <Decision title="Prints stay separate">
+                  <code className="font-mono text-sm">find_cards</code> returns
+                  one row per print, and price history takes one exact print.
+                  When a name matches several, Claude sees them all and has to
+                  pick or ask.
+                </Decision>
+              </div>
+            </div>
+          </section>
+
+          <section
+            aria-labelledby="decisions-heading"
+            className="border-t border-border py-20"
+          >
             <SectionHeading
               label="Engineering decisions"
               id="decisions-heading"
@@ -393,7 +512,7 @@ export default function PricewatchCaseStudy() {
           <section className="grid gap-14 border-t border-border py-20 lg:grid-cols-2 lg:gap-20">
             <div>
               <SectionHeading label="Current state" id="current-heading">
-                Phases 1 to 3 complete
+                Phases 1 to 3 complete, plus an MCP server
               </SectionHeading>
               <StatusList label="Built" tone="done" items={built} />
             </div>
