@@ -10,23 +10,25 @@ import {
   SectionHeading,
   StateLabel,
 } from "@/components/case-study/CaseStudyPrimitives";
-import { lootMembershipProject as project } from "@/data/projects";
-import tierEditor from "../../../../public/work/loot-membership/tier-editor.png";
-import customerConnected from "../../../../public/work/loot-membership/customer-connected-redacted.png";
-import customerDashboard from "../../../../public/work/loot-membership/customer-dashboard.png";
+import { roleSyncProject as project } from "@/data/projects";
+import membershipTiers from "../../../../public/work/rolesync/membership-tiers.png";
+import dashboard from "../../../../public/work/rolesync/dashboard.png";
+import stagedPreview from "../../../../public/work/rolesync/staged-preview.png";
+import syncStatus from "../../../../public/work/rolesync/sync-status.png";
+import changeHistory from "../../../../public/work/rolesync/change-history.png";
 
-const title = "Loot Membership Integration Case Study | Jessica Haynes";
+const title = "RoleSync Case Study | Jessica Haynes";
 const description =
   "Connecting verified Discord membership to Shopify customer benefits, with tenant-scoped identity, explicit failure states, and queued synchronization.";
 
 export const metadata: Metadata = {
   title,
   description,
-  alternates: { canonical: "/work/loot-membership" },
+  alternates: { canonical: "/work/rolesync" },
   openGraph: {
     title,
     description,
-    url: "/work/loot-membership",
+    url: "/work/rolesync",
     siteName: "Jessica Haynes",
     type: "article",
   },
@@ -60,7 +62,46 @@ const decisions = [
   },
 ];
 
-export default function LootMembershipCaseStudy() {
+const screenshots = [
+  {
+    heading: "Health and eligibility at a glance",
+    src: dashboard,
+    alt: "RoleSync dashboard showing Shopify and Discord connected, plan usage, and customer counts for connected, eligible, not eligible, unable to verify and pending.",
+    title: "RoleSync dashboard",
+    caption: "Integration health, plan usage and customer status",
+    aspectClassName: "aspect-[860/865]",
+    body: "The dashboard shows whether Shopify and Discord are connected and where each customer stands. Eligibility and verification health are counted separately. The counts describe the development store, not adoption or business impact.",
+  },
+  {
+    heading: "Preview a change before it lands",
+    src: stagedPreview,
+    alt: "Rename Shopify tag confirmation from membership-silver to membership-silver-2026, showing seven connected customers affected.",
+    title: "RoleSync staged change preview",
+    caption: "Staged tag rename with affected customers",
+    aspectClassName: "aspect-[860/811]",
+    body: "Renaming a tag or changing a role is staged first. The preview shows how many connected customers the change affects and how it is applied. Eligible customers get the new tag, and the old one is removed once that succeeds.",
+  },
+  {
+    heading: "Failures say what to do next",
+    src: syncStatus,
+    alt: "Customer sync status with one customer needing attention because Shopify did not respond, a retry button, and two customers already updating.",
+    title: "RoleSync customer sync status",
+    caption: "A failed Shopify update with a targeted retry",
+    aspectClassName: "aspect-[860/852]",
+    body: "When Shopify does not respond after several attempts, the customer is listed with the reason and a retry. Work already in progress is shown separately, so the merchant knows it needs nothing from them.",
+  },
+  {
+    heading: "Every change is recorded",
+    src: changeHistory,
+    alt: "Change history listing a tag rename, a priority change, tag assignments and a role mapping, each marked Done with its time.",
+    title: "RoleSync change history",
+    caption: "Configuration changes and their outcomes",
+    aspectClassName: "aspect-[860/464]",
+    body: "Tag renames, priority changes and new role mappings are listed with when they ran and whether they finished, so a merchant can see what changed and when.",
+  },
+];
+
+export default function RoleSyncCaseStudy() {
   return (
     <>
       <Nav />
@@ -76,7 +117,7 @@ export default function LootMembershipCaseStudy() {
             kicker="Integration case study"
             summary="Making member benefits depend on verified membership."
             role="Sole developer & designer"
-            status="In development"
+            status="V1 complete"
             stack="TypeScript, React Router, Cloudflare Workers, D1"
             actions={
               <TextLink href="#workflow" target="_self">
@@ -85,14 +126,14 @@ export default function LootMembershipCaseStudy() {
             }
             art={
               <CaseStudyMedia
-                src={tierEditor}
-                alt="Tier editor showing the Hoardling membership's Discord role, priority, Shopify customer tag, and deactivation control."
-                title="Loot membership tier editor"
-                caption="Configure the link between Discord roles and Shopify tags"
+                src={membershipTiers}
+                alt="Membership tiers page listing Silver, Gold and Bronze, each with its Discord role, Shopify customer tag and priority."
+                title="RoleSync membership tiers"
+                caption="Discord roles mapped to Shopify tags, by priority"
                 context="App screenshot"
                 priority
                 sizes="(min-width: 1024px) 50vw, calc(100vw - 4rem)"
-                aspectClassName="aspect-[15/13]"
+                aspectClassName="aspect-[860/811]"
                 objectClassName="object-contain"
               />
             }
@@ -115,8 +156,8 @@ export default function LootMembershipCaseStudy() {
               <p>
                 Loot uses Discord roles to represent membership. Shopify needs
                 that membership attached to the right customer before it can
-                support member benefits. I designed and built this integration
-                to connect those identities and translate configured roles into
+                support member benefits. I designed and built RoleSync to
+                connect those identities and translate configured roles into
                 membership tiers.
               </p>
               <p>
@@ -195,52 +236,27 @@ export default function LootMembershipCaseStudy() {
             className="border-t border-border py-16"
           >
             <SectionHeading label="Inside the app" id="screenshots-heading">
-              Membership status for customers and merchants
+              What the merchant sees
             </SectionHeading>
-            <div className="mt-10 grid gap-12 lg:grid-cols-2">
-              <article className="min-w-0">
-                <h3 className="mb-5 font-display text-2xl font-semibold">
-                  A visible connection, with a clear exit
-                </h3>
-                <CaseStudyMedia
-                  src={customerConnected}
-                  alt="Customer account showing verified Hoardling membership, Check again, and a Discord disconnect confirmation. Username and verification timestamp are redacted."
-                  title="Loot customer membership"
-                  caption="Verified membership and disconnect confirmation"
-                  context="App screenshot · Personal details redacted"
-                  sizes="(min-width: 1024px) 50vw, calc(100vw - 2rem)"
-                  aspectClassName="aspect-[685/401]"
-                  objectClassName="object-contain"
-                />
-                <p className="mt-5 leading-relaxed text-muted">
-                  The customer can see their verified tier, request another
-                  check, or disconnect Discord. The confirmation explains that
-                  disconnecting removes verified membership until the account is
-                  connected again.
-                </p>
-              </article>
-              <article className="min-w-0">
-                <h3 className="mb-5 font-display text-2xl font-semibold">
-                  Separate states stay visible
-                </h3>
-                <CaseStudyMedia
-                  src={customerDashboard}
-                  alt="Merchant dashboard with connection and eligibility counts, separate Unable to verify and Pending states, an in-progress reconciliation notice, and an empty customer search."
-                  title="Loot membership customer dashboard"
-                  caption="Customer status and reconciliation in progress"
-                  context="App screenshot"
-                  sizes="(min-width: 1024px) 50vw, calc(100vw - 2rem)"
-                  aspectClassName="aspect-[959/448]"
-                  objectClassName="object-contain"
-                />
-                <p className="mt-5 leading-relaxed text-muted">
-                  The merchant dashboard separates connection status,
-                  eligibility, and verification health. This capture also shows
-                  feedback for a reconciliation pass already in progress. The
-                  displayed counts describe this captured app state, not
-                  adoption or business impact.
-                </p>
-              </article>
+            <div className="mt-10 grid gap-x-12 gap-y-14 lg:grid-cols-2">
+              {screenshots.map((shot) => (
+                <article key={shot.title} className="min-w-0">
+                  <h3 className="mb-5 font-display text-2xl font-semibold">
+                    {shot.heading}
+                  </h3>
+                  <CaseStudyMedia
+                    src={shot.src}
+                    alt={shot.alt}
+                    title={shot.title}
+                    caption={shot.caption}
+                    context="App screenshot"
+                    sizes="(min-width: 1024px) 50vw, calc(100vw - 2rem)"
+                    aspectClassName={shot.aspectClassName}
+                    objectClassName="object-contain"
+                  />
+                  <p className="mt-5 leading-relaxed text-muted">{shot.body}</p>
+                </article>
+              ))}
             </div>
           </section>
 
@@ -340,7 +356,7 @@ export default function LootMembershipCaseStudy() {
             </div>
             <div>
               <SectionHeading label="Current state" id="status-heading">
-                Built foundations, ongoing development
+                Version 1 is complete
               </SectionHeading>
               <div className="mt-7 space-y-7">
                 <div>
@@ -357,25 +373,25 @@ export default function LootMembershipCaseStudy() {
                     <li>
                       Queued Shopify synchronization and scheduled recovery
                     </li>
+                    <li>
+                      Staged configuration changes with affected-customer
+                      previews and change history
+                    </li>
+                    <li>Customer sync status with targeted retries</li>
+                    <li>Free and paid plans based on linked customers</li>
                   </ul>
                 </div>
                 <div>
-                  <StateLabel
-                    label="In progress / future direction"
-                    tone="planned"
-                  />
+                  <StateLabel label="Next" tone="planned" />
                   <p className="mt-4 leading-relaxed text-muted">
-                    Configuration-change re-projection is active development
-                    work. The product direction includes proving the first
-                    end-to-end benefit with Loot and eventually supporting
-                    unrelated Shopify merchants through public distribution.
+                    Rolling RoleSync out with Loot Card Shop and making it
+                    available to other Shopify merchants.
                   </p>
                 </div>
               </div>
               <p className="mt-7 text-sm leading-relaxed text-muted">
-                This case study describes the development implementation. The
-                $0/month recurring-infrastructure budget is a design target;
-                production outcomes and operating costs are not reported here.
+                This case study describes the implementation. Production
+                outcomes and operating costs are not reported here.
               </p>
             </div>
           </section>

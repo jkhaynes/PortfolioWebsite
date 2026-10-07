@@ -1,7 +1,7 @@
 import type { StaticImageData } from "next/image";
 import lootOrderDetail from "../../public/work/loot-singles/order-detail-desktop-catalog-cards.png";
 import pokeJudgeRun from "../../public/work/pokejudge/late-arrival-success.png";
-import membershipTierEditor from "../../public/work/loot-membership/tier-editor.png";
+import roleSyncMembershipTiers from "../../public/work/rolesync/membership-tiers.png";
 import pricewatchStatusPage from "../../public/work/pricewatch/status-page.png";
 import jobHuntDigest from "../../public/work/job-hunt-pipeline/digest-demo.png";
 
@@ -128,12 +128,12 @@ export const lootSinglesProject: Project = {
   },
 };
 
-export const lootMembershipProject: Project = {
-  title: "Loot Membership Integration",
-  status: "In Development",
+export const roleSyncProject: Project = {
+  title: "RoleSync",
+  status: "V1 Complete",
   cardSummary:
     "A Shopify app that ties member discounts to verified Discord roles.",
-  outcome: "Tier editor mapping Discord roles to Shopify customer tags",
+  outcome: "Membership tiers mapping Discord roles to Shopify customer tags",
   problemStatement:
     "Loot Card Shop had people using member discount codes who weren't eligible. Discord membership needed to be connected to the right Shopify customer.",
   solutionSummary:
@@ -150,11 +150,11 @@ export const lootMembershipProject: Project = {
     "Cloudflare Workers",
     "D1",
   ],
-  caseStudyUrl: "/work/loot-membership",
+  caseStudyUrl: "/work/rolesync",
   media: {
-    src: membershipTierEditor,
-    alt: "Loot membership tier editor with Discord role mappings, role priority, and a Shopify customer tag.",
-    title: "Loot membership tier editor",
+    src: roleSyncMembershipTiers,
+    alt: "RoleSync membership tiers listing Silver, Gold and Bronze, each with its Discord role, Shopify customer tag and priority.",
+    title: "RoleSync membership tiers",
     caption: "Discord roles mapped to Shopify membership · App screenshot",
     objectClassName: "object-cover object-top",
   },
@@ -192,6 +192,6 @@ export const projects: Project[] = [
   jobHuntProject,
   pokeJudgeProject,
   lootSinglesProject,
-  lootMembershipProject,
+  roleSyncProject,
   pricewatchProject,
 ];

@@ -32,12 +32,12 @@ const STUDIES = [
     },
   },
   {
-    path: "/work/loot-membership",
-    title: "Loot Membership Integration",
+    path: "/work/rolesync",
+    title: "RoleSync",
     tldr: {
       Role: "Sole developer & designer",
-      Status: "In development",
-      Outcome: "Tier editor mapping Discord roles to Shopify customer tags",
+      Status: "V1 complete",
+      Outcome: "Membership tiers mapping Discord roles to Shopify customer tags",
       Stack: "TypeScript, React Router, Cloudflare Workers, D1",
     },
   },
