@@ -1,42 +1,42 @@
 import { expect, test } from "@playwright/test";
 
-test("membership project opens its case study and returns to featured projects", async ({
+test("RoleSync project opens its case study and returns to featured projects", async ({
   page,
 }) => {
   await page.goto("/");
   const card = page.locator("[data-project-card]").filter({
     has: page.getByRole("heading", {
-      name: "Loot Membership Integration",
+      name: "RoleSync",
       exact: true,
     }),
   });
   await expect(
     card.getByRole("link", { name: /GitHub|Live Demo/ }),
   ).toHaveCount(0);
-  await card.getByRole("link", { name: "Loot Membership Integration" }).click();
-  await expect(page).toHaveURL(/\/work\/loot-membership$/);
+  await card.getByRole("link", { name: "RoleSync" }).click();
+  await expect(page).toHaveURL(/\/work\/rolesync$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Loot Membership Integration",
+    "RoleSync",
   );
   await page.getByRole("link", { name: "Explore more projects" }).click();
   await expect(page).toHaveURL(/\/#projects$/);
   await expect(page.locator("#projects")).toBeInViewport();
 });
 
-test("membership case study loads directly with share metadata and an accessible architecture diagram", async ({
+test("RoleSync case study loads directly with share metadata and an accessible architecture diagram", async ({
   page,
 }) => {
-  await page.goto("/work/loot-membership");
+  await page.goto("/work/rolesync");
   await expect(page).toHaveTitle(
-    "Loot Membership Integration Case Study | Jessica Haynes",
+    "RoleSync Case Study | Jessica Haynes",
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
-    "https://www.jessbuilds.dev/work/loot-membership",
+    "https://www.jessbuilds.dev/work/rolesync",
   );
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
     "content",
-    "https://www.jessbuilds.dev/work/loot-membership",
+    "https://www.jessbuilds.dev/work/rolesync",
   );
   await expect(
     page.getByRole("figure", { name: "Membership architecture", exact: true }),
@@ -45,7 +45,7 @@ test("membership case study loads directly with share metadata and an accessible
     page.locator("main").getByRole("link", { name: /GitHub|Live Demo/ }),
   ).toHaveCount(0);
   const media = page.getByRole("button", {
-    name: "View larger: Loot membership tier editor",
+    name: "View larger: RoleSync membership tiers",
   });
   await media.focus();
   await page.keyboard.press("Enter");
@@ -55,4 +55,31 @@ test("membership case study loads directly with share metadata and an accessible
   ).toBeFocused();
   await page.keyboard.press("Escape");
   await expect(media).toBeFocused();
+});
+
+test("the old membership case study URL permanently redirects to RoleSync", async ({
+  page,
+}) => {
+  const response = await page.request.get("/work/loot-membership", {
+    maxRedirects: 0,
+  });
+  expect(response.status()).toBe(308);
+  expect(response.headers()["location"]).toBe("/work/rolesync");
+
+  await page.goto("/work/loot-membership");
+  await expect(page).toHaveURL(/\/work\/rolesync$/);
+});
+
+test("RoleSync case study shows the four app screenshots", async ({ page }) => {
+  await page.goto("/work/rolesync");
+  for (const title of [
+    "RoleSync dashboard",
+    "RoleSync staged change preview",
+    "RoleSync customer sync status",
+    "RoleSync change history",
+  ]) {
+    await expect(
+      page.getByRole("button", { name: `View larger: ${title}` }),
+    ).toBeVisible();
+  }
 });

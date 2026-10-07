@@ -30,7 +30,7 @@ for (const [theme, label] of [
       "/",
       "/work/pokejudge",
       "/work/loot-singles",
-      "/work/loot-membership",
+      "/work/rolesync",
       "/work/pricewatch",
       "/work/job-hunt-pipeline",
     ]) {
@@ -156,7 +156,7 @@ test("three themes avoid overflow on every route", async ({ page }) => {
         "/",
         "/work/pokejudge",
         "/work/loot-singles",
-        "/work/loot-membership",
+        "/work/rolesync",
         "/work/pricewatch",
         "/work/job-hunt-pipeline",
       ]) {

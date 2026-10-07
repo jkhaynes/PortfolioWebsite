@@ -20,8 +20,8 @@ const SET = [
       "A set-aware picking app built to prevent wrong-card mistakes and order collisions.",
   },
   {
-    title: "Loot Membership Integration",
-    href: "/work/loot-membership",
+    title: "RoleSync",
+    href: "/work/rolesync",
     summary: "A Shopify app that ties member discounts to verified Discord roles.",
   },
   {

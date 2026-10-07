@@ -5,7 +5,7 @@ const routes = [
   "/",
   "/work/loot-singles",
   "/work/pokejudge",
-  "/work/loot-membership",
+  "/work/rolesync",
   "/work/pricewatch",
   "/work/job-hunt-pipeline",
   "/privacy",
