@@ -10,6 +10,12 @@
 
 **Approved mockup**: [mockup.md](mockup.md) (approved 2026-10-20). Where this spec and the mockup disagree on look, the mockup wins.
 
+## Clarifications
+
+### Session 2026-10-20
+
+- Q: When nobody is moving the mouse, should the fairy keep drifting around the greeting forever, or settle beside the name after a few seconds? → A: On load it drifts briefly (under 5 seconds), then settles beside the name; it flies again only while the mouse moves over the hero, and settles a few seconds after the mouse stops or leaves (WCAG 2.2.2, no self-started motion longer than 5 seconds).
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - A recruiter sees who Jessica is and proof of her work in one screen (Priority: P1)
@@ -65,7 +71,7 @@ In the Pokémon theme, a "Take a play break" badge with the ribbon bow sits cent
 
 ### User Story 4 - A fairy adds a memorable touch without getting in the way (Priority: P3)
 
-On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark it is a butterfly in the theme's accent colors; in Pokémon it is a Sylveon ribbon fairy (a pink bow with pink and blue trailing ribbons). It follows the mouse pointer and leaves a short trail of sparkles in the site's sparkle motif. When the pointer leaves the hero or does not move, it drifts gently around the greeting. With reduced motion, or on touch screens, it rests still beside the name. It is decoration only and never blocks a click, tap, selection or focus.
+On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark it is a butterfly in the theme's accent colors; in Pokémon it is a Sylveon ribbon fairy (a pink bow with pink and blue trailing ribbons). It follows the mouse pointer and leaves a short trail of sparkles in the site's sparkle motif. When the page loads it drifts briefly around the greeting, then settles beside the name; after the pointer stops or leaves the hero, it settles beside the name again within a few seconds. With reduced motion, or on touch screens, it rests still beside the name. It is decoration only and never blocks a click, tap, selection or focus.
 
 **Why this priority**: It is the memorable detail of the chosen design, but the hero must be complete and usable without it.
 
@@ -74,12 +80,13 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 **Acceptance Scenarios**:
 
 1. **Given** a desktop with a mouse and motion allowed, **When** the visitor moves the pointer over the hero, **Then** the fairy follows it and leaves a fading sparkle trail.
-2. **Given** the fairy is flying, **When** the pointer leaves the hero or stops, **Then** the fairy drifts around the greeting.
-3. **Given** the visitor prefers reduced motion, **When** the hero renders, **Then** the fairy rests still beside the name, with no movement or trail.
-4. **Given** a touch-only device, **When** the hero renders, **Then** the fairy rests still beside the name.
-5. **Given** the fairy is anywhere over the hero, **When** the visitor clicks or taps any link or button under it, **Then** the link or button responds as if the fairy were not there.
-6. **Given** the visitor scrolls the hero out of view, **When** it is off screen, **Then** the fairy stops animating, and it resumes when the hero is back in view.
-7. **Given** assistive technology, **When** the hero is read out, **Then** the fairy is not announced.
+2. **Given** the page has just loaded and no pointer is moving, **When** 5 seconds pass, **Then** the fairy has stopped drifting and rests beside the name.
+3. **Given** the fairy is flying after the pointer, **When** the pointer stops or leaves the hero, **Then** within 5 seconds the fairy settles beside the name and stays still until the pointer moves over the hero again.
+4. **Given** the visitor prefers reduced motion, **When** the hero renders, **Then** the fairy rests still beside the name, with no movement or trail.
+5. **Given** a touch-only device, **When** the hero renders, **Then** the fairy rests still beside the name.
+6. **Given** the fairy is anywhere over the hero, **When** the visitor clicks or taps any link or button under it, **Then** the link or button responds as if the fairy were not there.
+7. **Given** the visitor scrolls the hero out of view, **When** it is off screen, **Then** the fairy stops animating, and it resumes when the hero is back in view.
+8. **Given** assistive technology, **When** the hero is read out, **Then** the fairy is not announced.
 
 ---
 
@@ -88,7 +95,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 - The theme changes while the fairy is flying: the fairy switches to the new theme's fairy and colors without a reload.
 - The browser window is resized: the fairy stays within the hero and the resting fairy stays beside the name.
 - Reduced motion is turned on or off while the page is open: the fairy switches between resting and flying.
-- A device has both touch and a mouse: the fairy follows the mouse when one is used, and otherwise drifts.
+- A device has both touch and a mouse: the fairy follows the mouse when one is used, and otherwise rests beside the name.
 - Scripts fail or are slow to load: all hero text, actions, links and impact numbers still show and work; only the fairy is missing.
 - Very narrow phone widths (320px): no horizontal scroll, the greeting wraps cleanly, and the resting fairy does not cover text.
 - Someone arrives with an impact hash in the URL (for example `/#impact-nightly-job`): it still lands on that evidence, as today.
@@ -125,7 +132,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 **Fairy**
 
 - **FR-015**: A decorative fairy MUST be drawn over the hero only: a butterfly in the theme's accent colors in Light and Dark, and a Sylveon ribbon fairy (pink bow, pink and blue ribbons) in Pokémon.
-- **FR-016**: With a mouse and motion allowed, the fairy MUST follow the pointer while it is over the hero and leave a short fading trail of sparkles; when the pointer is away or still, it MUST drift around the heading.
+- **FR-016**: With a mouse and motion allowed, the fairy MUST follow the pointer while it is over the hero and leave a short fading trail of sparkles. On page load it MAY drift around the heading for under 5 seconds, then MUST settle beside the name. When the pointer stops or leaves the hero, the fairy MUST settle beside the name within 5 seconds and stay still until the pointer moves over the hero again. The fairy MUST never move on its own for more than 5 seconds (WCAG 2.2.2).
 - **FR-017**: With reduced motion preferred, or on a device without a fine pointer, the fairy MUST rest still beside the name, with no trail.
 - **FR-018**: The fairy MUST stop animating while the hero is off screen and resume when it returns.
 - **FR-019**: The fairy MUST never intercept clicks, taps, text selection or focus, and MUST be hidden from assistive technology.
@@ -151,7 +158,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 - **SC-002**: At a 390px phone width, the greeting, role line, tagline and both actions are visible in the first screen, and the impact numbers are reached within one scroll.
 - **SC-003**: All four impact numbers reach their evidence in one activation, by mouse and by keyboard.
 - **SC-004**: Automated accessibility checks report zero violations on the homepage in all three themes at phone and desktop widths.
-- **SC-005**: With reduced motion on, nothing in the hero moves.
+- **SC-005**: With reduced motion on, nothing in the hero moves; with motion allowed and no pointer movement, nothing in the hero moves after the first 5 seconds.
 - **SC-006**: Every hero link and button responds on the first click or tap anywhere in the fairy's area.
 - **SC-007**: In the Pokémon theme, a visitor can open the game from the top of the hero in one activation.
 - **SC-008**: The homepage's existing end-to-end checks for themes, navigation, impact links and the game pass after they are updated to the new structure.
