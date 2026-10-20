@@ -1,70 +1,30 @@
-# Personal Website Starter
+# JessBuilds portfolio
 
-A minimal Next.js + TypeScript starter repository with a reusable, human-in-the-loop Claude Code development workflow.
+Jessica Haynes's portfolio site, live at https://www.jessbuilds.dev. Next.js, React, TypeScript and Tailwind CSS, deployed by Vercel from `main`.
 
-## First-time setup
+## Run it
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Then open the local URL printed by Next.js.
+Then open http://127.0.0.1:3010.
 
-## Start the workflow
+## Check it
 
-This starter intentionally does **not** contain a PRD.
-
-The first project-design step is:
-
-```text
-/create-prd
+```bash
+./scripts/check.sh
 ```
 
-or simply ask Claude naturally to create the PRD for the project.
+Format check, lint, build, then Playwright tests against the build: the same script CI runs on every pull request. On Windows PowerShell, use `./scripts/check.ps1`.
 
-That skill creates `docs/PRD.md`, which becomes the source of truth for project terminology, roadmap structure, branch naming, planning artifacts, and whether learning mode is enabled.
+## How work gets done
 
-After the PRD is reviewed, the reusable workflow is:
+New features are designed with Spec Kit and built with Superpowers, each in its own git worktree, then reviewed by the review panel and merged through a pull request with green CI. `CLAUDE.md` has the steps, `docs/ai-workflow.html` shows the whole flow as one diagram, and `docs/worktrees.md` covers working in worktrees. Product scope and the roadmap live in `docs/prd.md`.
 
-```text
-create-prd
-   ↓
-plan-work
-   ↓
-human review
-   ↓
-implement-work
-   ↓
-review-work
-   ↓
-(optional) learning-checkpoint
-   ↓
-review-pr
-   ↓
-create-pr
+To watch every feature in flight:
+
+```bash
+python3 scripts/dashboard.py --open
 ```
-
-## Claude Code skills
-
-Reusable skills live under:
-
-```text
-.claude/skills/
-```
-
-Included skills:
-
-- `create-prd`
-- `plan-work`
-- `implement-work`
-- `review-work`
-- `learning-checkpoint`
-- `review-pr`
-- `create-pr`
-
-The skills are intentionally generic so this workflow can be reused across other repositories.
-
-## Important
-
-The existing homepage is only a starter scaffold. The PRD should define the actual website scope and roadmap before substantial implementation begins.

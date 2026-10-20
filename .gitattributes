@@ -1,0 +1,14 @@
+# Keep LF line endings in every checkout, Windows included. Prettier (format:check) expects LF,
+# and core.autocrlf would otherwise turn files into CRLF on checkout and fail the check locally.
+* text=auto eol=lf
+
+# Binary assets: never touch their bytes.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

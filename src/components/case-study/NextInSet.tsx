@@ -36,8 +36,8 @@ export default function NextInSet({ current }: { current: Project }) {
             Let&apos;s connect
           </p>
           <p className="mt-1 text-sm text-muted">
-            If you&apos;re hiring, have a project in mind, or want to talk
-            shop, I&apos;d love to hear from you.
+            If you&apos;re hiring, have a project in mind, or want to talk shop,
+            I&apos;d love to hear from you.
           </p>
         </div>
         <Button href="mailto:jkhaynes2390@gmail.com" trackEvent="email_click">

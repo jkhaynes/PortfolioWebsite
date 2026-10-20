@@ -10,21 +10,21 @@ Make the climb from Programmer to Team Lead visible at a glance and make Experie
 
 ## Decisions
 
-| Topic | Decision |
-|---|---|
-| Career line | A compact metro line above the entries: one continuous rose line, one stop per role, oldest on the left |
-| Stops | Programmer 2016, Senior Developer 2017, Senior Developer (Growers Edge) 2019, Lead Developer 2020, Senior III 2022, Team Lead / Senior IV 2024 |
-| Stop labels | Short role name, then "Company · year" underneath; the current stop reads "8am · 2024 – now" |
-| Promotions | The word "promoted" sits on the track leading into a promotion: into Senior Developer (Proplanner) and into Team Lead / Senior IV (8am). Company changes are not labeled |
-| Current role | Its stop keeps the normal look and gains a Pearl halo; no other stop is highlighted |
-| Stop links | Each stop links to its role in the entries below; a stop for an earlier role opens the "Earlier roles" group first |
-| Full entries | 8am (both roles, with the PROMOTED pill between them) and Proplanner Lead Developer, unchanged |
-| Earlier roles | Option A: a closed disclosure, "Earlier roles (3)" with "2016 – 2020", that opens to the full entries for Growers Edge and the two earlier Proplanner roles (PROMOTED pill kept) |
-| Résumé | "View full résumé ↗" closes the section: the PDF in a new tab, with the existing `resume_download` event |
-| Foil | Pearl, as on the project cards; the review's gold foil is not added |
-| Mobile | The line becomes one row you swipe (about 118px per stop); no page-level horizontal overflow |
-| Pokémon | Same structure in Pokémon tokens; no Sylveon or extra art |
-| Reduced motion | The Pearl halo does not shimmer |
+| Topic          | Decision                                                                                                                                                                         |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Career line    | A compact metro line above the entries: one continuous rose line, one stop per role, oldest on the left                                                                          |
+| Stops          | Programmer 2016, Senior Developer 2017, Senior Developer (Growers Edge) 2019, Lead Developer 2020, Senior III 2022, Team Lead / Senior IV 2024                                   |
+| Stop labels    | Short role name, then "Company · year" underneath; the current stop reads "8am · 2024 – now"                                                                                     |
+| Promotions     | The word "promoted" sits on the track leading into a promotion: into Senior Developer (Proplanner) and into Team Lead / Senior IV (8am). Company changes are not labeled         |
+| Current role   | Its stop keeps the normal look and gains a Pearl halo; no other stop is highlighted                                                                                              |
+| Stop links     | Each stop links to its role in the entries below; a stop for an earlier role opens the "Earlier roles" group first                                                               |
+| Full entries   | 8am (both roles, with the PROMOTED pill between them) and Proplanner Lead Developer, unchanged                                                                                   |
+| Earlier roles  | Option A: a closed disclosure, "Earlier roles (3)" with "2016 – 2020", that opens to the full entries for Growers Edge and the two earlier Proplanner roles (PROMOTED pill kept) |
+| Résumé         | "View full résumé ↗" closes the section: the PDF in a new tab, with the existing `resume_download` event                                                                         |
+| Foil           | Pearl, as on the project cards; the review's gold foil is not added                                                                                                              |
+| Mobile         | The line becomes one row you swipe (about 118px per stop); no page-level horizontal overflow                                                                                     |
+| Pokémon        | Same structure in Pokémon tokens; no Sylveon or extra art                                                                                                                        |
+| Reduced motion | The Pearl halo does not shimmer                                                                                                                                                  |
 
 ## Structure
 

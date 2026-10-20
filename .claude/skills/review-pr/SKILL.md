@@ -13,7 +13,7 @@ The only file this skill may write is its PR review artifact.
 
 ## Workflow contract
 
-Read `docs/PRD.md` and its Development Model.
+Read `docs/prd.md` and its Development Model.
 
 Use:
 

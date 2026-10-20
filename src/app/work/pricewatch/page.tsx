@@ -38,10 +38,26 @@ const pipeline = [
     "Resolve",
     "Match each CSV row to one card by region, set, number, variant and language.",
   ],
-  ["2", "Pick due cards", "Never priced first, then most overdue, then most valuable."],
-  ["3", "Pace", "Spend against the API's own remaining count, pause at the hour limit."],
-  ["4", "Price", "A bounded worker pool. One request prices every variant of a card."],
-  ["5", "Save + report", "One observation per card, plus every card that moved."],
+  [
+    "2",
+    "Pick due cards",
+    "Never priced first, then most overdue, then most valuable.",
+  ],
+  [
+    "3",
+    "Pace",
+    "Spend against the API's own remaining count, pause at the hour limit.",
+  ],
+  [
+    "4",
+    "Price",
+    "A bounded worker pool. One request prices every variant of a card.",
+  ],
+  [
+    "5",
+    "Save + report",
+    "One observation per card, plus every card that moved.",
+  ],
   ["6", "Publish", "Rebuild the public status page from derived numbers only."],
 ] as const;
 
@@ -183,7 +199,9 @@ export default function PricewatchCaseStudy() {
                     $ pricewatch run --budget 100 --no-wait
                   </span>
                   {"\n"}
-                  <span className="text-console-accent">run 3 (pokewallet)</span>
+                  <span className="text-console-accent">
+                    run 3 (pokewallet)
+                  </span>
                   {"\n38 requests, 52 cards\n"}
                   <span className="font-semibold text-emerald-300">ok 50</span>
                   {"  failed 2  deferred 0\n"}
@@ -305,7 +323,9 @@ export default function PricewatchCaseStudy() {
                 </tbody>
               </table>
               <div>
-                <p className="text-sm font-semibold text-accent">Daily budget</p>
+                <p className="text-sm font-semibold text-accent">
+                  Daily budget
+                </p>
                 <p className="mt-3 font-display text-5xl font-semibold text-accent">
                   ~915
                   <span className="text-xl text-muted"> / 1,000</span>
@@ -428,9 +448,9 @@ export default function PricewatchCaseStudy() {
                 <Decision title="Read-only, enforced by SQLite">
                   The database opens with{" "}
                   <code className="font-mono text-sm">mode=ro</code> and{" "}
-                  <code className="font-mono text-sm">query_only</code>, so
-                  even the raw SQL tool can&apos;t write. SQLite enforces it,
-                  not a check on the query text.
+                  <code className="font-mono text-sm">query_only</code>, so even
+                  the raw SQL tool can&apos;t write. SQLite enforces it, not a
+                  check on the query text.
                 </Decision>
                 <Decision title="Every answer is dated">
                   Results carry{" "}
@@ -521,8 +541,8 @@ export default function PricewatchCaseStudy() {
                 Match the cards it can&apos;t price yet
               </SectionHeading>
               <p className="mt-5 leading-relaxed text-muted">
-                The pipeline is done. The remaining work is matching, so more
-                of the collection gets a price without guessing.
+                The pipeline is done. The remaining work is matching, so more of
+                the collection gets a price without guessing.
               </p>
               <StatusList label="Planned next" tone="planned" items={planned} />
             </div>
@@ -536,7 +556,9 @@ export default function PricewatchCaseStudy() {
               Built to run unattended
             </SectionHeading>
             <div className="mt-8 flex flex-wrap gap-5">
-              <TextLink href={pricewatchProject.githubUrl}>View GitHub</TextLink>
+              <TextLink href={pricewatchProject.githubUrl}>
+                View GitHub
+              </TextLink>
               <TextLink href={pricewatchProject.demoUrl}>
                 Live status page
               </TextLink>

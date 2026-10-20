@@ -17,19 +17,19 @@ The homepage's play-break button opens Ribbon Roundup to instructions. Timed rou
 
 ## Checks and results
 
-| Scope | Result |
-| --- | --- |
-| Lint, TypeScript/production build, diff whitespace | Passed |
-| Chromium | Full existing regression suite plus new polish tests; affected tests rerun successfully after fixes |
-| Firefox | 19 theme/game/polish cases passed; affected game/polish cases also rerun after fixes |
-| WebKit | All 19 theme/game/polish cases passed after fixes |
-| Theme and routes | All three themes on homepage and both case studies, at 320/390/768/1440px; no horizontal overflow |
-| Game access | Keyboard, pointer hold, real touch events, Escape, focus containment/restoration, background pause and cross-tab theme dismissal |
-| Scoring | Deterministic model tests for collision edges, one-time scoring, frame-rate independence, bonus lifetime, round end, replay, practice and malformed scores |
-| Accessibility | Existing axe page checks in all three themes; game dialog axe checks including small-screen practice; reduced-motion and doubled CSS zoom checks |
-| Deferred loading | No game bundle or game sprites before activation, including in Pokémon mode; bundle loads when the game opens |
-| Artwork stability | Portrait bounds remain identical before and after deliberately delayed image loading; no browser page errors in that test |
-| Lifecycle | Closing resets score/time on reopen; navigation removes the dialog and restores page scrolling |
+| Scope                                              | Result                                                                                                                                                     |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lint, TypeScript/production build, diff whitespace | Passed                                                                                                                                                     |
+| Chromium                                           | Full existing regression suite plus new polish tests; affected tests rerun successfully after fixes                                                        |
+| Firefox                                            | 19 theme/game/polish cases passed; affected game/polish cases also rerun after fixes                                                                       |
+| WebKit                                             | All 19 theme/game/polish cases passed after fixes                                                                                                          |
+| Theme and routes                                   | All three themes on homepage and both case studies, at 320/390/768/1440px; no horizontal overflow                                                          |
+| Game access                                        | Keyboard, pointer hold, real touch events, Escape, focus containment/restoration, background pause and cross-tab theme dismissal                           |
+| Scoring                                            | Deterministic model tests for collision edges, one-time scoring, frame-rate independence, bonus lifetime, round end, replay, practice and malformed scores |
+| Accessibility                                      | Existing axe page checks in all three themes; game dialog axe checks including small-screen practice; reduced-motion and doubled CSS zoom checks           |
+| Deferred loading                                   | No game bundle or game sprites before activation, including in Pokémon mode; bundle loads when the game opens                                              |
+| Artwork stability                                  | Portrait bounds remain identical before and after deliberately delayed image loading; no browser page errors in that test                                  |
+| Lifecycle                                          | Closing resets score/time on reopen; navigation removes the dialog and restores page scrolling                                                             |
 
 The configured suite contains 102 cases: 64 Chromium cases and 19 focused cases each for Firefox and WebKit. The initial cross-browser attempt required unsandboxed browser launch permissions in this Windows environment. Results above include successful targeted reruns after defects were corrected.
 

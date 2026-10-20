@@ -224,8 +224,8 @@ export default function JobHuntPipelineCaseStudy() {
                 My LinkedIn alerts said &ldquo;30+ new jobs&rdquo; every day,
                 but each email showed six, and they weren&apos;t even the top
                 six for my search. The rest meant digging through postings by
-                hand, most of them with pay below my floor, onsite, or a stack
-                I don&apos;t work in.
+                hand, most of them with pay below my floor, onsite, or a stack I
+                don&apos;t work in.
               </p>
             </div>
           </section>
@@ -403,8 +403,8 @@ export default function JobHuntPipelineCaseStudy() {
                 Two optional settings read LinkedIn&apos;s public, logged-out
                 pages to drop closed jobs and read a full day of results.
                 They&apos;re off by default in the public template, because
-                LinkedIn&apos;s terms prohibit automated access. Turning them
-                on is each user&apos;s call.
+                LinkedIn&apos;s terms prohibit automated access. Turning them on
+                is each user&apos;s call.
               </p>
             </div>
           </section>

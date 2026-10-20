@@ -1,0 +1,7 @@
+{
+  ".ts": "npx prettier --write {file}",
+  ".html": "npx prettier --write {file}",
+  ".scss": "npx prettier --write {file}",
+  ".json": "npx prettier --write {file}",
+  ".cs": "dotnet format whitespace --include {file}"
+}

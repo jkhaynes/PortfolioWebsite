@@ -15,9 +15,7 @@ test("RoleSync project opens its case study and returns to featured projects", a
   ).toHaveCount(0);
   await card.getByRole("link", { name: "RoleSync" }).click();
   await expect(page).toHaveURL(/\/work\/rolesync$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "RoleSync",
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("RoleSync");
   await page.getByRole("link", { name: "Explore more projects" }).click();
   await expect(page).toHaveURL(/\/#projects$/);
   await expect(page.locator("#projects")).toBeInViewport();
@@ -27,9 +25,7 @@ test("RoleSync case study loads directly with share metadata and an accessible a
   page,
 }) => {
   await page.goto("/work/rolesync");
-  await expect(page).toHaveTitle(
-    "RoleSync Case Study | Jessica Haynes",
-  );
+  await expect(page).toHaveTitle("RoleSync Case Study | Jessica Haynes");
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://www.jessbuilds.dev/work/rolesync",

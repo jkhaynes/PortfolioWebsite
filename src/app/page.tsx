@@ -242,8 +242,8 @@ export default function Home() {
               full-stack enterprise applications, mostly C#/.NET backends, APIs
               and Entity Framework, with MySQL, Angular and TypeScript
               alongside. I&apos;ve led technical projects, mentored engineers,
-              written technical designs, and worked closely with Product, QA
-              and DevOps.
+              written technical designs, and worked closely with Product, QA and
+              DevOps.
             </p>
             <p className="about-pull-quote">
               I try to bring curiosity to my work, keep learning, and leave
@@ -282,9 +282,9 @@ export default function Home() {
               </h3>
               <p className="mt-3 max-w-3xl leading-relaxed text-muted">
                 I&apos;m learning how to use AI more effectively in my
-                engineering work. That includes building better agent
-                workflows, checking how systems behave, and deciding where
-                people need to stay involved in automated processes.
+                engineering work. That includes building better agent workflows,
+                checking how systems behave, and deciding where people need to
+                stay involved in automated processes.
               </p>
               <ul
                 aria-label="Current learning themes"

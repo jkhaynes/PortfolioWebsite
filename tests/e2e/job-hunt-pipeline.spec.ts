@@ -11,7 +11,9 @@ test("Job Hunt Pipeline card opens its case study and returns to featured projec
   });
   await card.getByRole("link", { name: "Job Hunt Pipeline" }).click();
   await expect(page).toHaveURL(/\/work\/job-hunt-pipeline$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Job Hunt Pipeline");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Job Hunt Pipeline",
+  );
   await page.getByRole("link", { name: "Explore more projects" }).click();
   await expect(page).toHaveURL(/\/#projects$/);
 });
@@ -20,7 +22,9 @@ test("Job Hunt Pipeline case study shows the run, the funnel and links only to t
   page,
 }) => {
   await page.goto("/work/job-hunt-pipeline");
-  await expect(page).toHaveTitle("Job Hunt Pipeline Case Study | Jessica Haynes");
+  await expect(page).toHaveTitle(
+    "Job Hunt Pipeline Case Study | Jessica Haynes",
+  );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     "href",
     "https://www.jessbuilds.dev/work/job-hunt-pipeline",
@@ -28,24 +32,29 @@ test("Job Hunt Pipeline case study shows the run, the funnel and links only to t
 
   const hero = page.locator(".case-card-back");
   await expect(hero.getByText("Live", { exact: true })).toBeVisible();
-  await expect(hero.getByRole("link", { name: /View the template/ })).toHaveAttribute(
-    "href",
-    TEMPLATE,
-  );
+  await expect(
+    hero.getByRole("link", { name: /View the template/ }),
+  ).toHaveAttribute("href", TEMPLATE);
 
   await expect(
-    page.getByRole("list", { name: "Job Hunt Pipeline run" }).getByRole("listitem"),
+    page
+      .getByRole("list", { name: "Job Hunt Pipeline run" })
+      .getByRole("listitem"),
   ).toHaveCount(6);
   await expect(page.getByText("It never contacts anyone.")).toBeVisible();
   await expect(
-    page.getByRole("img", { name: "181 roles screened, 16 surfaced, 7 applications" }),
+    page.getByRole("img", {
+      name: "181 roles screened, 16 surfaced, 7 applications",
+    }),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "A few weeks of tuning" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "A few weeks of tuning" }),
+  ).toBeVisible();
 
   // Only the public template: never the private repo.
-  const hrefs = await page.locator("a[href*='github.com']").evaluateAll((links) =>
-    links.map((link) => link.getAttribute("href")),
-  );
+  const hrefs = await page
+    .locator("a[href*='github.com']")
+    .evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   expect(hrefs.length).toBeGreaterThan(0);
   expect(new Set(hrefs)).toEqual(new Set([TEMPLATE]));
 

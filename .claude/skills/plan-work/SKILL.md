@@ -3,13 +3,13 @@ name: plan-work
 description: Use this skill when the user wants to plan, design, or prepare the next unit of project work before coding, including requests like "plan the next milestone", "plan the next feature", "what's next?", "let's plan the next piece", or "make a plan before we implement".
 ---
 
-Read `docs/PRD.md` and identify the current or next unit of work using the canonical terminology and workflow configuration defined in its `Development Model` section.
+Read `docs/prd.md` and identify the current or next unit of work using the canonical terminology and workflow configuration defined in its `Development Model` section.
 
 Do not write or modify application code.
 
 ## Workflow contract
 
-Read the `workflow` configuration from `docs/PRD.md` before planning.
+Read the `workflow` configuration from `docs/prd.md` before planning.
 
 Use:
 

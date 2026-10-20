@@ -25,7 +25,9 @@ test("the résumé lives in the page, not the nav", async ({ page }) => {
   await expect(
     page.getByRole("banner").getByRole("link", { name: /Résumé|Resume/ }),
   ).toHaveCount(0);
-  await expect(page.getByRole("link", { name: "Download Resume" }).first()).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Download Resume" }).first(),
+  ).toBeVisible();
 });
 
 test("the nav marks the section in view as the current location", async ({

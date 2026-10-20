@@ -22,7 +22,8 @@ const SET = [
   {
     title: "RoleSync",
     href: "/work/rolesync",
-    summary: "A Shopify app that ties member discounts to verified Discord roles.",
+    summary:
+      "A Shopify app that ties member discounts to verified Discord roles.",
   },
   {
     title: "pricewatch",
@@ -37,7 +38,10 @@ function angle(locator: Locator) {
   return locator.evaluate((element) => {
     const transform = getComputedStyle(element).transform;
     if (transform === "none") return 0;
-    const [a, b] = transform.match(/matrix\(([^)]+)\)/)![1].split(",").map(Number);
+    const [a, b] = transform
+      .match(/matrix\(([^)]+)\)/)![1]
+      .split(",")
+      .map(Number);
     return Math.round((Math.atan2(b, a) * 180) / Math.PI);
   });
 }
@@ -57,7 +61,9 @@ test("the hand holds five compact cards that each open their case study", async 
 
   for (const [index, project] of SET.entries()) {
     const card = cards.nth(index);
-    await expect(card.getByRole("heading", { level: 3 })).toHaveText(project.title);
+    await expect(card.getByRole("heading", { level: 3 })).toHaveText(
+      project.title,
+    );
     const links = card.getByRole("link");
     await expect(links).toHaveCount(1);
     await expect(links).toHaveAccessibleName(project.title);
@@ -97,11 +103,16 @@ test("the hand is dealt once when the section comes into view", async ({
   const hand = page.locator(".project-hand");
   // Waiting below the fold: held back and hidden, not dealt yet.
   await expect(hand).toHaveAttribute("data-dealt", "pending");
-  await expect(hand.locator("[data-project-card]").first()).toHaveCSS("opacity", "0");
+  await expect(hand.locator("[data-project-card]").first()).toHaveCSS(
+    "opacity",
+    "0",
+  );
 
   // Just peeking over the fold is not enough to deal.
   await page.evaluate(() => {
-    const top = document.querySelector(".project-hand")!.getBoundingClientRect().top;
+    const top = document
+      .querySelector(".project-hand")!
+      .getBoundingClientRect().top;
     window.scrollBy(0, top - window.innerHeight + 80);
   });
   await page.waitForTimeout(300);
@@ -109,7 +120,9 @@ test("the hand is dealt once when the section comes into view", async ({
 
   // Well into view: the deal plays.
   await page.evaluate(() => {
-    const top = document.querySelector(".project-hand")!.getBoundingClientRect().top;
+    const top = document
+      .querySelector(".project-hand")!
+      .getBoundingClientRect().top;
     window.scrollBy(0, top - window.innerHeight / 2);
   });
   await expect(hand).toHaveAttribute("data-dealt", "true");
@@ -122,7 +135,10 @@ test("reduced motion skips the deal animation", async ({ page }) => {
     () =>
       document
         .getAnimations()
-        .filter((animation) => (animation as CSSAnimation).animationName === "project-deal").length,
+        .filter(
+          (animation) =>
+            (animation as CSSAnimation).animationName === "project-deal",
+        ).length,
   );
   expect(running).toBe(0);
 });
@@ -140,14 +156,18 @@ test("on mobile the hand becomes a swipeable row without tilt", async ({
     expect(await angle(cards.nth(index))).toBe(0);
   }
   expect(
-    await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
   ).toBe(true);
 });
 
 test("in Pokémon mode the hand lifts in place and Sylveon peeks over the picked card", async ({
   page,
 }) => {
-  await page.addInitScript(() => localStorage.setItem("jessbuilds-theme", "pokemon"));
+  await page.addInitScript(() =>
+    localStorage.setItem("jessbuilds-theme", "pokemon"),
+  );
   await openProjects(page, 1440);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "pokemon");
   const cards = page.locator("[data-project-card]");
@@ -160,13 +180,17 @@ test("in Pokémon mode the hand lifts in place and Sylveon peeks over the picked
   await page.mouse.move(box.x + box.width * 0.4, box.y + box.height / 2);
   await expect.poll(() => angle(side)).toBe(0);
   // Still spread to the left of the hand and lifted, not snapped to the middle.
-  const offset = await side.evaluate((el) => new DOMMatrix(getComputedStyle(el).transform));
+  const offset = await side.evaluate(
+    (el) => new DOMMatrix(getComputedStyle(el).transform),
+  );
   expect(offset.e).toBeLessThan(-200);
   expect(offset.f).toBeLessThan(-30);
 
   // Sylveon sits above the card's top edge, clear of its text.
   const peek = side.locator(".project-sylveon-peek > span");
-  await expect.poll(() => peek.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+  await expect
+    .poll(() => peek.evaluate((el) => getComputedStyle(el).opacity))
+    .toBe("1");
   const peekBox = (await side.locator(".project-sylveon-peek").boundingBox())!;
   const status = (await side.getByText("Live", { exact: true }).boundingBox())!;
   expect(peekBox.y + peekBox.height).toBeLessThanOrEqual(status.y);

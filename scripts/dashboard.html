@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Review Panel</title>
+    <style>
+      :root {
+        --bg: #111a2e;
+        --panel: #19243f;
+        --raised: #22304f;
+        --row: #1e2a47;
+        --line: #34426a;
+        --edge: #2a3758;
+        --dash: #45547e;
+        --text: #eef1f8;
+        --soft: #c8d0e2;
+        --muted: #aab5cf;
+        --dim: #8995b2;
+        --accent: #e6a9bc;
+        --accent-soft: #f3c9d6;
+        --pass: #a9dbb5;
+        --changes: #f2c784;
+        --escalate: #f4a3b4;
+        --mono: ui-monospace, "JetBrains Mono", Consolas, monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.45 "Nunito",
+          system-ui,
+          "Segoe UI",
+          sans-serif;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 28px clamp(16px, 3vw, 40px) 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: var(--raised);
+        display: grid;
+        place-items: center;
+      }
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 800;
+      }
+      .mono {
+        font-family: var(--mono);
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .tools {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+      }
+      .live {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: var(--panel);
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--pass);
+        box-shadow: 0 0 0 4px rgba(169, 219, 181, 0.15);
+      }
+      .dot.off {
+        background: var(--escalate);
+        box-shadow: 0 0 0 4px rgba(244, 163, 180, 0.15);
+      }
+      .toggle {
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .toggle[aria-pressed="true"] {
+        background: rgba(230, 169, 188, 0.18);
+        border-color: var(--accent);
+      }
+      .strip {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: var(--panel);
+      }
+      .strip .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: auto;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: var(--raised);
+        font-size: 13px;
+      }
+      .pill .d {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .pill.add {
+        background: transparent;
+        border: 1px dashed var(--dash);
+        color: var(--muted);
+      }
+      .layout {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+        align-items: flex-start;
+      }
+      main {
+        flex: 999 1 640px;
+        min-width: 0;
+      }
+      .board {
+        display: flex;
+        gap: 14px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+      .col {
+        flex: 0 0 236px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .col h2 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .colhead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 0 4px;
+      }
+      .count {
+        color: var(--dim);
+        font-size: 13px;
+      }
+      .empty {
+        color: var(--dim);
+        font-size: 13px;
+        padding: 4px;
+      }
+      .card {
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px;
+        border-radius: 16px;
+        background: var(--panel);
+        border: 1.5px solid var(--edge);
+      }
+      .card:hover {
+        border-color: var(--line);
+      }
+      .card.needs {
+        border-color: rgba(230, 169, 188, 0.35);
+      }
+      .card.sel {
+        border-color: var(--accent);
+      }
+      .card.merged {
+        opacity: 0.75;
+      }
+      .badge {
+        align-self: flex-start;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(230, 169, 188, 0.16);
+        color: var(--accent-soft);
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .fid {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--dim);
+      }
+      .fname {
+        font-weight: 800;
+        font-size: 16px;
+      }
+      .bar {
+        height: 6px;
+        border-radius: 999px;
+        background: var(--raised);
+        overflow: hidden;
+      }
+      .blk {
+        display: block;
+      }
+      .barhead,
+      .bar {
+        display: flex;
+      }
+      .bar > span {
+        height: 100%;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+      .barhead {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 5px;
+      }
+      .act {
+        font-size: 13px;
+        color: var(--soft);
+      }
+      .chiprow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        align-items: center;
+      }
+      .chip {
+        padding: 2px 8px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid transparent;
+      }
+      .v-PASS {
+        background: rgba(169, 219, 181, 0.13);
+        color: var(--pass);
+      }
+      .v-CHANGES {
+        background: rgba(242, 199, 132, 0.15);
+        color: var(--changes);
+      }
+      .v-pending {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--muted);
+      }
+      .v-SKIPPED {
+        color: var(--dim);
+        border: 1px dashed var(--dash);
+      }
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: var(--dim);
+      }
+      .ci-green,
+      .ci-merged {
+        color: var(--pass);
+        font-weight: 700;
+      }
+      .ci-red {
+        color: var(--escalate);
+        font-weight: 700;
+      }
+      .ci-pending {
+        color: var(--changes);
+        font-weight: 700;
+      }
+      aside {
+        flex: 1 1 380px;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 22px;
+        border-radius: 20px;
+        background: var(--panel);
+      }
+      aside h2 {
+        margin: 2px 0 0;
+        font-size: 20px;
+        font-weight: 800;
+      }
+      aside h3 {
+        margin: 0 0 8px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .box {
+        padding: 14px;
+        border-radius: 14px;
+        background: var(--raised);
+      }
+      .box .v {
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+      .box.APPROVE {
+        background: rgba(169, 219, 181, 0.12);
+      }
+      .box.APPROVE .v {
+        color: var(--pass);
+      }
+      .box.ESCALATE {
+        background: rgba(244, 163, 180, 0.13);
+      }
+      .box.ESCALATE .v {
+        color: var(--escalate);
+      }
+      .box.need {
+        background: rgba(230, 169, 188, 0.12);
+      }
+      .box.need .v {
+        color: var(--accent-soft);
+      }
+      .box p {
+        margin: 6px 0 0;
+        font-size: 14px;
+        white-space: pre-wrap;
+      }
+      .rounds {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .rlabel {
+        width: 68px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .kv {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 14px;
+      }
+      .files {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .file {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 0;
+        background: var(--row);
+        font-family: var(--mono);
+        font-size: 13px;
+        text-align: left;
+        cursor: pointer;
+        overflow-wrap: anywhere;
+      }
+      .file:hover,
+      .file[aria-current="true"] {
+        background: var(--raised);
+      }
+      pre.viewer {
+        margin: 0;
+        padding: 14px;
+        border-radius: 12px;
+        background: var(--bg);
+        border: 1px solid var(--edge);
+        font: 12.5px/1.5 var(--mono);
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        max-height: 420px;
+        overflow: auto;
+      }
+      .error {
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: rgba(244, 163, 180, 0.13);
+        color: var(--escalate);
+      }
+      .hint {
+        color: var(--dim);
+        font-size: 13px;
+      }
+      a {
+        color: var(--accent);
+      }
+      a:hover {
+        color: var(--accent-soft);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <div class="logo">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#e6a9bc"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="4" width="5" height="16" rx="1.5"></rect>
+              <rect x="10" y="4" width="5" height="10" rx="1.5"></rect>
+              <rect x="17" y="4" width="4" height="13" rx="1.5"></rect>
+            </svg>
+          </div>
+          <div>
+            <h1>Review Panel</h1>
+            <div class="sub mono" id="repo">loading</div>
+          </div>
+        </div>
+        <div class="tools">
+          <div class="live">
+            <span class="dot" id="dot"></span><span id="ago">connecting</span>
+          </div>
+          <button class="toggle" id="merged" type="button" aria-pressed="true">
+            Show merged
+          </button>
+          <button class="toggle" id="needs" type="button" aria-pressed="false">
+            Needs you · 0
+          </button>
+        </div>
+      </header>
+      <div id="err" class="error" hidden></div>
+      <section class="strip" aria-label="Reviewer panel">
+        <strong>Panel</strong><span class="sub mono" id="panelsrc"></span>
+        <div class="chips" id="panel"></div>
+      </section>
+      <div class="layout">
+        <main><div class="board" id="board"></div></main>
+        <aside id="detail" aria-label="Feature detail">
+          <p class="hint">
+            Pick a feature to see its reviews, decision, CI and files.
+          </p>
+        </aside>
+      </div>
+    </div>
+    <script>
+      const STAGES = ["Design", "Build", "Review", "Decision", "Merged"];
+      const store = {
+        get(k, d) {
+          try {
+            const v = localStorage.getItem("rp." + k);
+            return v === null ? d : JSON.parse(v);
+          } catch {
+            return d;
+          }
+        },
+        set(k, v) {
+          try {
+            localStorage.setItem("rp." + k, JSON.stringify(v));
+          } catch {}
+        },
+      };
+      let state = null,
+        lastOk = 0,
+        selected = store.get("selected", null);
+      let needsOnly = store.get("needsOnly", false),
+        showMerged = store.get("showMerged", true);
+      let openFile = null,
+        fileText = "";
+
+      function el(tag, attrs = {}, ...kids) {
+        const n = document.createElement(tag);
+        for (const [k, v] of Object.entries(attrs)) {
+          if (k === "class") n.className = v;
+          else if (k === "text") n.textContent = v;
+          else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+          else if (v !== null && v !== undefined && v !== false)
+            n.setAttribute(k, v);
+        }
+        for (const k of kids.flat())
+          if (k !== null && k !== undefined && k !== false) n.append(k);
+        return n;
+      }
+      const chip = (lens, v) =>
+        el("span", { class: "chip v-" + v, text: lens + " · " + v });
+
+      function gate(f) {
+        if (f.stage === "Merged") return ["merged", "ci-merged"];
+        if (f.decision && f.decision.verdict === "ESCALATE")
+          return ["waiting on you", "ci-pending"];
+        const ci = f.ci.state;
+        if (ci === "none") return ["no PR yet", ""];
+        if (ci === "red") return ["blocked: CI red", "ci-red"];
+        if (ci === "pending") return ["blocked: CI pending", "ci-pending"];
+        if (ci === "nochecks") return ["blocked: no checks", "ci-red"];
+        if (ci === "green")
+          return f.decision && f.decision.verdict === "APPROVE"
+            ? ["ready to merge", "ci-green"]
+            : ["open: CI green", "ci-green"];
+        return [f.ci.label, ""];
+      }
+
+      function card(f) {
+        // A card is a <button>, which may only hold phrasing content, so its blocks are display:block spans.
+        const tasks =
+          f.tasks && f.tasks.total
+            ? el(
+                "span",
+                { class: "blk" },
+                el(
+                  "span",
+                  { class: "barhead" },
+                  el("span", { text: "tasks.md" }),
+                  el("span", { text: f.tasks.done + " / " + f.tasks.total }),
+                ),
+                el(
+                  "span",
+                  { class: "bar" },
+                  el("span", {
+                    class: "blk",
+                    style:
+                      "width:" +
+                      Math.round((100 * f.tasks.done) / f.tasks.total) +
+                      "%",
+                  }),
+                ),
+              )
+            : null;
+        const chips = Object.keys(f.verdicts).length
+          ? el(
+              "span",
+              { class: "chiprow" },
+              Object.entries(f.verdicts).map(([l, v]) => chip(l, v)),
+            )
+          : null;
+        const foot = el(
+          "span",
+          { class: "foot" },
+          el("span", {
+            text: f.round
+              ? "Round " + f.round + " of 3"
+              : f.worktree
+                ? "worktree"
+                : f.stage === "Merged"
+                  ? ""
+                  : "branch",
+          }),
+          el("span", { class: "ci-" + f.ci.state, text: f.ci.label }),
+        );
+        const cls = [
+          "card",
+          f.needsYou && "needs",
+          f.id === selected && "sel",
+          f.stage === "Merged" && "merged",
+        ]
+          .filter(Boolean)
+          .join(" ");
+        return el(
+          "button",
+          {
+            type: "button",
+            class: cls,
+            "aria-pressed": f.id === selected ? "true" : "false",
+            onclick: () => {
+              selected = f.id;
+              openFile = null;
+              store.set("selected", selected);
+              render();
+            },
+          },
+          f.needsYou ? el("span", { class: "badge", text: "Needs you" }) : null,
+          el(
+            "span",
+            { class: "blk" },
+            el("span", { class: "fid blk", text: f.id }),
+            el("span", { class: "fname blk", text: f.name }),
+          ),
+          tasks,
+          el("span", { class: "act blk", text: f.activity }),
+          chips,
+          foot,
+        );
+      }
+
+      function detail(f) {
+        const box = document.getElementById("detail");
+        box.replaceChildren();
+        if (!f) {
+          box.append(
+            el("p", {
+              class: "hint",
+              text: "Pick a feature to see its reviews, decision, CI and files.",
+            }),
+          );
+          return;
+        }
+        box.append(
+          el(
+            "div",
+            {},
+            el("div", {
+              class: "fid",
+              text: f.worktree || "branch " + (f.branch || f.id),
+            }),
+            el("h2", { text: f.name }),
+            el("div", {
+              class: "sub",
+              text: f.stage + (f.round ? " · round " + f.round + " of 3" : ""),
+            }),
+          ),
+        );
+        if (f.needsYou && !(f.decision && f.decision.verdict === "ESCALATE"))
+          box.append(
+            el(
+              "div",
+              { class: "box need" },
+              el("div", { class: "v", text: "NEEDS YOU" }),
+              el("p", { text: f.needsReason }),
+            ),
+          );
+        if (f.decision)
+          box.append(
+            el(
+              "div",
+              { class: "box " + f.decision.verdict },
+              el("div", { class: "v", text: f.decision.verdict }),
+              f.decision.why ? el("p", { text: f.decision.why }) : null,
+              f.decision.forOwner
+                ? el("p", { text: f.decision.forOwner })
+                : null,
+              el("div", {
+                class: "fid",
+                text: "decision.md",
+                style: "margin-top:6px",
+              }),
+            ),
+          );
+        if (f.rounds.length)
+          box.append(
+            el(
+              "div",
+              {},
+              el("h3", { text: "Review rounds" }),
+              el(
+                "div",
+                { class: "rounds" },
+                f.rounds.map((r) =>
+                  el(
+                    "div",
+                    { class: "chiprow" },
+                    el("span", { class: "rlabel", text: "Round " + r.n }),
+                    Object.keys(f.verdicts).map((l) =>
+                      chip(l, r.verdicts[l] || "pending"),
+                    ),
+                    r.fixes
+                      ? el("span", {
+                          class: "chip v-pending",
+                          text: "fixes.md",
+                        })
+                      : null,
+                  ),
+                ),
+              ),
+            ),
+          );
+        const [g, gcls] = gate(f);
+        box.append(
+          el(
+            "div",
+            {},
+            el("h3", { text: "CI and merge gate" }),
+            el(
+              "div",
+              { class: "kv" },
+              el("span", { text: "PR" }),
+              f.ci.url
+                ? el("a", {
+                    href: f.ci.url,
+                    target: "_blank",
+                    rel: "noopener",
+                    text: "#" + f.ci.number + " · " + f.ci.label,
+                  })
+                : el("span", { class: "ci-" + f.ci.state, text: f.ci.label }),
+            ),
+            el(
+              "div",
+              { class: "kv" },
+              el("span", { text: "Merge gate" }),
+              el("span", { class: gcls, text: g }),
+            ),
+          ),
+        );
+        box.append(
+          el(
+            "div",
+            {},
+            el("h3", { text: "Files" }),
+            f.files.length
+              ? el(
+                  "div",
+                  { class: "files" },
+                  f.files.map((p) => [
+                    el(
+                      "button",
+                      {
+                        type: "button",
+                        class: "file",
+                        "aria-current": openFile === p ? "true" : "false",
+                        "aria-expanded": openFile === p ? "true" : "false",
+                        onclick: () => showFile(f.id, p),
+                      },
+                      el("span", { text: p }),
+                    ),
+                    openFile === p
+                      ? el("pre", { class: "viewer", text: fileText })
+                      : null,
+                  ]),
+                )
+              : el("p", {
+                  class: "hint",
+                  text: "No specs/" + f.id + "/ folder yet.",
+                }),
+          ),
+        );
+      }
+
+      async function showFile(id, path) {
+        if (openFile === path) {
+          openFile = null;
+          render();
+          return;
+        }
+        try {
+          const r = await fetch(
+            "/api/file?id=" +
+              encodeURIComponent(id) +
+              "&path=" +
+              encodeURIComponent(path),
+          );
+          fileText = r.ok ? await r.text() : "Couldn't read this file.";
+        } catch {
+          fileText = "Couldn't reach the dashboard server.";
+        }
+        openFile = path;
+        render();
+      }
+
+      function render() {
+        if (!state) return;
+        const feats = state.features;
+        const needs = feats.filter((f) => f.needsYou).length;
+        document.getElementById("repo").textContent =
+          state.repo +
+          " · " +
+          state.base +
+          " · " +
+          feats.filter((f) => f.stage !== "Merged").length +
+          " active";
+        const nb = document.getElementById("needs");
+        nb.textContent = "Needs you · " + needs;
+        nb.setAttribute("aria-pressed", needsOnly);
+        document
+          .getElementById("merged")
+          .setAttribute("aria-pressed", showMerged);
+        document.getElementById("panelsrc").textContent =
+          state.panel.length + " reviewers in .claude/agents/reviewer-*.md";
+        document.getElementById("panel").replaceChildren(
+          ...state.panel.map((p) =>
+            el(
+              "span",
+              { class: "pill" },
+              el("span", { class: "d" }),
+              p.lens,
+              el("span", { class: "sub", text: p.model }),
+            ),
+          ),
+          el("span", {
+            class: "pill add",
+            text: "+ add a reviewer-*.md to extend",
+          }),
+        );
+        const board = document.getElementById("board");
+        board.replaceChildren(
+          ...STAGES.filter((s) => showMerged || s !== "Merged").map((s) => {
+            let cs = feats.filter(
+              (f) => f.stage === s && (!needsOnly || f.needsYou),
+            );
+            if (s === "Merged") cs = cs.slice().reverse();
+            return el(
+              "section",
+              { class: "col", "aria-label": s },
+              el(
+                "div",
+                { class: "colhead" },
+                el("h2", { text: s }),
+                el("span", { class: "count", text: String(cs.length) }),
+              ),
+              cs.length
+                ? cs.map(card)
+                : el("div", { class: "empty", text: "Nothing here" }),
+            );
+          }),
+        );
+        detail(feats.find((f) => f.id === selected));
+      }
+
+      async function poll() {
+        try {
+          const r = await fetch("/api/state", { cache: "no-store" });
+          const data = await r.json();
+          if (!r.ok) throw new Error(data.error || r.status);
+          lastOk = Date.now();
+          document.getElementById("err").hidden = true;
+          let changed =
+            !state ||
+            JSON.stringify({ ...data, generatedAt: 0 }) !==
+              JSON.stringify({ ...state, generatedAt: 0 });
+          state = data;
+          if (openFile) {
+            const f = state.features.find((x) => x.id === selected);
+            if (f && f.files.includes(openFile)) {
+              const t = await fetch(
+                "/api/file?id=" +
+                  encodeURIComponent(f.id) +
+                  "&path=" +
+                  encodeURIComponent(openFile),
+              );
+              const text = t.ok ? await t.text() : fileText;
+              if (text !== fileText) {
+                fileText = text;
+                changed = true;
+              }
+            } else {
+              openFile = null;
+              changed = true;
+            }
+          }
+          if (changed) render(); // re-rendering only on change keeps keyboard focus and scroll in place
+        } catch (e) {
+          const err = document.getElementById("err");
+          err.textContent =
+            "Can't reach the dashboard server (" +
+            e.message +
+            "). Is python3 scripts/dashboard.py still running?";
+          err.hidden = false;
+        }
+      }
+
+      setInterval(() => {
+        const s = lastOk ? Math.round((Date.now() - lastOk) / 1000) : null;
+        document.getElementById("ago").textContent =
+          s === null ? "connecting" : "Live · updated " + s + "s ago";
+        document.getElementById("dot").className =
+          "dot" + (s === null || s > 10 ? " off" : "");
+      }, 1000);
+      document.getElementById("needs").addEventListener("click", () => {
+        needsOnly = !needsOnly;
+        store.set("needsOnly", needsOnly);
+        render();
+      });
+      document.getElementById("merged").addEventListener("click", () => {
+        showMerged = !showMerged;
+        store.set("showMerged", showMerged);
+        render();
+      });
+      poll();
+      setInterval(poll, 2000);
+    </script>
+  </body>
+</html>

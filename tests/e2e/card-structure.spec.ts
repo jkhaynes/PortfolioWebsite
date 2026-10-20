@@ -7,10 +7,10 @@ const BOW = "/images/pokemon/ribbon-pink.svg";
 type Theme = "light" | "dark" | "pokemon";
 
 async function openTheme(page: Page, theme: Theme) {
-  await page.addInitScript(
-    ([key, value]) => localStorage.setItem(key, value),
-    [storageKey, theme] as const,
-  );
+  await page.addInitScript(([key, value]) => localStorage.setItem(key, value), [
+    storageKey,
+    theme,
+  ] as const);
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
 }
@@ -65,21 +65,27 @@ for (const theme of ["light", "dark"] as const) {
     }
     // Decorative only: accessible names are unchanged.
     await expect(
-      page.getByRole("heading", { level: 2, name: "Featured Projects", exact: true }),
+      page.getByRole("heading", {
+        level: 2,
+        name: "Featured Projects",
+        exact: true,
+      }),
     ).toBeVisible();
   });
 }
 
-test("pokemon keeps bows on the brand, divider and headers", async ({ page }) => {
+test("pokemon keeps bows on the brand, divider and headers", async ({
+  page,
+}) => {
   await openTheme(page, "pokemon");
   for (const [selector, pseudo] of [
     [".portfolio-brand", "::before"],
     ["#projects h2", "::before"],
     [".motif-divider span", null],
   ] as const) {
-    expect(await computed(page, selector, pseudo, "background-image")).toContain(
-      BOW,
-    );
+    expect(
+      await computed(page, selector, pseudo, "background-image"),
+    ).toContain(BOW);
     expect(await computed(page, selector, pseudo, "mask-image")).toBe("none");
   }
 });
@@ -89,7 +95,11 @@ for (const theme of ["light", "dark"] as const) {
     page,
   }) => {
     await openTheme(page, theme);
-    for (const selector of ["#impact .grid", "#about > div", "#contact > div"]) {
+    for (const selector of [
+      "#impact .grid",
+      "#about > div",
+      "#contact > div",
+    ]) {
       for (const side of ["top", "right", "bottom", "left"]) {
         expect(
           await computed(page, selector, null, `border-${side}-width`),
@@ -101,9 +111,9 @@ for (const theme of ["light", "dark"] as const) {
       expect(
         await computed(page, selector, null, "border-top-left-radius"),
       ).toBe("24px");
-      expect(
-        await computed(page, selector, null, "background-color"),
-      ).not.toBe("rgba(0, 0, 0, 0)");
+      expect(await computed(page, selector, null, "background-color")).not.toBe(
+        "rgba(0, 0, 0, 0)",
+      );
     }
   });
 }
@@ -123,7 +133,9 @@ for (const theme of ["light", "dark"] as const) {
     expect(await computed(page, card, "::after", "animation-name")).toBe(
       "card-shimmer",
     );
-    expect(await computed(page, card, "::after", "mask-image")).not.toBe("none");
+    expect(await computed(page, card, "::after", "mask-image")).not.toBe(
+      "none",
+    );
   });
 }
 

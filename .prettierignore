@@ -1,0 +1,14 @@
+# Owned by Spec Kit and Claude Code tooling
+.specify/
+.claude/
+
+# Copies of the approved claude.ai canvas, kept byte-for-byte as approved
+specs/*/mockup/
+
+# Build and test output
+.next/
+out/
+test-results/
+playwright-report/
+package-lock.json
+next-env.d.ts

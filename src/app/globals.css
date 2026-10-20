@@ -39,8 +39,7 @@
     background: var(--color-background);
     color-scheme: light;
     /* Card-structure glyph (review R2): the sparkle, tinted by the accent. */
-    --sparkle-mask: url("/images/motif/sparkle.svg") center / contain
-      no-repeat;
+    --sparkle-mask: url("/images/motif/sparkle.svg") center / contain no-repeat;
     --motif-mask: var(--sparkle-mask);
     --motif-fill: var(--color-accent);
     /* Pearl holo foil on project cards (theme-independent). */
@@ -998,9 +997,7 @@
     background: #fce8ef;
   }
   [data-theme="pokemon"] .portfolio-brand::before,
-  [data-theme="pokemon"]
-    .portfolio-home
-    :is(section > div > h2)::before,
+  [data-theme="pokemon"] .portfolio-home :is(section > div > h2)::before,
   [data-theme="pokemon"] .portfolio-home #impact h2::before {
     width: 2rem;
     height: 2rem;
@@ -1011,9 +1008,7 @@
   }
   [data-theme="pokemon"] .motif-divider::before,
   [data-theme="pokemon"] .motif-divider::after,
-  [data-theme="pokemon"]
-    .portfolio-home
-    :is(section > div > h2)::after {
+  [data-theme="pokemon"] .portfolio-home :is(section > div > h2)::after {
     background: #d78ca8;
   }
   /* Framed sections (review R2) in every theme. */
@@ -1079,7 +1074,6 @@
     }
   }
 }
-
 
 @media (max-width: 1023px) {
   :root {
@@ -1556,8 +1550,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    border: 1px dashed
-      color-mix(in srgb, var(--color-accent) 40%, transparent);
+    border: 1px dashed color-mix(in srgb, var(--color-accent) 40%, transparent);
     border-radius: 1rem;
     padding: 1.25rem 1.5rem;
   }
