@@ -17,7 +17,7 @@ Then open http://127.0.0.1:3010.
 ./scripts/check.sh
 ```
 
-Format check, lint, Playwright tests and build: the same script CI runs on every pull request. On Windows PowerShell, use `./scripts/check.ps1`.
+Format check, lint, build, then Playwright tests against the build: the same script CI runs on every pull request. On Windows PowerShell, use `./scripts/check.ps1`.
 
 ## How work gets done
 

@@ -5,7 +5,7 @@
 ## Run
 
 ```bash
-# Everything CI runs:  ./scripts/check.sh            # format check, lint, Playwright, build
+# Everything CI runs:  ./scripts/check.sh            # format check, lint, build, Playwright on the build
 # All Playwright:      npm run test:e2e              # starts `npm run dev` on :3010, or reuses one already running
 # One spec:            npx playwright test tests/e2e/theme-toggle.spec.ts
 # Chromium only:       npx playwright test --project=chromium
@@ -22,7 +22,7 @@ First run on a new machine: `npx playwright install` for the browsers.
 | Accessibility | axe scans in all themes, keyboard and focus order, reduced motion                                                                | `tests/e2e/accessibility.spec.ts` and the feature specs                                  | `@axe-core/playwright` |
 | Pure logic    | Ribbon Roundup model                                                                                                             | `tests/e2e/ribbon-model.spec.ts` (runs in the Playwright runner, no browser page needed) | Playwright             |
 
-Chromium runs every spec. Firefox and WebKit run the theme and Pokémon specs (`playwright.config.ts`). CI retries a failed test up to twice, since a cold dev server compiles each route on first visit; a test that only passes on retry shows as flaky in the output and is worth fixing.
+Chromium runs every spec. Firefox and WebKit run the theme and Pokémon specs (`playwright.config.ts`). `scripts/check.sh` builds first and runs Playwright against `next start` (`E2E_SERVER=start`): a cold dev server compiles each route on first visit and timed out under parallel load. Locally Playwright uses a quarter of the cores, since more overloads WebKit on Windows. CI retries a failed test once; a test that only passes on retry shows as flaky in the output and is worth fixing.
 
 ## Rules
 

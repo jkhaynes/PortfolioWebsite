@@ -1,6 +1,6 @@
 name: CI
 
-# Every pull request and every push to main: scripts/check.sh (formatting, lint, Playwright tests, build).
+# Every pull request and every push to main: scripts/check.sh (formatting, lint, build, Playwright tests against the build).
 # Deploys are not here: Vercel's Git integration builds previews for PRs and production from main.
 on:
   pull_request:
@@ -32,7 +32,7 @@ jobs:
       - run: npm ci
       # Chromium, Firefox and WebKit, as in playwright.config.ts.
       - run: npx playwright install --with-deps chromium firefox webkit
-      # scripts/check.sh is the one definition of green: format check, lint, tests, build.
+      # scripts/check.sh is the one definition of green: format check, lint, build, tests.
       # Keep the job id `check`: the merge gate (.claude/hooks/merge-gate.py) waits on `gh pr checks`.
       - name: Check
         run: ./scripts/check.sh

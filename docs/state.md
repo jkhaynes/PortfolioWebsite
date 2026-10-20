@@ -30,5 +30,5 @@ Moving the site onto the project-template workflow (branch `chore/template-workf
 
 ## Notes for Next Session
 
-- `tests/e2e/media-dialog.spec.ts` "media layouts avoid page overflow" visits six routes and can time out on a cold dev server under full parallel load; it passes alone. CI retries it.
+- Multi-route specs (`media-dialog`, `theme-toggle`, `accessibility` reflow) time out against `npm run dev` under full parallel load, which is why `scripts/check` tests the production build with a quarter of the cores.
 - `next dev` and `next build` rewrite `next-env.d.ts` (`.next/dev/types` vs `.next/types`). Don't commit that flip.

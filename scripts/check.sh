@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# One definition of green: format check, lint, tests, build, in that order.
+# One definition of green: format check, lint, build, tests, in that order.
+# The build comes before the tests here because Playwright runs against it (`next start`).
 # CLAUDE.md, CI (.github/workflows/ci.yml) and the merge-gate hook all run this.
 # Fill in the commands below for this project's stack. A value still in
 # [brackets] is a placeholder: it is skipped with a warning instead of failing.
@@ -8,7 +9,7 @@ set -uo pipefail
 
 FORMAT_CMD="npm run format:check"
 LINT_CMD="npm run lint"
-TEST_CMD="npm run test:e2e"
+TEST_CMD="E2E_SERVER=start npm run test:e2e"
 BUILD_CMD="npm run build"
 
 cd "$(dirname "$0")/.."
@@ -28,6 +29,6 @@ run_step() {
 
 run_step "format" "$FORMAT_CMD"
 run_step "lint" "$LINT_CMD"
-run_step "test" "$TEST_CMD"
 run_step "build" "$BUILD_CMD"
+run_step "test" "$TEST_CMD"
 echo "check: all steps passed (or were skipped)."

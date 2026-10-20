@@ -13,10 +13,10 @@ Full product context: `docs/prd.md`. Current status and next step: `docs/state.m
 # Install: npm ci
 # Run:     npm run dev                    # http://127.0.0.1:3010 (use `npx next dev -p <port>` for another port)
 # Build:   npm run build
-# Test:    npm run test:e2e               # Playwright (Chromium, plus Firefox and WebKit for theme specs); starts the dev server
+# Test:    npm run test:e2e               # Playwright (Chromium, plus Firefox and WebKit for theme specs); starts the dev server, or `E2E_SERVER=start` for `next start`
 # Lint:    npm run lint
 # Format:  npm run format                 # Prettier; CI fails on unformatted files (format:check)
-# Check:   ./scripts/check.sh             # format check, lint, test, build; the one definition of green
+# Check:   ./scripts/check.sh             # format check, lint, build, test (on the build); the one definition of green
 # Board:   python3 scripts/dashboard.py --open   # live, read-only view of every feature
 ```
 

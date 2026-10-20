@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
-  One definition of green: format check, lint, tests, build, in that order.
+  One definition of green: format check, lint, build, tests, in that order.
+  The build comes before the tests here because Playwright runs against it (`next start`).
 .DESCRIPTION
   CLAUDE.md, CI and the merge-gate hook all run this (or scripts/check.sh).
   Fill in the commands below for this project's stack. A value still in
@@ -11,7 +12,7 @@
 #>
 $FormatCmd = "npm run format:check"
 $LintCmd   = "npm run lint"
-$TestCmd   = "npm run test:e2e"
+$TestCmd   = "`$env:E2E_SERVER = 'start'; npm run test:e2e"
 $BuildCmd  = "npm run build"
 
 $ErrorActionPreference = "Stop"
@@ -34,6 +35,6 @@ function Invoke-Step([string]$Name, [string]$Cmd) {
 
 Invoke-Step "format" $FormatCmd
 Invoke-Step "lint"   $LintCmd
-Invoke-Step "test"   $TestCmd
 Invoke-Step "build"  $BuildCmd
+Invoke-Step "test"   $TestCmd
 Write-Host "check: all steps passed (or were skipped)."
