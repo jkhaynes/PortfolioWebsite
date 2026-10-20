@@ -7,26 +7,23 @@ import { impactMetrics } from "@/data/impact";
 
 export default function Hero() {
   return (
-    <section className="portfolio-hero py-24">
+    <section className="portfolio-hero">
       <Container className="hero-container">
         <div className="hero-copy">
-          <p className="hero-role mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+          <p className="hero-role text-xs font-semibold uppercase tracking-[0.12em] text-accent">
             Senior Software Engineer · C#/.NET · Backend + Full Stack
           </p>
-          <h1 className="font-display text-5xl font-semibold leading-tight text-foreground sm:text-6xl">
+          <h1 className="hero-title font-display text-foreground">
             Hi, I&apos;m Jessica
           </h1>
-          <div className="motif-divider" aria-hidden="true">
-            <span />
-          </div>
-          <p className="hero-tagline mt-4 font-display text-2xl leading-snug text-accent-secondary sm:text-3xl">
+          <p className="hero-tagline font-display text-accent-secondary">
             I build reliable software for messy, real-world problems.
           </p>
-          <p className="hero-bio mt-6 text-lg leading-relaxed text-muted">
+          <p className="hero-bio text-muted">
             9+ years building and modernizing production .NET systems, with AI
             used inside a disciplined engineering process.
           </p>
-          <div className="hero-actions mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4">
+          <div className="hero-actions">
             <Button
               href="#projects"
               variant="primary"
@@ -47,7 +44,7 @@ export default function Hero() {
               Download Resume
             </Button>
           </div>
-          <div className="hero-contact mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted">
+          <div className="hero-contact text-muted">
             <TextLink
               href="mailto:jkhaynes2390@gmail.com"
               target="_self"
@@ -68,20 +65,19 @@ export default function Hero() {
               LinkedIn
             </TextLink>
           </div>
-          <div className="hero-stats mt-12">
-            <div className="motif-divider" aria-hidden="true">
-              <span />
-            </div>
-            <div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-[18px] sm:grid-cols-4 sm:gap-y-3">
-              {impactMetrics.map((metric) => (
-                <ImpactMetricLink
-                  key={metric.label}
-                  variant="hero"
-                  {...metric}
-                />
-              ))}
-            </div>
+        </div>
+        <div className="hero-stats">
+          <div className="motif-divider" aria-hidden="true">
+            <span />
           </div>
+          <div className="hero-stats-grid">
+            {impactMetrics.map((metric) => (
+              <ImpactMetricLink key={metric.label} variant="hero" {...metric} />
+            ))}
+          </div>
+        </div>
+        <div className="hero-scroll-cue" aria-hidden="true">
+          <span />
         </div>
         <SylveonPortrait />
       </Container>

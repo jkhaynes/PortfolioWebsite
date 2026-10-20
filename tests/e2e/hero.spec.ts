@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import { impactMetrics } from "../../src/data/impact";
 
 const ROLE = "Senior Software Engineer · C#/.NET · Backend + Full Stack";
@@ -81,15 +81,245 @@ test.describe("hero copy and actions", () => {
       page.locator("section.portfolio-hero + section"),
     ).toHaveAttribute("id", "projects");
   });
-
-  test("the copy is centered in the hero at 1280px", async ({ page }) => {
-    const hero = (await page.locator("section.portfolio-hero").boundingBox())!;
-    const h1 = (await page.locator("h1").boundingBox())!;
-    expect(
-      Math.abs(h1.x + h1.width / 2 - (hero.x + hero.width / 2)),
-    ).toBeLessThanOrEqual(2);
-  });
 });
+
+const THEMES = ["light", "dark", "pokemon"] as const;
+type Theme = (typeof THEMES)[number];
+
+async function openTheme(
+  page: Page,
+  theme: Theme,
+  width: number,
+  height: number,
+) {
+  await page.addInitScript(([key, value]) => localStorage.setItem(key, value), [
+    "jessbuilds-theme",
+    theme,
+  ] as const);
+  await page.setViewportSize({ width, height });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+}
+
+const hero = (page: Page) => page.locator("section.portfolio-hero");
+const impactLinks = (page: Page) =>
+  hero(page).getByRole("link", { name: /^Impact metric:/ });
+
+async function inViewport(locator: Locator) {
+  return locator.evaluate((el) => {
+    const r = el.getBoundingClientRect();
+    return (
+      r.top >= 0 &&
+      r.left >= 0 &&
+      r.bottom <= window.innerHeight &&
+      r.right <= window.innerWidth
+    );
+  });
+}
+
+for (const theme of THEMES) {
+  test.describe(`hero layout, ${theme}`, () => {
+    test("desktop 1280x800 shows the h1, actions and impact links without scrolling", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      const targets = [
+        page.locator("h1"),
+        hero(page).getByRole("link", { name: "View Featured Work" }),
+        hero(page).getByRole("link", { name: "Download Resume" }),
+        ...[0, 1, 2, 3].map((i) => impactLinks(page).nth(i)),
+      ];
+      for (const target of targets) {
+        expect(await inViewport(target)).toBe(true);
+      }
+      // One row of four on desktop.
+      const tops = await impactLinks(page).evaluateAll((els) =>
+        els.map((el) => Math.round(el.getBoundingClientRect().top)),
+      );
+      expect(new Set(tops).size).toBe(1);
+    });
+
+    test("desktop type sizes and stats width follow the mockup", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      const size = (selector: string) =>
+        page
+          .locator(selector)
+          .first()
+          .evaluate((el) => getComputedStyle(el).fontSize);
+      expect(await size("h1")).toBe("84px");
+      expect(await size(".hero-tagline")).toBe("30px");
+      expect(await size(".hero-bio")).toBe("16.5px");
+      const stats = (await page.locator(".hero-stats").boundingBox())!;
+      expect(stats.width).toBeGreaterThan(780);
+      expect(stats.width).toBeLessThanOrEqual(820.5);
+    });
+
+    test("phone 390x844 stacks full-width actions and a 2 column stats grid", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 390, 844);
+      const size = (selector: string) =>
+        page
+          .locator(selector)
+          .first()
+          .evaluate((el) => getComputedStyle(el).fontSize);
+      expect(await size("h1")).toBe("40px");
+      expect(await size(".hero-tagline")).toBe("21px");
+      expect(await size(".hero-bio")).toBe("15.5px");
+
+      const primary = hero(page).getByRole("link", {
+        name: "View Featured Work",
+      });
+      const secondary = hero(page).getByRole("link", {
+        name: "Download Resume",
+      });
+      const targets = [
+        page.locator("h1"),
+        page.locator(".hero-role"),
+        page.locator(".hero-tagline"),
+        primary,
+        secondary,
+      ];
+      for (const target of targets) {
+        expect(await inViewport(target)).toBe(true);
+      }
+      const a = (await primary.boundingBox())!;
+      const b = (await secondary.boundingBox())!;
+      expect(Math.abs(a.width - b.width)).toBeLessThanOrEqual(1);
+      expect(b.y).toBeGreaterThanOrEqual(a.y + a.height - 1);
+
+      const xs = await impactLinks(page).evaluateAll((els) =>
+        els.map((el) => Math.round(el.getBoundingClientRect().left)),
+      );
+      expect(new Set(xs).size).toBe(2);
+    });
+
+    test("phone shows all four impact links after scrolling one viewport", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 390, 844);
+      // "Within one scroll": the distance needed to bring the last impact
+      // link into view is at most one viewport height.
+      const needed = await page.evaluate(() => {
+        const links = document.querySelectorAll(".hero-stats-grid a");
+        const last = links[links.length - 1].getBoundingClientRect();
+        const distance = Math.max(0, last.bottom - window.innerHeight);
+        window.scrollTo({ top: distance, behavior: "instant" });
+        return { distance, viewport: window.innerHeight };
+      });
+      expect(needed.distance).toBeLessThanOrEqual(needed.viewport);
+      for (const i of [0, 1, 2, 3]) {
+        expect(await inViewport(impactLinks(page).nth(i))).toBe(true);
+      }
+    });
+
+    test("320px does not scroll sideways", async ({ page }) => {
+      await openTheme(page, theme, 320, 700);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBeLessThanOrEqual(320);
+    });
+
+    for (const width of [1280, 390]) {
+      test(`the h1 and tagline text are centered at ${width}px`, async ({
+        page,
+      }) => {
+        await openTheme(page, theme, width, 844);
+        const heroBox = (await hero(page).boundingBox())!;
+        const heroCenter = heroBox.x + heroBox.width / 2;
+        for (const selector of ["h1", ".hero-tagline"]) {
+          const textCenter = await page.locator(selector).evaluate((el) => {
+            const range = document.createRange();
+            range.selectNodeContents(el);
+            const r = range.getBoundingClientRect();
+            return r.left + r.width / 2;
+          });
+          expect(Math.abs(textCenter - heroCenter)).toBeLessThanOrEqual(3);
+          expect(
+            await page
+              .locator(selector)
+              .evaluate((el) => getComputedStyle(el).textAlign),
+          ).toBe("center");
+        }
+      });
+    }
+
+    test("impact links hide the category visibly but keep it in the name", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      for (const [i, metric] of impactMetrics.entries()) {
+        const link = impactLinks(page).nth(i);
+        await expect(link).not.toContainText(metric.category);
+        await expect(link).toHaveAttribute(
+          "aria-label",
+          new RegExp(`Category: ${metric.category}$`),
+        );
+      }
+    });
+
+    test("there is one divider in the hero, above the stats", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      await expect(hero(page).locator(".motif-divider")).toHaveCount(1);
+      await expect(
+        hero(page).locator(".hero-stats .motif-divider"),
+      ).toBeVisible();
+    });
+
+    test("the scroll cue is decorative and static", async ({ page }) => {
+      await openTheme(page, theme, 1280, 800);
+      const cue = page.locator(".hero-scroll-cue");
+      await expect(cue).toHaveAttribute("aria-hidden", "true");
+      await expect(cue).toBeVisible();
+      expect(
+        await cue.evaluate((el) => getComputedStyle(el).animationName),
+      ).toBe("none");
+      const box = (await cue.boundingBox())!;
+      expect(box.width).toBeCloseTo(22, 0);
+      expect(box.height).toBeCloseTo(34, 0);
+    });
+
+    test("tab order runs from the actions through contact links to the impact links", async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      await hero(page)
+        .getByRole("link", { name: "View Featured Work" })
+        .focus();
+      const expected = [
+        "Download Resume",
+        "Email",
+        "GitHub",
+        "LinkedIn",
+        ...impactMetrics.map((m) => `Impact metric: ${m.value} ${m.label}`),
+      ];
+      for (const name of expected) {
+        await page.keyboard.press("Tab");
+        const focused = page.locator(":focus");
+        const label = await focused.evaluate(
+          (el) => el.getAttribute("aria-label") ?? el.textContent ?? "",
+        );
+        expect(label.trim()).toContain(name);
+        const outline = await focused.evaluate((el) => {
+          const cs = getComputedStyle(el);
+          return {
+            style: cs.outlineStyle,
+            width: parseFloat(cs.outlineWidth),
+            shadow: cs.boxShadow,
+          };
+        });
+        const visible =
+          (outline.style !== "none" && outline.width > 0) ||
+          outline.shadow !== "none";
+        expect(visible).toBe(true);
+      }
+    });
+  });
+}
 
 test.describe("hero without JavaScript", () => {
   test.use({ javaScriptEnabled: false });

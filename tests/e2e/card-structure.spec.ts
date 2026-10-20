@@ -53,9 +53,16 @@ for (const theme of ["light", "dark"] as const) {
     expect(
       await computed(page, ".portfolio-brand", "::before", "mask-image"),
     ).toContain(SPARKLE);
-    await expect(page.locator(".hero-copy > .motif-divider")).toBeVisible();
+    await expect(
+      page.locator(".portfolio-hero .hero-stats .motif-divider"),
+    ).toBeVisible();
     expect(
-      await computed(page, ".motif-divider span", null, "mask-image"),
+      await computed(
+        page,
+        ".portfolio-hero .hero-stats .motif-divider span",
+        null,
+        "mask-image",
+      ),
     ).toContain(SPARKLE);
     for (const heading of ["#projects h2", "#experience h2", "#about h2"]) {
       expect(await computed(page, heading, "::before", "mask-image")).toContain(
@@ -81,7 +88,7 @@ test("pokemon keeps bows on the brand, divider and headers", async ({
   for (const [selector, pseudo] of [
     [".portfolio-brand", "::before"],
     ["#projects h2", "::before"],
-    [".motif-divider span", null],
+    [".portfolio-hero .hero-stats .motif-divider span", null],
   ] as const) {
     expect(
       await computed(page, selector, pseudo, "background-image"),

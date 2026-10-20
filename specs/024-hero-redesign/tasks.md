@@ -90,7 +90,7 @@ description: "Task list for 024 Hero Redesign"
     - `tests/e2e/card-structure.spec.ts`: drop `#impact .grid` from the framed list, and make About and Contact align with each other instead of with the strip.
     - Check `tests/e2e/about-section.spec.ts` (its comment about numbers in "the hero and impact strip") and adjust the wording only.
   - `tests/e2e/impact-navigation.spec.ts` must pass unchanged.
-- [ ] T006 [US1] Get the layout right at phone and desktop widths. Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T006 [US1] Get the layout right at phone and desktop widths. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US1 scenario 6; SC-001, SC-002, FR-022, FR-023):
     - At 1280×800, in all three themes, the `h1`, both actions and all four impact links are in the viewport without scrolling.
     - At 390×844, the `h1`, role line, tagline and both actions are in the first viewport. The two actions are full width (within 1px of each other's width) and stacked. The impact links form 2 columns.
