@@ -14,6 +14,7 @@ export const TRAIL_MS = 1100;
 const SPARKLE_EVERY_MS = 40;
 const SPARKLE_MIN_DISTANCE = 2;
 const FRAME_MS = 1000 / 60;
+const MAX_STEP_MS = 50;
 const CHASE_PER_FRAME = 0.08;
 const POINTER_OFFSET = { x: 14, y: -12 };
 
@@ -131,7 +132,8 @@ function chase(
   now: number,
   random: () => number,
 ): Fairy {
-  const dt = Math.max(0, now - fairy.updatedAt);
+  // Clamp so a wake-up after a stopped loop does not jump.
+  const dt = Math.min(MAX_STEP_MS, Math.max(0, now - fairy.updatedAt));
   const k = 1 - Math.pow(1 - CHASE_PER_FRAME, dt / FRAME_MS);
   const dx = target.x - fairy.x;
   const dy = target.y - fairy.y;

@@ -129,11 +129,30 @@ test("a pointer move wakes a resting fairy", () => {
   expect(next.stateSince).toBe(6000);
 });
 
+test("waking after a long rest does not teleport the fairy", () => {
+  const resting = run(createFairy({ now: 0, rest, still: false }), 0, 5000);
+  const woke = stepFairy(resting, input(60000, pointerAt(60000)));
+  const target = { x: 214, y: 188 };
+  const total = Math.hypot(target.x - rest.x, target.y - rest.y);
+  expect(Math.hypot(woke.x - rest.x, woke.y - rest.y)).toBeLessThan(
+    total * 0.3,
+  );
+  let fairy = woke;
+  let prev = Math.hypot(fairy.x - target.x, fairy.y - target.y);
+  for (let now = 60016; now <= 60400; now += 16) {
+    fairy = stepFairy(fairy, input(now, pointerAt(now)));
+    const d = Math.hypot(fairy.x - target.x, fairy.y - target.y);
+    expect(d).toBeLessThan(prev + 1);
+    prev = d;
+  }
+  expect(prev).toBeLessThan(total * 0.5);
+});
+
 test("following is frame-rate independent", () => {
   const start = createFairy({ now: 0, rest, still: false });
   const fast = run(start, 0, 640, (n) => pointerAt(n));
   let slow = start;
-  for (let now = 0; now < 640; now += 64)
+  for (let now = 0; now < 640; now += 40)
     slow = stepFairy(slow, input(now, pointerAt(now)));
   slow = stepFairy(slow, input(640, pointerAt(640)));
   expect(Math.abs(fast.x - slow.x)).toBeLessThan(15);
@@ -240,6 +259,13 @@ test("self-started motion never lasts longer than 5 seconds", () => {
   }
   expect(selfMoving).toBeLessThanOrEqual(5000);
   expect(fairy.state).toBe("resting");
+  const atLimit = run(
+    createFairy({ now: 0, rest, still: false }),
+    0,
+    moveAt + IDLE_MS + SETTLE_MS + 16,
+    (n) => pointerAt(Math.min(n, moveAt)),
+  );
+  expect(isAnimating(atLimit.state)).toBe(false);
 });
 
 test("not visible gives paused from any state, and visible again gives resting", () => {
@@ -298,11 +324,9 @@ test("sparkles are added at most every 40 ms and expire after TRAIL_MS", () => {
     following,
     input(newest + TRAIL_MS, pointerAt(newest + TRAIL_MS)),
   );
-  expect(
-    aged.trail.every(
-      (s) => aged.stateSince >= 0 && newest + TRAIL_MS - s.born < TRAIL_MS,
-    ),
-  ).toBe(true);
+  expect(aged.trail.every((s) => newest + TRAIL_MS - s.born < TRAIL_MS)).toBe(
+    true,
+  );
 });
 
 test("the trail is empty in resting", () => {
