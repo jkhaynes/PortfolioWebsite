@@ -13,9 +13,7 @@ export default function Hero() {
           <p className="hero-role text-xs font-semibold uppercase tracking-[0.12em] text-accent">
             Senior Software Engineer · C#/.NET · Backend + Full Stack
           </p>
-          <h1 className="hero-title font-display text-foreground">
-            Hi, I&apos;m Jessica
-          </h1>
+          <h1 className="hero-title font-display">Hi, I&apos;m Jessica</h1>
           <p className="hero-tagline font-display text-accent-secondary">
             I build reliable software for messy, real-world problems.
           </p>
@@ -29,7 +27,7 @@ export default function Hero() {
               variant="primary"
               scrollFocusTargetId="projects-heading"
               trackEvent="view_featured_work_click"
-              className="w-full sm:w-auto"
+              className="hero-primary w-full sm:w-auto"
             >
               View Featured Work
             </Button>

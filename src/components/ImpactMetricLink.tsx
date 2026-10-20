@@ -64,7 +64,7 @@ export default function ImpactMetricLink({
         aria-label={`Impact metric: ${value} ${label}. Category: ${category}`}
         className={`group flex flex-col items-center gap-0.5 rounded-2xl px-1 py-2 text-center transition-[background-color,transform] duration-300 hover:bg-accent-soft/45 motion-safe:hover:-translate-y-0.5 ${focusRing}`}
       >
-        <span className="font-display text-[2rem] font-bold leading-[1.1] tabular-nums text-accent sm:text-[2.5rem]">
+        <span className="hero-stat-value font-display text-[2rem] font-bold leading-[1.1] tabular-nums sm:text-[2.5rem]">
           {value}
         </span>
         <span className="text-[0.84rem] text-muted">{label}</span>

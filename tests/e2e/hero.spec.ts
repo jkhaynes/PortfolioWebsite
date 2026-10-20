@@ -1,3 +1,4 @@
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { impactMetrics } from "../../src/data/impact";
 
@@ -111,8 +112,9 @@ async function inViewport(locator: Locator) {
     return (
       r.top >= 0 &&
       r.left >= 0 &&
-      r.bottom <= window.innerHeight &&
-      r.right <= window.innerWidth
+      // 1px of slack: Firefox and WebKit report fractional layout (844.00002).
+      r.bottom <= window.innerHeight + 1 &&
+      r.right <= window.innerWidth + 1
     );
   });
 }
@@ -285,6 +287,7 @@ for (const theme of THEMES) {
 
     test("tab order runs from the actions through contact links to the impact links", async ({
       page,
+      browserName,
     }) => {
       await openTheme(page, theme, 1280, 800);
       await hero(page)
@@ -297,6 +300,21 @@ for (const theme of THEMES) {
         "LinkedIn",
         ...impactMetrics.map((m) => `Impact metric: ${m.value} ${m.label}`),
       ];
+      if (browserName === "webkit") {
+        // WebKit's Tab skips links (Safari's default; Alt+Tab is swallowed
+        // here), so the keyboard walk below cannot run. With no tabindex in
+        // the hero, document order is tab order: assert that instead.
+        const order = await hero(page)
+          .locator("a")
+          .evaluateAll((els) =>
+            els.map((el) => el.getAttribute("aria-label") ?? el.textContent),
+          );
+        const names = ["View Featured Work", ...expected];
+        expect(order).toHaveLength(names.length);
+        names.forEach((name, i) => expect(order[i]?.trim()).toContain(name));
+        expect(await hero(page).locator("[tabindex]").count()).toBe(0);
+        return;
+      }
       for (const name of expected) {
         await page.keyboard.press("Tab");
         const focused = page.locator(":focus");
@@ -320,6 +338,123 @@ for (const theme of THEMES) {
     });
   });
 }
+
+const ACCENTS: Record<Theme, [string, string]> = {
+  light: ["rgb(184, 48, 111)", "rgb(143, 95, 134)"],
+  dark: ["rgb(244, 167, 203)", "rgb(201, 160, 220)"],
+  pokemon: ["rgb(172, 54, 92)", "rgb(145, 69, 96)"],
+};
+
+for (const theme of THEMES) {
+  test.describe(`hero styling, ${theme}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await openTheme(page, theme, 1280, 800);
+    });
+
+    test("the h1 and impact values use the theme accent gradient", async ({
+      page,
+    }) => {
+      const [a, b] = ACCENTS[theme];
+      const targets = [
+        page.locator("h1"),
+        ...[0, 1, 2, 3].map((i) =>
+          impactLinks(page).nth(i).locator("span").first(),
+        ),
+      ];
+      for (const target of targets) {
+        const bg = await target.evaluate(
+          (el) => getComputedStyle(el).backgroundImage,
+        );
+        expect(bg).toContain("linear-gradient");
+        expect(bg).toContain(a);
+        expect(bg).toContain(b);
+      }
+    });
+
+    test("View Featured Work has a gradient background", async ({ page }) => {
+      const [a, b] = ACCENTS[theme];
+      const bg = await hero(page)
+        .getByRole("link", { name: "View Featured Work" })
+        .evaluate((el) => getComputedStyle(el).backgroundImage);
+      expect(bg).toContain("linear-gradient");
+      expect(bg).toContain(a);
+      expect(bg).toContain(b);
+    });
+
+    test("the glow is decorative and does not take pointer events", async ({
+      page,
+    }) => {
+      const glow = await hero(page).evaluate((el) => {
+        const cs = getComputedStyle(el, "::before");
+        return {
+          content: cs.content,
+          pointerEvents: cs.pointerEvents,
+          backgroundImage: cs.backgroundImage,
+        };
+      });
+      expect(glow.content).not.toBe("none");
+      expect(glow.pointerEvents).toBe("none");
+      expect(glow.backgroundImage).toContain("radial-gradient");
+    });
+
+    test("the divider motif matches the theme", async ({ page }) => {
+      const motif = await hero(page)
+        .locator(".motif-divider span")
+        .evaluate((el) => {
+          const cs = getComputedStyle(el);
+          return {
+            mask:
+              cs.maskImage ||
+              (cs as unknown as Record<string, string>).webkitMaskImage ||
+              "none",
+            background: cs.backgroundImage,
+          };
+        });
+      if (theme === "pokemon") {
+        expect(motif.mask).toBe("none");
+        expect(motif.background).toContain("ribbon-pink.svg");
+      } else {
+        expect(motif.mask).toContain("sparkle.svg");
+      }
+    });
+
+    test("the hero has no automated accessibility violations at 1280 and 390", async ({
+      page,
+    }) => {
+      for (const [width, height] of [
+        [1280, 800],
+        [390, 844],
+      ] as const) {
+        await page.setViewportSize({ width, height });
+        await page.goto("/");
+        const results = await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+          .analyze();
+        expect(results.violations).toEqual([]);
+      }
+    });
+  });
+}
+
+test("forced colors turn the gradient text into readable system text", async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: "active" });
+  await openTheme(page, "light", 1280, 800);
+  const targets = [
+    page.locator("h1"),
+    impactLinks(page).first().locator("span").first(),
+  ];
+  for (const target of targets) {
+    const style = await target.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { color: cs.color, backgroundImage: cs.backgroundImage };
+    });
+    expect(style.color).not.toBe("rgba(0, 0, 0, 0)");
+    expect(style.color).not.toBe("transparent");
+    expect(style.backgroundImage).toBe("none");
+  }
+});
 
 test.describe("hero without JavaScript", () => {
   test.use({ javaScriptEnabled: false });

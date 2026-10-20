@@ -196,10 +196,12 @@ test("dark mode uses the mauve night palette", async ({ page }) => {
     "background-color",
     "rgb(26, 18, 32)",
   );
-  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS(
-    "color",
-    "rgb(246, 233, 241)",
-  );
+  const heroGradient = await page
+    .getByRole("heading", { level: 1 })
+    .evaluate((el) => getComputedStyle(el).backgroundImage);
+  expect(heroGradient).toContain("linear-gradient");
+  expect(heroGradient).toContain("rgb(244, 167, 203)");
+  expect(heroGradient).toContain("rgb(201, 160, 220)");
 
   // Runtime toggle path: leave Dark, come back, meta must follow.
   await page.getByRole("radio", { name: "Light", exact: true }).click();

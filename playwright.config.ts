@@ -24,12 +24,14 @@ export default defineConfig({
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
-      testMatch: /(?:theme-toggle|ribbon-roundup|pokemon-polish)\.spec\.ts/,
+      testMatch:
+        /(?:theme-toggle|ribbon-roundup|pokemon-polish|hero)\.spec\.ts/,
     },
     {
       name: "webkit",
       use: { ...devices["Desktop Safari"] },
-      testMatch: /(?:theme-toggle|ribbon-roundup|pokemon-polish)\.spec\.ts/,
+      testMatch:
+        /(?:theme-toggle|ribbon-roundup|pokemon-polish|hero)\.spec\.ts/,
     },
   ],
   webServer: {

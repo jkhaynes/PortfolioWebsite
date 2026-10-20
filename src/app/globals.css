@@ -775,7 +775,63 @@
     display: none;
   }
   .portfolio-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     padding: 44px 0 44px;
+  }
+  /* Soft radial glow behind the heading, from the theme accents. */
+  .portfolio-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 30px;
+    left: 50%;
+    width: min(640px, 130vw);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-accent) 16%, transparent) 0%,
+      color-mix(in srgb, var(--color-accent-secondary) 8%, transparent) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+  .hero-title,
+  .hero-stat-value {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-accent) 10%,
+      var(--color-accent-secondary) 90%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .hero-primary {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-accent),
+      var(--color-accent-secondary)
+    );
+    box-shadow: 0 10px 28px -12px var(--color-accent);
+  }
+  @media (forced-colors: active) {
+    .portfolio-hero::before {
+      display: none;
+    }
+    .hero-title,
+    .hero-stat-value {
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      color: CanvasText;
+    }
+    .hero-primary {
+      background-image: none;
+    }
   }
   .hero-container {
     max-width: 1112px;

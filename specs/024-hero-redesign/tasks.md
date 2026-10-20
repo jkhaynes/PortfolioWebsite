@@ -110,7 +110,7 @@ description: "Task list for 024 Hero Redesign"
 
 **Independent Test**: Switch themes with the pill toggle. Check the gradient, glow, divider motif and axe results in each theme at both widths.
 
-- [ ] T007 [US2] Style the hero from each theme. Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T007 [US2] Style the hero from each theme. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US2 scenarios 1 and 3; FR-002, FR-005, FR-011, FR-012):
     - The `h1` and impact values have a computed `background-image` containing `linear-gradient` and the theme's two accent RGB values (Light #b8306f and #8f5f86; Dark #f4a7cb and #c9a0dc; Pokémon #ac365c and #914560).
     - The "View Featured Work" background is a gradient.
