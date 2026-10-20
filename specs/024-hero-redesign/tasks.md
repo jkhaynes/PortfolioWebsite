@@ -30,7 +30,7 @@ description: "Task list for 024 Hero Redesign"
 
 ## Phase 2: Foundational (blocks the user stories)
 
-- [ ] T002 [P] Move the four impact metrics from the `stats` array in `src/app/page.tsx` into `src/data/impact.ts`.
+- [x] T002 [P] Move the four impact metrics from the `stats` array in `src/app/page.tsx` into `src/data/impact.ts`.
   - Export `impactMetrics` with the same `value`, `label`, `category` and `href` fields and the same order (data-model.md).
   - Import it in `page.tsx`. Behavior must not change: `tests/e2e/impact-navigation.spec.ts` stays green unchanged.
 - [ ] T003 [P] Write the fairy state machine test-first, in `tests/e2e/hero-fairy-model.spec.ts` (pure, no page, like `tests/e2e/ribbon-model.spec.ts`), then implement it in `src/lib/hero-fairy.ts`.

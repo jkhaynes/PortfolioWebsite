@@ -14,6 +14,7 @@ import SylveonPortrait from "@/components/SylveonPortrait";
 import HeroPortrait from "@/components/HeroPortrait";
 import PokemonModeHint from "@/components/PokemonModeHint";
 import { experience } from "@/data/experience";
+import { impactMetrics } from "@/data/impact";
 import { projects } from "@/data/projects";
 
 const workPrinciples = [
@@ -46,33 +47,6 @@ const learningThemes = [
   "Agentic engineering workflows",
   "AI evaluation & reliability",
   "Human-in-the-loop product design",
-] as const;
-
-const stats = [
-  {
-    value: "9+",
-    label: "Years of experience",
-    category: "Experience",
-    href: "#experience-heading",
-  },
-  {
-    value: "95%",
-    label: "Faster nightly job runtime",
-    category: "Performance",
-    href: "#impact-nightly-job",
-  },
-  {
-    value: "81%",
-    label: "Fewer security flaws",
-    category: "Application Security",
-    href: "#impact-security-flaws",
-  },
-  {
-    value: "50%",
-    label: "Fewer support escalations",
-    category: "Quality & Reliability",
-    href: "#impact-support-escalations",
-  },
 ] as const;
 
 const recentExperience = experience.filter((entry) => !entry.earlier);
@@ -165,8 +139,8 @@ export default function Home() {
               Impact &amp; Highlights
             </h2>
             <div className="grid grid-cols-2 gap-6 py-10 sm:grid-cols-4">
-              {stats.map((stat) => (
-                <ImpactMetricLink key={stat.label} {...stat} />
+              {impactMetrics.map((metric) => (
+                <ImpactMetricLink key={metric.label} {...metric} />
               ))}
             </div>
           </Container>
