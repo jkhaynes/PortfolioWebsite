@@ -126,7 +126,7 @@ description: "Task list for 024 Hero Redesign"
   - **Cross-browser**: add `hero` to the `testMatch` lists of the `firefox` and `webkit` projects in `playwright.config.ts` (so the pattern reads `(?:theme-toggle|ribbon-roundup|pokemon-polish|hero)\.spec\.ts`), and make every `hero.spec.ts` test pass in all three engines.
   - **Contrast note**: axe reports gradient text as "needs review", not as a violation; the reviewer confirms the hand-checked ratios in research.md R6.
   - **Tests to update**: `tests/e2e/theme-toggle.spec.ts` line ~199 asserts the Dark `h1` `color`. Change it to assert the gradient `background-image` with the Dark accent values.
-- [ ] T008 [US2] Remove the arch portrait. Write the tests first in `tests/e2e/hero.spec.ts`: `.hero-portrait` and the "Portrait of Jessica Haynes" image have count 0 in all themes (US2 scenario 2, FR-010).
+- [x] T008 [US2] Remove the arch portrait. Write the tests first in `tests/e2e/hero.spec.ts`: `.hero-portrait` and the "Portrait of Jessica Haynes" image have count 0 in all themes (US2 scenario 2, FR-010).
   - **Implement**:
     - Delete `src/components/HeroPortrait.tsx`.
     - Delete its CSS (`.hero-portrait*`, and the `.hero-container` grid columns that held it) from `src/app/globals.css`.

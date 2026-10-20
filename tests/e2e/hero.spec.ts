@@ -436,6 +436,20 @@ for (const theme of THEMES) {
   });
 }
 
+for (const theme of THEMES) {
+  for (const width of [1280, 390]) {
+    test(`no arch portrait is rendered, ${theme} ${width}px`, async ({
+      page,
+    }) => {
+      await openTheme(page, theme, width, 800);
+      await expect(page.locator(".hero-portrait")).toHaveCount(0);
+      await expect(page.getByAltText("Portrait of Jessica Haynes")).toHaveCount(
+        0,
+      );
+    });
+  }
+}
+
 test("forced colors turn the gradient text into readable system text", async ({
   page,
 }) => {

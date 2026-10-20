@@ -14,6 +14,5 @@ test("pokemon keeps Sylveon in the hero instead of the portrait", async ({
   page,
 }) => {
   await openTheme(page, "pokemon", 1280);
-  await expect(page.locator(".hero-portrait")).toBeHidden();
   await expect(page.locator(".sylveon-portrait")).toBeVisible();
 });
