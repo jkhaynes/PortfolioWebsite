@@ -39,7 +39,7 @@ test("about merges how I work and learning now into one section", async ({
     about.getByRole("heading", { level: 3, name: "Learning now" }),
   ).toBeVisible();
 
-  // No numbers repeated from the hero and impact strip.
+  // No numbers repeated from the hero impact numbers.
   await expect(about).not.toContainText(/9\+|95%|6\+ months/);
   await expect(page.getByText(QUOTE, { exact: true })).toHaveCount(1);
   await expect(about).not.toContainText(

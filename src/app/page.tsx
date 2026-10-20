@@ -6,14 +6,12 @@ import EarlierRoles from "@/components/EarlierRoles";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
 import Hero from "@/components/Hero";
-import ImpactMetricLink from "@/components/ImpactMetricLink";
 import Nav from "@/components/Nav";
 import ProjectHand from "@/components/ProjectHand";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
 import PokemonModeHint from "@/components/PokemonModeHint";
 import { experience } from "@/data/experience";
-import { impactMetrics } from "@/data/impact";
 import { projects } from "@/data/projects";
 
 const workPrinciples = [
@@ -63,19 +61,6 @@ export default function Home() {
       <main id="main-content" className="portfolio-home" tabIndex={-1}>
         <div id="top" className="scroll-mt-24" />
         <Hero />
-
-        <section id="impact" className="pb-24">
-          <Container>
-            <h2 className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-muted">
-              Impact &amp; Highlights
-            </h2>
-            <div className="grid grid-cols-2 gap-6 py-10 sm:grid-cols-4">
-              {impactMetrics.map((metric) => (
-                <ImpactMetricLink key={metric.label} {...metric} />
-              ))}
-            </div>
-          </Container>
-        </section>
 
         <section id="projects" className="pb-24">
           <Container>

@@ -7,6 +7,7 @@ type ImpactMetricLinkProps = {
   label: string;
   category: string;
   href: `#${string}`;
+  variant?: "default" | "hero";
 };
 
 export default function ImpactMetricLink({
@@ -14,6 +15,7 @@ export default function ImpactMetricLink({
   label,
   category,
   href,
+  variant = "default",
 }: ImpactMetricLinkProps) {
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     if (
@@ -51,12 +53,34 @@ export default function ImpactMetricLink({
     target.focus({ preventScroll: true });
   }
 
+  const focusRing =
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
+  if (variant === "hero") {
+    return (
+      <a
+        href={href}
+        onClick={handleClick}
+        aria-label={`Impact metric: ${value} ${label}. Category: ${category}`}
+        className={`group flex flex-col items-center gap-0.5 rounded-2xl px-1 py-2 text-center transition-[background-color,transform] duration-300 hover:bg-accent-soft/45 motion-safe:hover:-translate-y-0.5 ${focusRing}`}
+      >
+        <span className="font-display text-[2rem] font-bold leading-[1.1] tabular-nums text-accent sm:text-[2.5rem]">
+          {value}
+        </span>
+        <span className="text-[0.84rem] text-muted">{label}</span>
+        <span className="mt-1 text-xs font-semibold text-accent">
+          View evidence <span aria-hidden="true">↓</span>
+        </span>
+      </a>
+    );
+  }
+
   return (
     <a
       href={href}
       onClick={handleClick}
       aria-label={`Impact metric: ${value} ${label}. Category: ${category}`}
-      className="group flex h-full min-h-40 flex-col items-center justify-center rounded-2xl px-3 py-5 text-center transition-[background-color,box-shadow,transform] duration-300 hover:bg-accent-soft/45 motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className={`group flex h-full min-h-40 flex-col items-center justify-center rounded-2xl px-3 py-5 text-center transition-[background-color,box-shadow,transform] duration-300 hover:bg-accent-soft/45 motion-safe:hover:-translate-y-0.5 ${focusRing}`}
     >
       <span className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-accent-secondary">
         {category}

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { impactMetrics } from "../../src/data/impact";
 
 const ROLE = "Senior Software Engineer · C#/.NET · Backend + Full Stack";
 const TAGLINE = "I build reliable software for messy, real-world problems.";
@@ -58,6 +59,29 @@ test.describe("hero copy and actions", () => {
     );
   });
 
+  test("the four impact numbers live in the hero", async ({ page }) => {
+    const links = page
+      .locator("section.portfolio-hero")
+      .getByRole("link", { name: /^Impact metric:/ });
+    await expect(links).toHaveCount(4);
+    for (const [i, metric] of impactMetrics.entries()) {
+      const link = links.nth(i);
+      await expect(link).toHaveAttribute("href", metric.href);
+      await expect(link).toContainText(metric.value);
+      await expect(link).toContainText(metric.label);
+      await expect(link).toContainText("View evidence");
+    }
+  });
+
+  test("the separate impact section is gone and projects follows the hero", async ({
+    page,
+  }) => {
+    await expect(page.locator("#impact")).toHaveCount(0);
+    await expect(
+      page.locator("section.portfolio-hero + section"),
+    ).toHaveAttribute("id", "projects");
+  });
+
   test("the copy is centered in the hero at 1280px", async ({ page }) => {
     const hero = (await page.locator("section.portfolio-hero").boundingBox())!;
     const h1 = (await page.locator("h1").boundingBox())!;
@@ -95,5 +119,10 @@ test.describe("hero without JavaScript", () => {
       "href",
       "https://linkedin.com/in/jesshaynes",
     );
+    const impact = hero.getByRole("link", { name: /^Impact metric:/ });
+    await expect(impact).toHaveCount(4);
+    for (const [i, metric] of impactMetrics.entries()) {
+      await expect(impact.nth(i)).toHaveAttribute("href", metric.href);
+    }
   });
 });

@@ -75,7 +75,7 @@ description: "Task list for 024 Hero Redesign"
     - In `src/app/globals.css`, make `.portfolio-hero` a single centered column (max width about 54ch for the bio, 26ch for the tagline, as in the mockup).
   - **No-JavaScript test** (FR-025): in a context with `javaScriptEnabled: false`, the `h1`, the role line, both actions, the contact links and (after T005) the four impact links still render with correct hrefs.
   - **Tests to update**: In `tests/e2e/hero-portrait.spec.ts`, delete the Light and Dark portrait tests; the Pokémon Sylveon test stays until T009. Update `tests/e2e/accessibility.spec.ts` only if its outline test asserts the old `h1` text.
-- [ ] T005 [US1] Move the impact numbers into the hero. Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T005 [US1] Move the impact numbers into the hero. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US1 scenarios 2 and 5; FR-006 to FR-008):
     - Four links named `/^Impact metric:/` are inside `section.portfolio-hero`, with the four hrefs from `src/data/impact.ts`.
     - Each shows its value, its label and "View evidence".

@@ -1,7 +1,9 @@
 import Button from "@/components/Button";
 import Container from "@/components/Container";
+import ImpactMetricLink from "@/components/ImpactMetricLink";
 import SylveonPortrait from "@/components/SylveonPortrait";
 import TextLink from "@/components/TextLink";
+import { impactMetrics } from "@/data/impact";
 
 export default function Hero() {
   return (
@@ -65,6 +67,20 @@ export default function Hero() {
             >
               LinkedIn
             </TextLink>
+          </div>
+          <div className="hero-stats mt-12">
+            <div className="motif-divider" aria-hidden="true">
+              <span />
+            </div>
+            <div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-[18px] sm:grid-cols-4 sm:gap-y-3">
+              {impactMetrics.map((metric) => (
+                <ImpactMetricLink
+                  key={metric.label}
+                  variant="hero"
+                  {...metric}
+                />
+              ))}
+            </div>
           </div>
         </div>
         <SylveonPortrait />
