@@ -2,7 +2,6 @@
 
 Downloaded from the PokeAPI sprites repository on 2026-09-04:
 
-- sylveon.png: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png
 - sylveon-sprite.png: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/700.png
 - sylveon-shiny-sprite.png: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/700.png
 

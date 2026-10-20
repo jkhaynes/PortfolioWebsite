@@ -56,7 +56,7 @@ function GameModal({
       queueMicrotask(() => {
         // React's development effect replay must not steal dialog focus.
         if (element.isConnected) return;
-        const target = previous?.isConnected
+        const target = previous?.getClientRects().length
           ? previous
           : (document.querySelector<HTMLElement>(
               'input[name="color-theme"]:checked',
@@ -120,32 +120,54 @@ function GameModal({
   );
 }
 
-function Launcher() {
+type Variant = "default" | "badge";
+
+function Launcher({ variant }: { variant: Variant }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  // The badge stays mounted (hidden by CSS) outside Pokémon, so a theme change
+  // must dismiss the game itself.
+  const pokemon = useTheme() === "pokemon";
+  if (!pokemon && open) setOpen(false);
   return (
     <>
       <button
         ref={triggerRef}
         type="button"
-        className="roundup-launcher"
+        className={
+          variant === "badge"
+            ? "roundup-launcher roundup-launcher--badge"
+            : "roundup-launcher"
+        }
         aria-haspopup="dialog"
         onClick={() => setOpen(true)}
       >
-        <svg
-          aria-hidden="true"
-          width="20"
-          height="20"
-          viewBox="0 0 64 64"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        >
-          <path d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7" />
-          <circle cx="32" cy="29" r="6" />
-        </svg>{" "}
-        Take a play break
+        {variant === "badge" ? (
+          <>
+            <span className="roundup-launcher__bow" aria-hidden="true" />
+            Take a play break
+            <span className="roundup-launcher__sub" aria-hidden="true">
+              · a Sylveon mini game
+            </span>
+          </>
+        ) : (
+          <>
+            <svg
+              aria-hidden="true"
+              width="20"
+              height="20"
+              viewBox="0 0 64 64"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinejoin="round"
+            >
+              <path d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7" />
+              <circle cx="32" cy="29" r="6" />
+            </svg>{" "}
+            Take a play break
+          </>
+        )}
       </button>
       {open && (
         <GameModal triggerRef={triggerRef} onClose={() => setOpen(false)} />
@@ -154,6 +176,13 @@ function Launcher() {
   );
 }
 
-export default function RibbonRoundupLauncher() {
-  return useTheme() === "pokemon" ? <Launcher /> : null;
+export default function RibbonRoundupLauncher({
+  variant = "default",
+}: {
+  variant?: Variant;
+}) {
+  // The badge is always in the markup and CSS shows it only in Pokémon, so the
+  // theme attribute set before paint decides visibility with no flicker.
+  const pokemon = useTheme() === "pokemon";
+  return pokemon || variant === "badge" ? <Launcher variant={variant} /> : null;
 }

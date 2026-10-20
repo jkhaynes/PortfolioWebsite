@@ -75,7 +75,9 @@ test("Pokémon is initialized before hydration", async ({ browser }) => {
     "content",
     "#fff5f5",
   );
-  await expect(page.locator(".sylveon-portrait")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeVisible();
   await page.close();
 });
 
@@ -129,17 +131,17 @@ test("keyboard selection loads only the active theme artwork", async ({
   await page.getByRole("radio", { name: "Dark", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("radio", { name: "Pokémon" })).toBeChecked();
-  await expect(page.getByAltText(/Sylveon with pink bows/)).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeVisible();
   await expect
-    .poll(() =>
-      page
-        .getByAltText(/Sylveon with pink bows/)
-        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
-    )
-    .toBeGreaterThan(0);
+    .poll(() => assetRequests.some((url) => url.includes("ribbon-pink.svg")))
+    .toBe(true);
   expect(assetRequests.some((url) => url.includes("sprite"))).toBe(false);
   await page.getByRole("radio", { name: "Light", exact: true }).click();
-  await expect(page.locator(".sylveon-portrait")).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeHidden();
 });
 
 test("three themes avoid overflow on every route", async ({ page }) => {

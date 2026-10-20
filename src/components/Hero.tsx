@@ -1,7 +1,7 @@
 import Button from "@/components/Button";
 import Container from "@/components/Container";
 import ImpactMetricLink from "@/components/ImpactMetricLink";
-import SylveonPortrait from "@/components/SylveonPortrait";
+import RibbonRoundupLauncher from "@/components/RibbonRoundupLauncher";
 import TextLink from "@/components/TextLink";
 import { impactMetrics } from "@/data/impact";
 
@@ -10,6 +10,9 @@ export default function Hero() {
     <section className="portfolio-hero">
       <Container className="hero-container">
         <div className="hero-copy">
+          <div className="hero-game">
+            <RibbonRoundupLauncher variant="badge" />
+          </div>
           <p className="hero-role text-xs font-semibold uppercase tracking-[0.12em] text-accent">
             Senior Software Engineer · C#/.NET · Backend + Full Stack
           </p>
@@ -77,7 +80,6 @@ export default function Hero() {
         <div className="hero-scroll-cue" aria-hidden="true">
           <span />
         </div>
-        <SylveonPortrait />
       </Container>
     </section>
   );

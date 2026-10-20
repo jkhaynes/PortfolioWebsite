@@ -450,6 +450,79 @@ for (const theme of THEMES) {
   }
 }
 
+const badge = (page: Page) =>
+  hero(page).getByRole("button", { name: "Take a play break", exact: true });
+
+test.describe("hero game badge", () => {
+  for (const width of [1280, 390]) {
+    test(`Pokémon badge sits centered above the h1, ${width}px`, async ({
+      page,
+    }) => {
+      await openTheme(page, "pokemon", width, 800);
+      const button = badge(page);
+      await expect(button).toBeVisible();
+      const before = await hero(page).evaluate((section) => {
+        const b = section.querySelector("button.roundup-launcher")!;
+        const h = section.querySelector("h1")!;
+        return !!(
+          b.compareDocumentPosition(h) & Node.DOCUMENT_POSITION_FOLLOWING
+        );
+      });
+      expect(before).toBe(true);
+      const b = (await button.boundingBox())!;
+      const h = (await page.locator("h1").boundingBox())!;
+      expect(Math.abs(b.x + b.width / 2 - (h.x + h.width / 2))).toBeLessThan(2);
+      expect(b.y + b.height).toBeLessThanOrEqual(h.y);
+    });
+  }
+
+  test("click and Enter open Ribbon Roundup; Escape returns focus to the badge", async ({
+    page,
+  }) => {
+    await openTheme(page, "pokemon", 1280, 800);
+    const button = badge(page);
+    await button.click();
+    await expect(
+      page.getByRole("dialog", { name: "Ribbon Roundup" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(button).toBeFocused();
+    await button.press("Enter");
+    await expect(
+      page.getByRole("dialog", { name: "Ribbon Roundup" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(button).toBeFocused();
+  });
+
+  test("does not overflow at 320px", async ({ page }) => {
+    await openTheme(page, "pokemon", 320, 568);
+    const b = (await badge(page).boundingBox())!;
+    expect(b.x).toBeGreaterThanOrEqual(0);
+    expect(b.x + b.width).toBeLessThanOrEqual(320);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true);
+  });
+
+  for (const theme of ["light", "dark"] as const) {
+    test(`is not visible in ${theme}`, async ({ page }) => {
+      await openTheme(page, theme, 1280, 800);
+      await expect(badge(page)).toBeHidden();
+    });
+  }
+
+  for (const theme of THEMES) {
+    test(`no Sylveon portrait card, ${theme}`, async ({ page }) => {
+      await openTheme(page, theme, 1280, 800);
+      await expect(page.locator(".sylveon-portrait")).toHaveCount(0);
+    });
+  }
+});
+
 test("forced colors turn the gradient text into readable system text", async ({
   page,
 }) => {

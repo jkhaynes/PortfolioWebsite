@@ -737,8 +737,20 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .sylveon-portrait {
+  .hero-game {
     display: none;
+    margin-bottom: 22px;
+  }
+  [data-theme="pokemon"] .hero-game {
+    display: flex;
+    justify-content: center;
+  }
+  /* The badge adds 62px above the greeting; take it from the top padding so
+     the impact links stay in the first desktop viewport. */
+  @media (min-width: 640px) {
+    [data-theme="pokemon"] .portfolio-hero {
+      padding-top: 30px;
+    }
   }
   .portfolio-hero {
     position: relative;
@@ -886,9 +898,6 @@
     border-radius: 2px;
     background: var(--color-accent);
   }
-  .hero-container > .sylveon-portrait {
-    margin-top: 2rem;
-  }
   @media (min-width: 640px) {
     .portfolio-hero {
       padding: 92px 0 56px;
@@ -919,39 +928,6 @@
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
     }
-  }
-  [data-theme="pokemon"] .sylveon-portrait {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-self: center;
-    width: min(100%, 19rem);
-    padding: 1.5rem 1rem;
-    border: 1px solid var(--color-border);
-    outline: 1px solid var(--color-border);
-    outline-offset: -6px;
-    border-radius: 1.5rem;
-    background: var(--color-surface);
-    box-shadow: var(--shadow-soft);
-  }
-  .sylveon-portrait__art {
-    width: 100%;
-    aspect-ratio: 1;
-  }
-  .sylveon-portrait__art img {
-    width: 100%;
-    height: auto;
-  }
-  .sylveon-ribbon {
-    position: absolute;
-    top: -1px;
-    right: 1.5rem;
-    width: 1.3rem;
-    height: 3rem;
-    background: #edb0c4;
-    border-top: 3px solid #8ac6e6;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
   }
   [data-theme="pokemon"] .project-specimen-card::after {
     top: auto;
@@ -998,6 +974,30 @@
   }
   .roundup-launcher:hover {
     background: var(--color-accent-soft);
+  }
+  .roundup-launcher--badge {
+    gap: 8px;
+    min-height: 40px;
+    margin-top: 0;
+    padding: 0 16px 0 8px;
+    font-size: 13px;
+    box-shadow: 0 10px 24px -18px rgba(145, 69, 96, 0.6);
+  }
+  .roundup-launcher__bow {
+    flex: none;
+    width: 26px;
+    height: 26px;
+    background: url("/images/pokemon/ribbon-pink.svg") center / contain
+      no-repeat;
+  }
+  .roundup-launcher__sub {
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+  @media (max-width: 359px) {
+    .roundup-launcher__sub {
+      display: none;
+    }
   }
   .roundup-launcher:focus-visible,
   .roundup-button:focus-visible {
@@ -1208,13 +1208,6 @@
     padding: 0.9rem;
     background: var(--stationery-pattern) 0 0 / 144px 72px repeat;
   }
-  [data-theme="pokemon"] .sylveon-portrait {
-    border: 9px solid transparent;
-    background:
-      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-      var(--stationery-pattern) 0 0 / 144px 72px repeat border-box;
-    outline-offset: -9px;
-  }
   [data-theme="pokemon"] .portfolio-home #contact > div::after {
     content: "";
     display: block;
@@ -1229,48 +1222,6 @@
     height: 12px;
     border-block: 1px solid #e4b3c5;
     background: var(--stationery-pattern) center 12px / 144px 72px repeat;
-  }
-}
-
-/* Art layers share the same bounds; only the exposed right ear rotates. */
-.sylveon-portrait__art {
-  position: relative;
-}
-.sylveon-ear-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.sylveon-twitching-ear {
-  transform-origin: 199px 175px;
-}
-@keyframes sylveon-ear-twitch {
-  0%,
-  87%,
-  100% {
-    transform: rotate(0);
-  }
-  89% {
-    transform: rotate(-5deg);
-  }
-  90.5% {
-    transform: rotate(2deg);
-  }
-  92% {
-    transform: rotate(-3deg);
-  }
-  94% {
-    transform: rotate(0);
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .sylveon-twitching-ear {
-    animation: sylveon-ear-twitch 12s ease-in-out infinite;
-  }
-  body:has(dialog[open]) .sylveon-twitching-ear {
-    animation-play-state: paused;
   }
 }
 

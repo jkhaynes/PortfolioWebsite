@@ -143,7 +143,7 @@ description: "Task list for 024 Hero Redesign"
 
 **Independent Test**: In Pokémon, open the game from the badge by mouse and by keyboard, then close it; focus returns to the badge. In Light and Dark there is no badge.
 
-- [ ] T009 [US3] Add the game badge and remove the Sylveon card. Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T009 [US3] Add the game badge and remove the Sylveon card. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US3 scenarios 1 to 3; FR-013, FR-014, SC-007):
     - In Pokémon, a button named exactly "Take a play break" is visible inside `section.portfolio-hero`, comes before the `h1` in DOM order, and its center is within 2px of the `h1` center at 1280px and at 390px.
     - Clicking it, or pressing Enter on it, opens the dialog named "Ribbon Roundup"; Escape closes it and focus returns to the badge.
