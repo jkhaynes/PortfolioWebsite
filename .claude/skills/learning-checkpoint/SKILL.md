@@ -15,7 +15,7 @@ The only file this skill may write is its checkpoint transcript.
 
 ## Workflow contract
 
-Read `docs/PRD.md` and its Development Model.
+Read `docs/prd.md` and its Development Model.
 
 Resolve:
 

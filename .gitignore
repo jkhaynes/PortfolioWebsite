@@ -13,9 +13,23 @@ Thumbs.db
 playwright-report/
 test-results/
 
+# Claude Code: personal settings stay local, shared settings are committed
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Feature worktrees (docs/worktrees.md) and Claude Code's own worktrees
+.worktrees/
+.claude/worktrees/
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+
+# Throwaway files (see CLAUDE.md "Temporary files")
+*.tmp.*
+
 # Local editor / tooling
 .vscode/settings.local.json
 
-# Local workflow planning artifacts (planning_artifacts: local per docs/PRD.md)
+# Local workflow planning artifacts (planning_artifacts: local per docs/prd.md)
 .project-plans/
 docs/superpowers/plans/

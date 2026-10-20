@@ -1,0 +1,45 @@
+name: CI
+
+# Every pull request and every push to main: scripts/check.sh (formatting, lint, Playwright tests, build).
+# Deploys are not here: Vercel's Git integration builds previews for PRs and production from main.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch or PR cancels the run it replaces.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Chromium, Firefox and WebKit, as in playwright.config.ts.
+      - run: npx playwright install --with-deps chromium firefox webkit
+      # scripts/check.sh is the one definition of green: format check, lint, tests, build.
+      # Keep the job id `check`: the merge gate (.claude/hooks/merge-gate.py) waits on `gh pr checks`.
+      - name: Check
+        run: ./scripts/check.sh
+      - name: Upload Playwright traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          retention-days: 7

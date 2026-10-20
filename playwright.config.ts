@@ -3,6 +3,8 @@ import { defineConfig, devices } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests/e2e",
   fullyParallel: true,
+  // A cold dev server compiles each route on first visit; retry on CI so that load does not fail a run.
+  retries: process.env.CI ? 2 : 0,
   reporter: "list",
   use: {
     baseURL: "http://127.0.0.1:3010",

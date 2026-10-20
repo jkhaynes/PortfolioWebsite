@@ -100,19 +100,13 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 
 ## 12. Development Model
 
-```yaml
-workflow:
-  unit_of_work: "feature"
-  unit_of_work_plural: "features"
-  plan_root: "docs/superpowers/plans"
-  plan_file_pattern: "YYYY-MM-DD-<slug>.md"
-  branch_pattern: "feature/<slug>"
-  base_branch: "main"
-  planning_artifacts: "local"
-  learning_mode: "disabled"
-```
+Since 2026-10-20 the site follows the project-template workflow described in `CLAUDE.md` (Workflow) and drawn in `docs/ai-workflow.html`:
 
-Note: the repository is not yet a git repository. `git init` (and creation of the `main` base branch) must happen before the branch/PR workflow can be used.
+- **Features** are designed with Spec Kit in `specs/NNN-feature-name/` (spec.md, plan.md, tasks.md) and built with Superpowers in their own worktree, `.worktrees/NNN-feature-name` on branch `NNN-feature-name` off `main` (`docs/worktrees.md`). Numbering continues from this roadmap: the next new feature is 024.
+- **Small changes** (bug fixes, copy tweaks, refactors) skip Spec Kit and go straight to Superpowers on a short-lived branch off `main`.
+- **Every change** passes `./scripts/check.sh`, goes through a PR with green CI, and merges into `main`, which Vercel deploys to production.
+
+Features 1 to 23 were built under the earlier flow (`feature/<slug>` branches, plans in `.project-plans/` and `docs/superpowers/`); those files stay as history.
 
 ## 13. Roadmap
 

@@ -1,0 +1,211 @@
+<!doctype html>
+<!--
+  The AI workflow for this repo, as one page. Open it in a browser.
+  Keep it current: when you change the Workflow in CLAUDE.md, the review panel
+  (REVIEW.md, .claude/agents/, .claude/skills/review-panel/), the hooks in
+  .claude/hooks/, scripts/check or scripts/dashboard.py, or ci.yml, update the
+  matching step here in the same PR.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My AI Workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of phases, top to bottom; each phase is a row of steps joined by arrows, stacking on phones. */
+:root {
+  color-scheme: dark;
+  --bg: #111a2e; --panel: #19243f; --raised: #22304f; --edge: #2a3758; --line: #34426a; --dash: #45547e;
+  --text: #eef1f8; --soft: #c8d0e2; --muted: #aab5cf; --dim: #8995b2;
+  --pink: #e6a9bc; --pink-soft: #f3c9d6; --pink-wash: rgba(230,169,188,.13);
+  --pass: #a9dbb5; --pass-wash: rgba(169,219,181,.12);
+  --warn: #f2c784; --warn-wash: rgba(242,199,132,.14);
+  --rose: #f4a3b4; --rose-wash: rgba(244,163,180,.13);
+  --body: "Nunito", system-ui, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 28px; }
+h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); font-weight: 900; letter-spacing: -.01em; text-wrap: balance; }
+.lede { margin: 6px 0 0; color: var(--soft); max-width: 66ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px; }
+.key { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--panel); font-size: 13px; color: var(--soft); }
+.sw { width: 14px; height: 14px; border-radius: 5px; border: 1.5px solid var(--line); background: var(--raised); }
+.sw.you { border-color: var(--pink); background: var(--pink-wash); }
+.sw.auto { border-style: dashed; border-color: var(--dash); background: transparent; }
+.sw.agent { border-color: var(--line); background: var(--raised); }
+
+.phase { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 18px; padding: 22px; border-radius: 22px; background: var(--panel); }
+.phase-head { display: flex; flex-direction: column; gap: 4px; }
+.phase-head .tag { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--pink); }
+.phase-head h2 { margin: 0; font-size: 20px; font-weight: 900; }
+.phase-head p { margin: 0; color: var(--muted); font-size: 13px; }
+
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.flow > li { display: flex; align-items: stretch; gap: 10px; }
+.flow > li + li::before { content: ""; align-self: center; width: 22px; height: 12px; flex: 0 0 22px;
+  background: no-repeat center / 22px 12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 12'%3E%3Cpath d='M1 6h18m-5-5 5 5-5 5' fill='none' stroke='%238995b2' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+
+.node { position: relative; display: flex; flex-direction: column; gap: 3px; min-width: 132px; max-width: 220px; padding: 10px 12px; border-radius: 14px; background: var(--raised); border: 1.5px solid var(--line); }
+.node b { font-weight: 800; font-size: 14px; }
+.node span { font-size: 12.5px; color: var(--soft); }
+.node code, .mono { font: 11.5px/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+.node.you { border-color: var(--pink); background: var(--pink-wash); }
+.node.you::after { content: "You"; position: absolute; top: -9px; right: 10px; padding: 1px 8px; border-radius: 999px; background: var(--pink); color: var(--bg); font: 800 11px/1.5 var(--body); }
+.node.auto { border-style: dashed; border-color: var(--dash); background: transparent; }
+
+/* Review panel sub-diagram */
+.panel-grid { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; margin-top: 14px; }
+.lenses { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; border-radius: 16px; border: 1px solid var(--edge); background: var(--bg); }
+.lens { display: flex; justify-content: space-between; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--raised); font-size: 13px; font-weight: 700; }
+.lens em { font: 400 11.5px var(--mono); color: var(--dim); font-style: normal; }
+.lens.add { grid-column: 1 / -1; background: transparent; border: 1px dashed var(--dash); color: var(--muted); font-weight: 600; justify-content: center; }
+.lens-cap { grid-column: 1 / -1; font: 500 11px var(--mono); color: var(--dim); letter-spacing: .06em; text-transform: uppercase; }
+.verdicts { display: flex; flex-direction: column; gap: 8px; }
+.branch { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--soft); }
+.chip { padding: 2px 9px; border-radius: 8px; font-weight: 800; font-size: 12px; }
+.chip.pass { background: var(--pass-wash); color: var(--pass); }
+.chip.changes { background: var(--warn-wash); color: var(--warn); }
+.chip.esc { background: var(--rose-wash); color: var(--rose); }
+.loop { margin-top: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border-radius: 14px; border: 1px dashed var(--dash); color: var(--soft); font-size: 13px; }
+.loop svg { flex: 0 0 auto; }
+
+.rails { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.rail { padding: 18px; border-radius: 18px; background: var(--panel); display: flex; flex-direction: column; gap: 8px; }
+.rail h3 { margin: 0; font-size: 15px; font-weight: 900; }
+.rail p { margin: 0; color: var(--soft); font-size: 13.5px; }
+.rail.auto { background: transparent; border: 1.5px dashed var(--dash); }
+.rail ul { margin: 0; padding-left: 18px; color: var(--soft); font-size: 13.5px; display: flex; flex-direction: column; gap: 4px; }
+.note { color: var(--dim); font-size: 13px; }
+
+@media (max-width: 760px) {
+  .phase { grid-template-columns: minmax(0, 1fr); }
+  .panel-grid { grid-template-columns: minmax(0, 1fr); }
+  .rails { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 520px) {
+  .flow { flex-direction: column; }
+  .flow > li { flex-direction: column; }
+  .flow > li + li::before { transform: rotate(90deg); margin: -2px 0; }
+  .node { max-width: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>My AI Workflow</h1>
+    <p class="lede">How a feature goes from idea to <code class="mono">main</code> in the portfolio site: Spec Kit designs it, Superpowers builds it in its own worktree, the review panel checks it, and CI plus the merge gate decide when it can land.</p>
+  </header>
+
+  <div class="legend" aria-label="Legend">
+    <span class="key"><span class="sw you"></span>You decide</span>
+    <span class="key"><span class="sw agent"></span>Claude or an agent</span>
+    <span class="key"><span class="sw auto"></span>Automatic (hook, CI, script)</span>
+  </div>
+
+  <section class="phase" aria-labelledby="p0">
+    <div class="phase-head"><span class="tag">Start</span><h2 id="p0">Pick a track</h2><p>By size of change</p></div>
+    <ul class="flow">
+      <li><div class="node you"><b>Feature</b><span>New behavior, several files. Full track below.</span></div></li>
+      <li><div class="node"><b>Small change</b><span>Bug fix or tweak. Superpowers TDD or debugging, no spec.</span></div></li>
+      <li><div class="node"><b>Spike</b><span>Brainstorm on a throwaway branch. Promote it if it survives.</span></div></li>
+    </ul>
+  </section>
+
+  <section class="phase" aria-labelledby="p1">
+    <div class="phase-head"><span class="tag">Design</span><h2 id="p1">Spec Kit</h2><p>All inside the feature's worktree</p></div>
+    <ul class="flow">
+      <li><div class="node"><b>Worktree</b><code>.worktrees/NNN-name</code><span>Own folder, branch and Claude session</span></div></li>
+      <li><div class="node"><b>Mockup</b><span>Design canvas, if UI changes</span></div></li>
+      <li><div class="node you"><b>Approve mockup</b><code>Approved: YYYY-MM-DD</code></div></li>
+      <li><div class="node"><b>Specify</b><code>/speckit-specify</code></div></li>
+      <li><div class="node you"><b>Clarify</b><code>/speckit-clarify</code><span>You answer questions</span></div></li>
+      <li><div class="node"><b>Plan, tasks, analyze</b><code>/speckit-plan · tasks · analyze</code></div></li>
+    </ul>
+  </section>
+
+  <section class="phase" aria-labelledby="p2">
+    <div class="phase-head"><span class="tag">Build</span><h2 id="p2">Superpowers</h2><p>One task at a time from tasks.md</p></div>
+    <ul class="flow">
+      <li><div class="node"><b>Set up</b><code>using-git-worktrees</code><span>Install, green baseline</span></div></li>
+      <li><div class="node"><b>Implement task</b><code>subagent-driven-development</code><span>Fresh subagent, test first</span></div></li>
+      <li><div class="node"><b>Task review</b><span>Matches the spec? Good code? Fix rounds until clean, then tick it in tasks.md</span></div></li>
+      <li><div class="node"><b>Branch review</b><code>requesting-code-review</code></div></li>
+    </ul>
+  </section>
+
+  <section class="phase" aria-labelledby="p3">
+    <div class="phase-head"><span class="tag">Review</span><h2 id="p3">Review panel</h2><p><code class="mono">/review-panel</code><br>At most 3 rounds</p></div>
+    <div>
+      <div class="panel-grid">
+        <div class="node"><b>Round N</b><span>Every reviewer at once</span></div>
+        <div class="lenses" aria-label="Reviewers, in parallel">
+          <span class="lens-cap">.claude/agents/reviewer-*.md · in parallel</span>
+          <span class="lens">security <em>opus</em></span>
+          <span class="lens">code <em>sonnet</em></span>
+          <span class="lens">ux <em>sonnet</em></span>
+          <span class="lens">ui <em>sonnet</em></span>
+          <span class="lens add">+ add a file to add a reviewer</span>
+        </div>
+        <div class="verdicts">
+          <div class="branch"><span class="chip changes">any CHANGES</span> fixer, then next round</div>
+          <div class="branch"><span class="chip pass">all PASS</span> approver</div>
+        </div>
+      </div>
+      <div class="loop">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e6a9bc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7"></path><path d="M21 4v5h-5"></path></svg>
+        <span><b>Fixer</b> fixes each Critical and Important finding test first, runs <code class="mono">scripts/check</code>, writes <code class="mono">fixes.md</code>. Round 3 with CHANGES still open ends in ESCALATE.</span>
+      </div>
+      <ul class="flow" style="margin-top:14px">
+        <li><div class="node"><b>Approver</b><span>Checks every scenario, the tasks and scripts/check</span><code>decision.md</code></div></li>
+        <li><div class="node"><b><span class="chip pass">APPROVE</span></b><span>On to the PR</span></div></li>
+        <li><div class="node you"><b><span class="chip esc">ESCALATE</span></b><span>Money, auth, CI, hooks, dependencies, migrations, product calls, mockup changes</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="phase" aria-labelledby="p4">
+    <div class="phase-head"><span class="tag">Ship</span><h2 id="p4">PR and merge</h2><p>Free GitHub plan, so the gate is local</p></div>
+    <ul class="flow">
+      <li><div class="node"><b>Open PR</b><span>Template: spec, testing, risk, revert, unfixed findings</span></div></li>
+      <li><div class="node auto"><b>CI</b><code>ci.yml · job check</code><span>Runs scripts/check.sh</span></div></li>
+      <li><div class="node auto"><b>Merge gate</b><code>gh pr checks</code><span>Blocks red, pending or missing CI</span></div></li>
+      <li><div class="node"><b>Merge</b><code>gh pr merge</code></div></li>
+      <li><div class="node"><b>Clean up</b><code>git worktree remove</code></div></li>
+    </ul>
+  </section>
+
+  <section class="phase" aria-labelledby="p5">
+    <div class="phase-head"><span class="tag">Learn</span><h2 id="p5">After merge</h2><p>So the same miss can't happen twice</p></div>
+    <ul class="flow">
+      <li><div class="node you"><b>Bug reached main</b><span>Or you corrected Claude</span></div></li>
+      <li><div class="node"><b>Log it</b><code>docs/state.md · Escaped bugs</code></div></li>
+      <li><div class="node"><b>Regression test</b><span>Fails first, then fixed</span></div></li>
+      <li><div class="node"><b>New rule</b><code>REVIEW.md · CLAUDE.md</code><span>Every reviewer reads it next time</span></div></li>
+    </ul>
+  </section>
+
+  <div class="rails">
+    <div class="rail auto">
+      <h3>Always on: hooks</h3>
+      <ul>
+        <li><b>merge-gate</b> on every Bash command: no merging on red CI, no pushing to main</li>
+        <li><b>format-file</b> on every edit, once <code class="mono">format.json</code> is filled in</li>
+      </ul>
+    </div>
+    <div class="rail">
+      <h3>Watching: the dashboard</h3>
+      <p><code class="mono">python3 scripts/dashboard.py --open</code> reads every worktree, branch, review file and decision, plus CI, and refreshes every 2 seconds. It only reads, so it can't get in the way.</p>
+    </div>
+  </div>
+
+  <p class="note">The rules behind each step live in the repo: CLAUDE.md (workflow), REVIEW.md (what reviewers check, severity, the panel), .specify/memory/constitution.md, docs/worktrees.md.</p>
+</div>
+</body>
+</html>

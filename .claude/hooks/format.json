@@ -1,0 +1,10 @@
+{
+  ".ts": "npx prettier --write {file}",
+  ".tsx": "npx prettier --write {file}",
+  ".js": "npx prettier --write {file}",
+  ".mjs": "npx prettier --write {file}",
+  ".css": "npx prettier --write {file}",
+  ".json": "npx prettier --write {file}",
+  ".md": "npx prettier --write {file}",
+  ".html": "npx prettier --write {file}"
+}

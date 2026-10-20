@@ -7,7 +7,7 @@ Guide the user from an initial idea to an approved Product Requirements Document
 
 The final artifact is:
 
-`docs/PRD.md`
+`docs/prd.md`
 
 This is an **interactive discovery and design process**, not a one-shot document-generation task.
 
@@ -33,7 +33,7 @@ Use existing context to avoid asking questions that are already answered.
 
 Do not assume starter code represents an approved final design.
 
-If `docs/PRD.md` already exists, read it first and determine whether the user wants to refine, expand, redesign, or replace it.
+If `docs/prd.md` already exists, read it first and determine whether the user wants to refine, expand, redesign, or replace it.
 
 Preserve confirmed existing decisions unless the user chooses to change them.
 
@@ -408,7 +408,7 @@ Safe implementation details may remain deferred.
 
 Once the design is sufficiently complete, create or update:
 
-`docs/PRD.md`
+`docs/prd.md`
 
 Create `docs/` if needed.
 

@@ -3,7 +3,7 @@ name: implement-work
 description: Use this skill when the user wants to start, begin, implement, build, or work on the current approved unit of project work, including requests like "let's do the next milestone", "start the feature", "implement this plan", "let's build it", or "go ahead with the approved plan".
 ---
 
-Read `docs/PRD.md` and the approved plan for the current unit of work.
+Read `docs/prd.md` and the approved plan for the current unit of work.
 
 Invoking this skill means the current plan has been reviewed and approved by the user.
 

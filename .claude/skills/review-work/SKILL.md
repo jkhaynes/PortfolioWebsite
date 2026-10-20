@@ -3,7 +3,7 @@ name: review-work
 description: Use this skill when the user wants to review, validate, or check the unit of work that was just implemented against its approved plan and project requirements, including requests like "review what we built", "check this feature against the plan", "review the milestone", or "did we implement this correctly?".
 ---
 
-Review the current implemented unit of work against its approved plan and `docs/PRD.md`.
+Review the current implemented unit of work against its approved plan and `docs/prd.md`.
 
 This is a review-only stage.
 

@@ -13,7 +13,7 @@ Do not merge the pull request.
 
 ## Workflow contract
 
-Read `docs/PRD.md` and its Development Model.
+Read `docs/prd.md` and its Development Model.
 
 Use:
 
@@ -167,7 +167,7 @@ The description should:
 - avoid marketing language;
 - avoid exaggerated claims;
 - avoid unnecessary implementation detail;
-- use terminology consistent with `docs/PRD.md`;
+- use terminology consistent with `docs/prd.md`;
 - clearly distinguish current implementation from future plans.
 
 ## Create the PR
