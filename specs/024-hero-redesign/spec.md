@@ -140,7 +140,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 
 **Quality**
 
-- **FR-021**: The hero MUST pass the project's axe checks in all three themes, at phone and desktop widths.
+- **FR-021**: The hero MUST pass the project's axe checks in all three themes, at phone and desktop widths, and its behavior tests MUST pass in Chromium, Firefox and WebKit.
 - **FR-022**: Every interactive element in the hero MUST be reachable by keyboard in a logical order with a visible focus indicator.
 - **FR-023**: The hero MUST not cause horizontal scrolling at widths down to 320px.
 - **FR-024**: Hero copy MUST contain no em dashes.

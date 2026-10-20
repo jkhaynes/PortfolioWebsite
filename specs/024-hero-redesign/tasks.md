@@ -73,6 +73,7 @@ description: "Task list for 024 Hero Redesign"
     - Keep `<SylveonPortrait />` rendered for now, below the contact links, so the game stays reachable until T009.
     - Reuse `Button` and `TextLink` with the same `trackEvent` and `scrollFocusTargetId` props.
     - In `src/app/globals.css`, make `.portfolio-hero` a single centered column (max width about 54ch for the bio, 26ch for the tagline, as in the mockup).
+  - **No-JavaScript test** (FR-025): in a context with `javaScriptEnabled: false`, the `h1`, the role line, both actions, the contact links and (after T005) the four impact links still render with correct hrefs.
   - **Tests to update**: In `tests/e2e/hero-portrait.spec.ts`, delete the Light and Dark portrait tests; the Pokémon Sylveon test stays until T009. Update `tests/e2e/accessibility.spec.ts` only if its outline test asserts the old `h1` text.
 - [ ] T005 [US1] Move the impact numbers into the hero. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US1 scenarios 2 and 5; FR-006 to FR-008):
@@ -93,6 +94,7 @@ description: "Task list for 024 Hero Redesign"
   - **Tests** (US1 scenario 6; SC-001, SC-002, FR-022, FR-023):
     - At 1280×800, in all three themes, the `h1`, both actions and all four impact links are in the viewport without scrolling.
     - At 390×844, the `h1`, role line, tagline and both actions are in the first viewport. The two actions are full width (within 1px of each other's width) and stacked. The impact links form 2 columns.
+    - At 390×844, after scrolling down by one viewport height, all four impact links are in the viewport (SC-002).
     - At 320px, `document.documentElement.scrollWidth <= 320`.
     - Tabbing from "View Featured Work" reaches, in order: Download Resume, Email, GitHub, LinkedIn, then the four impact links. Each shows a visible focus outline.
     - The scroll cue is `aria-hidden="true"` and has no animation (`animation-name: none`).
@@ -121,6 +123,8 @@ description: "Task list for 024 Hero Redesign"
     - The radial glow as a `::before` on `.portfolio-hero`, using `color-mix` with the accents.
     - `@media (forced-colors: active)` fallbacks.
     - Add the gradient variant to `src/components/Button.tsx` only if CSS on a hero class cannot do it.
+  - **Cross-browser**: add `hero` to the `testMatch` lists of the `firefox` and `webkit` projects in `playwright.config.ts` (so the pattern reads `(?:theme-toggle|ribbon-roundup|pokemon-polish|hero)\.spec\.ts`), and make every `hero.spec.ts` test pass in all three engines.
+  - **Contrast note**: axe reports gradient text as "needs review", not as a violation; the reviewer confirms the hand-checked ratios in research.md R6.
   - **Tests to update**: `tests/e2e/theme-toggle.spec.ts` line ~199 asserts the Dark `h1` `color`. Change it to assert the gradient `background-image` with the Dark accent values.
 - [ ] T008 [US2] Remove the arch portrait. Write the tests first in `tests/e2e/hero.spec.ts`: `.hero-portrait` and the "Portrait of Jessica Haynes" image have count 0 in all themes (US2 scenario 2, FR-010).
   - **Implement**:
@@ -177,6 +181,8 @@ description: "Task list for 024 Hero Redesign"
     - `page.mouse.move` steps over the hero give `following`. After the mouse stops, it reaches `resting` within 5000 ms.
     - With `reducedMotion: "reduce"` it is `resting` at first paint and stays `resting` through mouse moves.
     - In a `hasTouch: true, isMobile: true` context at 390px it is `resting`.
+    - Turning reduced motion on mid-visit (`page.emulateMedia({ reducedMotion: "reduce" })` while `following`) makes it `resting` and keeps it there; turning it off again lets a mouse move give `following` (FR-020).
+    - After resizing the viewport from 1280 to 390 and back, the fairy's position (exposed for tests as `data-fairy-x` and `data-fairy-y` on the canvas, in CSS pixels) stays inside the canvas bounds, and in `resting` it does not overlap the `h1` text box.
     - Scrolling the hero fully out of view gives `paused`; scrolling back gives `resting`.
     - With the mouse resting over each hero link and button, `document.elementFromPoint` at that point never returns the canvas, and a click activates the link (SC-006).
   - **Implement** `src/components/HeroFairy.tsx` (`"use client"`):
