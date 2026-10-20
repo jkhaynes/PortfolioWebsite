@@ -95,7 +95,7 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 ## 11. Data / Integration Strategy
 
 - Resume: static PDF asset supplied by Jessica.
-- Analytics: a lightweight, privacy-friendly analytics integration (exact provider decided during implementation).
+- Analytics: Umami Cloud, a cookie-free, privacy-friendly analytics service. The script loads from `src/app/layout.tsx`, and key links and buttons send named click events through `data-umami-event` attributes.
 - No database or CMS in initial scope; content (project write-ups, experience entries, stats) is authored directly.
 
 ## 12. Development Model
@@ -176,7 +176,7 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 
 ## 17. Open Questions / Deferred Decisions
 
-- Exact analytics provider — to be decided during implementation (Feature 6).
-- Source of the OG preview image — likely derived from a hero visual, finalized during Feature 6 (Analytics & Social Metadata) unless Jessica supplies one earlier.
+- Analytics provider: decided in Feature 6. The site uses Umami Cloud (cookie-free, no consent banner needed).
+- OG preview image: decided in Feature 6. It is generated at build time by `src/app/opengraph-image.tsx`.
 - A contact form is intentionally deferred beyond this initial release (see Non-Goals). Dedicated case-study routes and a light/dark theme toggle are no longer deferred — see Roadmap Features 11, 12, and 18 (§13.1).
 - Dark-theme palette (Feature 18): decided 2026-09-18. The initial Catppuccin Mocha values were replaced with a warm "mauve night" palette (page #1a1220, surface #2a1e30, text #f6e9f1, rose accent #f4a7cb, mauve #c9a0dc) so dark mode carries the pink/mauve identity. Whether "Currently Exploring" is removed entirely or replaced with a compact strip (Feature 16) is to be decided when that feature is planned.

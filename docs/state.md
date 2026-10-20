@@ -6,7 +6,7 @@
 
 ## Current Focus
 
-Moving the site onto the project-template workflow (branch `chore/template-workflow`): Spec Kit, Superpowers in per-feature worktrees, the review panel, CI running `scripts/check.sh`, the merge gate and the dashboard.
+The site runs on the project-template workflow (PR #43, merged): Spec Kit, Superpowers in per-feature worktrees, the review panel, CI running `scripts/check.sh`, the merge gate and the dashboard. Next feature number: 024.
 
 ## Recently Done
 
@@ -14,15 +14,17 @@ Moving the site onto the project-template workflow (branch `chore/template-workf
 - Feature 22: pricewatch case study, including its MCP server.
 - Feature 23: Job Hunt Pipeline case study.
 - Repo-wide Prettier pass so `format:check` can gate CI.
+- Project-template workflow merged (PR #43).
+- PRD open questions closed: analytics is Umami Cloud, the OG image comes from `src/app/opengraph-image.tsx`.
 
 ## Next Up
 
-1. Merge the workflow PR, then run `/speckit-constitution` once to review and ratify the starter constitution.
+1. Run `/speckit-constitution` once to review and ratify the starter constitution.
 2. The owner's next site changes: each one a feature (024 onward) in its own worktree, or a small change on its own branch.
 
 ## Blockers / Open Questions
 
-- Open questions from the PRD (section 17): analytics provider.
+- None.
 
 ## Escaped bugs
 
