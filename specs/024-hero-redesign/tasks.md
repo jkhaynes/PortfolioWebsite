@@ -21,7 +21,7 @@ description: "Task list for 024 Hero Redesign"
 
 ## Phase 1: Setup
 
-- [ ] T001 Confirm a green baseline in the worktree root:
+- [x] T001 Confirm a green baseline in the worktree root:
   - Run `npm ci` and `npx playwright install`, then `./scripts/check.sh`, and record the result.
   - Read the guides in `node_modules/next/dist/docs/` on server and client components and `next/image` (CLAUDE.md requires it). Add any breaking change that affects this plan to research.md R10.
   - Never commit `next-env.d.ts` changes.

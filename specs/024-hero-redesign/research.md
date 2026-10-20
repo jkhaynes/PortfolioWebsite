@@ -80,5 +80,5 @@ No open NEEDS CLARIFICATION items: the stack is fixed by the constitution and AD
 
 ## R10. Next.js version notes
 
-- **Decision**: The project pins `next` to `latest`, so before writing code the implementer reads the relevant guides in `node_modules/next/dist/docs/` (server and client components, `next/image`), as `CLAUDE.md` requires.
+- **Decision**: The project pins `next` to `latest` (16.3.1 and React 19.2.8 when this was planned; the bundled server and client components guide showed no change affecting this plan), so before writing code the implementer reads the relevant guides in `node_modules/next/dist/docs/` (server and client components, `next/image`), as `CLAUDE.md` requires.
 - **Rationale**: Nothing in this feature needs a new Next API. The hero uses plain components, and the fairy is a `"use client"` component with effects.
