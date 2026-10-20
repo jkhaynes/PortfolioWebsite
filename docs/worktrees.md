@@ -33,7 +33,7 @@ Create the worktree with `git worktree add` yourself (or ask Claude to run that 
 
 - Install dependencies in it: `npm ci`. Superpowers' using-git-worktrees step does this and runs the tests once to prove the baseline is green.
 - Copy gitignored config you need, such as `.env`, from the main checkout.
-- Two features running dev servers at once need different ports. Tell the session which one to use.
+- Two features running dev servers at once need different ports. Tell the session which one to use, and run its tests with that port too: `$env:E2E_PORT = "3024"` in PowerShell before `npm run test:e2e` or `./scripts/check.sh`, so Playwright never reuses another checkout's server on 3010.
 
 ## Watch every feature at once
 
