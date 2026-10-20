@@ -24,8 +24,13 @@ export default function EarlierRoles({
       const target = id ? document.getElementById(id) : null;
       if (!group || !target || !group.contains(target)) return;
       group.open = true;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      target.scrollIntoView({
+        behavior: reduced ? "auto" : "smooth",
+        block: "start",
+      });
       if (moveFocus) target.focus({ preventScroll: true });
     }
 

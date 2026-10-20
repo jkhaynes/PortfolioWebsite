@@ -129,5 +129,8 @@ test("featured project cards link to case studies and keep one preloaded image",
     "loading",
     "lazy",
   );
-  await expect(cards.nth(1).getByRole("img")).toHaveAttribute("loading", "lazy");
+  await expect(cards.nth(1).getByRole("img")).toHaveAttribute(
+    "loading",
+    "lazy",
+  );
 });

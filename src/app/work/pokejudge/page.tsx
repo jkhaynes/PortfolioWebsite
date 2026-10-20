@@ -307,8 +307,8 @@ export default function PokeJudgeCaseStudy() {
               <Decision title="Source Support, not model confidence">
                 Strong, Partial, or Insufficient is derived from retrieved
                 authority, citation coverage, fact sufficiency, and source
-                conflict. It describes the available evidence, not how persuasive
-                the model sounds.
+                conflict. It describes the available evidence, not how
+                persuasive the model sounds.
               </Decision>
               <Decision title="Evaluation includes the investigation">
                 The harness scores clarification, retrieval, ruling, and

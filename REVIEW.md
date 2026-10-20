@@ -21,11 +21,11 @@ Guidance for every reviewer of this repo: the review panel (`.claude/agents/revi
 
 ## Severity
 
-| Level | Meaning | Blocks merge? |
-|-------|---------|---------------|
-| Critical | Wrong result, data loss, or a security hole | Yes |
-| Important | A bug likely to happen in real use | Yes |
-| Minor | Clarity, naming, small cleanups | No |
+| Level     | Meaning                                     | Blocks merge? |
+| --------- | ------------------------------------------- | ------------- |
+| Critical  | Wrong result, data loss, or a security hole | Yes           |
+| Important | A bug likely to happen in real use          | Yes           |
+| Minor     | Clarity, naming, small cleanups             | No            |
 
 Only Critical and Important block. Every blocking finding is fixed (test-first) or answered in the PR's "Review findings not fixed" section.
 

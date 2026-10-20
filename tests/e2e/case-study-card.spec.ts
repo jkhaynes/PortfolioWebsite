@@ -17,7 +17,8 @@ const STUDIES = [
     tldr: {
       Role: "Sole developer & product designer",
       Status: "In development · local .NET console app",
-      Outcome: "End-to-end pipeline with grounding validation and Source Support",
+      Outcome:
+        "End-to-end pipeline with grounding validation and Source Support",
       Stack: "C#, .NET, Gemini embeddings, xUnit",
     },
   },
@@ -37,7 +38,8 @@ const STUDIES = [
     tldr: {
       Role: "Sole developer & designer",
       Status: "V1 complete",
-      Outcome: "Membership tiers mapping Discord roles to Shopify customer tags",
+      Outcome:
+        "Membership tiers mapping Discord roles to Shopify customer tags",
       Stack: "TypeScript, React Router, Cloudflare Workers, D1",
     },
   },
@@ -59,7 +61,9 @@ for (const study of STUDIES) {
     const hero = page.locator(".case-card-back");
     await expect(hero).toBeVisible();
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-    await expect(hero.getByRole("heading", { level: 1 })).toHaveText(study.title);
+    await expect(hero.getByRole("heading", { level: 1 })).toHaveText(
+      study.title,
+    );
     await expect(hero).toContainText("Featured build");
 
     const tldr = hero.locator("dl.case-tldr");
@@ -67,7 +71,10 @@ for (const study of STUDIES) {
     expect(labels).toEqual(["Role", "Status", "Outcome", "Stack"]);
     for (const [label, value] of Object.entries(study.tldr)) {
       await expect(
-        tldr.locator("div").filter({ has: page.locator("dt", { hasText: label }) }).locator("dd"),
+        tldr
+          .locator("div")
+          .filter({ has: page.locator("dt", { hasText: label }) })
+          .locator("dd"),
       ).toHaveText(value);
     }
   });

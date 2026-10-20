@@ -10,12 +10,12 @@ Give the Light and Dark hero a visual anchor: a circular photo of Jessica beside
 
 ## Decisions
 
-| Decision | Choice | Why |
-| --- | --- | --- |
-| Treatment | Arch (dome) portrait, 300px wide, with a thin Pearl frame and a soft halo; no tilt, no animation, no card elements | The circle felt small beside the text in QA; the dome's height balances the text block |
-| Mobile and tablet (below 1024px) | Portrait hidden; hero stays one column as today | Chosen by Jessica; keeps the mobile hero short |
-| Pokémon mode | Sylveon keeps the slot; the portrait does not show | One hero visual per theme |
-| Hero layout | Pokémon's two-column hero rules become shared | Same structure-vs-flavor split as R2 |
+| Decision                         | Choice                                                                                                             | Why                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| Treatment                        | Arch (dome) portrait, 300px wide, with a thin Pearl frame and a soft halo; no tilt, no animation, no card elements | The circle felt small beside the text in QA; the dome's height balances the text block |
+| Mobile and tablet (below 1024px) | Portrait hidden; hero stays one column as today                                                                    | Chosen by Jessica; keeps the mobile hero short                                         |
+| Pokémon mode                     | Sylveon keeps the slot; the portrait does not show                                                                 | One hero visual per theme                                                              |
+| Hero layout                      | Pokémon's two-column hero rules become shared                                                                      | Same structure-vs-flavor split as R2                                                   |
 
 ## Design
 
@@ -33,6 +33,7 @@ Hero copy changes, R5's impact-strip trim, any trading-card element on the portr
 ## Testing
 
 New `tests/e2e/hero-portrait.spec.ts`, written first:
+
 - Light and Dark at 1280px: the portrait is visible, its image has loaded (`naturalWidth > 0`), and it sits to the right of the hero copy.
 - Light and Dark at 390px: the portrait is hidden and its image is never requested.
 - Pokémon at 1280px: the portrait is hidden and the Sylveon portrait is visible.

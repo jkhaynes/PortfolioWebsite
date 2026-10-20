@@ -162,12 +162,14 @@ Following initial launch, a second round of improvements (sourced from `JessBuil
 ## 16. Success Criteria
 
 ### Product success
+
 - A recruiter or hiring manager can, within seconds of landing, identify Jessica's seniority and the kind of impact she's had.
 - The site is memorable and distinctly "her" — soft/cute personality reads clearly without undermining perceived professionalism or seniority.
 - The AI-exploration framing reads as genuine curiosity and growth, not overstated expertise.
 - It's effortless to take a next step: download the resume, email her, or visit GitHub/LinkedIn.
 
 ### Delivery / quality success
+
 - All sections in the roadmap are implemented and match the approved design direction (palette, shape language, motion level, card/rarity motif).
 - The site passes the cross-device, accessibility, link, and performance checks described in the Testing / Evaluation Strategy.
 - No dark patterns, unnecessary tracking, or unused backend complexity (e.g., no contact form backend was built, per non-goals).

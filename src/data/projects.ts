@@ -64,8 +64,7 @@ export const pokeJudgeProject: Project = {
   status: "In Development",
   cardSummary:
     "An AI rules assistant that asks the right questions before it recommends a cited ruling.",
-  outcome:
-    "End-to-end pipeline with grounding validation and Source Support",
+  outcome: "End-to-end pipeline with grounding validation and Source Support",
   problemStatement:
     "Pokémon TCG tournament judges need fast, well-supported rulings for natural-language rules and game-state questions, not just a lookup tool or an unvalidated AI answer.",
   solutionSummary:

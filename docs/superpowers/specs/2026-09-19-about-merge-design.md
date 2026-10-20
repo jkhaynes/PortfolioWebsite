@@ -10,17 +10,17 @@ Replace the four soft blocks after Experience (How I Work, the curiosity quote l
 
 ## Decisions
 
-| Decision | Choice |
-| --- | --- |
-| Layout | Option A: About paragraph, pull quote, "How I work" cards, "Learning now" sentence and chips, Pokémon hint, all in one framed panel |
-| About copy | The approved draft (below). No numbers |
-| Dropped copy | How I Work's one-liner ("I'm a collaborative developer who cares about quality, follow-through, and continuing to grow."); About's three paragraphs (replaced by the draft) |
-| Kept copy, verbatim | Both How I Work card texts, the Learning Now sentence and themes, the curiosity line (now the pull quote) |
-| Section heading | "About" (was "About Me") |
-| Nav links | Work (`/#projects`), Experience, About (`/#about`), Contact. "Home" removed; the brand still links to `/#top` |
-| Résumé in nav | Desktop only (1024px and up); opens the PDF in a new tab with the existing `resume_download` event |
-| Current-section highlight | The link for the section in view gets `aria-current="location"` and the hover style; only on the homepage |
-| Pokémon hint | "Psst, there's a Pokémon mode." plus a "Try Pokémon mode" button that switches the theme; hidden in Pokémon mode; after switching, focus moves to the About heading so it isn't lost |
+| Decision                  | Choice                                                                                                                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Layout                    | Option A: About paragraph, pull quote, "How I work" cards, "Learning now" sentence and chips, Pokémon hint, all in one framed panel                                                  |
+| About copy                | The approved draft (below). No numbers                                                                                                                                               |
+| Dropped copy              | How I Work's one-liner ("I'm a collaborative developer who cares about quality, follow-through, and continuing to grow."); About's three paragraphs (replaced by the draft)          |
+| Kept copy, verbatim       | Both How I Work card texts, the Learning Now sentence and themes, the curiosity line (now the pull quote)                                                                            |
+| Section heading           | "About" (was "About Me")                                                                                                                                                             |
+| Nav links                 | Work (`/#projects`), Experience, About (`/#about`), Contact. "Home" removed; the brand still links to `/#top`                                                                        |
+| Résumé in nav             | Desktop only (1024px and up); opens the PDF in a new tab with the existing `resume_download` event                                                                                   |
+| Current-section highlight | The link for the section in view gets `aria-current="location"` and the hover style; only on the homepage                                                                            |
+| Pokémon hint              | "Psst, there's a Pokémon mode." plus a "Try Pokémon mode" button that switches the theme; hidden in Pokémon mode; after switching, focus moves to the About heading so it isn't lost |
 
 **About paragraph (approved draft):** "I'm a senior software engineer who builds and modernizes full-stack enterprise applications, mostly C#/.NET backends, APIs and Entity Framework, with MySQL, Angular and TypeScript alongside. I've led technical projects, mentored engineers, written technical designs, and worked closely with Product, QA and DevOps."
 
@@ -53,6 +53,7 @@ Both anchors (`#how-i-work`, `#learning-now`) keep working and both sub-sections
 ## Testing
 
 New `tests/e2e/about-section.spec.ts` and `tests/e2e/site-nav.spec.ts`, written first:
+
 - About is one top-level section; `#how-i-work` then `#learning-now` sit inside it; headings are h2 "About" then h3s; the About text has no "9+", "95%" or "6+ months"; the curiosity line appears once; `/#learning-now` still scrolls to its sub-section.
 - The hint's button switches to Pokémon, the hint then hides and focus lands on the About heading; the hint is hidden in Pokémon mode.
 - Nav links are exactly Work, Experience, About, Contact; Résumé shows at 1280px and not at 390px; scrolling to About marks the About link `aria-current="location"`, and scrolling to Projects marks Work.

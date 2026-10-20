@@ -55,11 +55,15 @@ test("reduced motion keeps the static motif without lift or sheen", async ({
   // The hand stays still: hovering doesn't lift or straighten a card.
   const card = page.locator("[data-project-card]").first();
   await card.scrollIntoViewIfNeeded();
-  const before = await card.evaluate((element) => getComputedStyle(element).transform);
+  const before = await card.evaluate(
+    (element) => getComputedStyle(element).transform,
+  );
   // Aim inside the rotated card: its bounding box corners are empty space.
   const box = (await card.boundingBox())!;
   await page.mouse.move(box.x + box.width * 0.35, box.y + box.height / 2);
-  expect(await card.evaluate((element) => getComputedStyle(element).transform)).toBe(before);
+  expect(
+    await card.evaluate((element) => getComputedStyle(element).transform),
+  ).toBe(before);
   await expect(card.locator(".project-specimen-card__surface")).toBeVisible();
   await expect(card.getByText("Featured build", { exact: true })).toBeVisible();
 });

@@ -52,8 +52,7 @@ export default function PrivacyPage() {
             <p className="mt-4">
               It does not collect, store, or share data from any other person.
               Job posting details are processed by the Anthropic API to score
-              and summarize roles. Nothing is sold or shared with third
-              parties.
+              and summarize roles. Nothing is sold or shared with third parties.
             </p>
             <p className="mt-4">
               Questions:{" "}

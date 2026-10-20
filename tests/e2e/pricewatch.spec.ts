@@ -9,7 +9,9 @@ test("pricewatch card opens its case study and returns to featured projects", as
   });
   await card.getByRole("link", { name: "pricewatch" }).click();
   await expect(page).toHaveURL(/\/work\/pricewatch$/);
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("pricewatch");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "pricewatch",
+  );
   await page.getByRole("link", { name: "Explore more projects" }).click();
   await expect(page).toHaveURL(/\/#projects$/);
 });
@@ -30,22 +32,27 @@ test("pricewatch case study shows the run, links out and opens the status page s
     "href",
     "https://github.com/jkhaynes/pricewatch",
   );
-  await expect(hero.getByRole("link", { name: /Live status page/ })).toHaveAttribute(
-    "href",
-    "https://jkhaynes.github.io/pricewatch-site",
-  );
-  await expect(hero.getByRole("figure", { name: "pricewatch run output" })).toContainText(
-    "4886 cards not due yet",
-  );
+  await expect(
+    hero.getByRole("link", { name: /Live status page/ }),
+  ).toHaveAttribute("href", "https://jkhaynes.github.io/pricewatch-site");
+  await expect(
+    hero.getByRole("figure", { name: "pricewatch run output" }),
+  ).toContainText("4886 cards not due yet");
 
-  await expect(page.getByRole("heading", { name: "Match the cards it can't price yet" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Match the cards it can't price yet" }),
+  ).toBeVisible();
   await expect(page.getByText(/job queue|TCGdex/i)).toHaveCount(0);
 
-  await expect(hero).toContainText("Go, SQLite, GitHub Actions, PokéWallet API, MCP");
+  await expect(hero).toContainText(
+    "Go, SQLite, GitHub Actions, PokéWallet API, MCP",
+  );
   await expect(page.getByText(/about 9% of the collection/)).toHaveCount(0);
   await expect(page.getByText(/about 3% of the collection/)).toBeVisible();
 
-  const media = page.getByRole("button", { name: "View larger: pricewatch status page" });
+  const media = page.getByRole("button", {
+    name: "View larger: pricewatch status page",
+  });
   await media.focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("dialog")).toBeVisible();
@@ -61,11 +68,15 @@ test("pricewatch case study shows a real conversation with the MCP server", asyn
     page.getByRole("heading", { level: 2, name: "Questions in plain English" }),
   ).toBeVisible();
 
-  const chat = page.getByRole("list", { name: "Example conversation with pricewatch" });
+  const chat = page.getByRole("list", {
+    name: "Example conversation with pricewatch",
+  });
   await expect(
     chat.getByText("Which Pokémon is worth the most across every card I own?"),
   ).toBeVisible();
-  await expect(chat.getByText("Is TCG Collector overvaluing my chase cards?")).toBeVisible();
+  await expect(
+    chat.getByText("Is TCG Collector overvaluing my chase cards?"),
+  ).toBeVisible();
   await expect(chat.getByText(/Pikachu, by a long way/)).toBeVisible();
   await expect(chat.getByText("data_as_of Oct 5, 2026")).toBeVisible();
 

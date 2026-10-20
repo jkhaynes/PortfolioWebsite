@@ -17,10 +17,14 @@ for (const theme of ["light", "dark"] as const) {
     page,
   }) => {
     await openTheme(page, theme, 1280);
-    const portrait = page.getByRole("img", { name: "Portrait of Jessica Haynes" });
+    const portrait = page.getByRole("img", {
+      name: "Portrait of Jessica Haynes",
+    });
     await expect(portrait).toBeVisible();
     await expect
-      .poll(() => portrait.evaluate((img) => (img as HTMLImageElement).naturalWidth))
+      .poll(() =>
+        portrait.evaluate((img) => (img as HTMLImageElement).naturalWidth),
+      )
       .toBeGreaterThan(0);
     const copy = (await page.locator(".hero-copy").boundingBox())!;
     const photo = (await portrait.boundingBox())!;
