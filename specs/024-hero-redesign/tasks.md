@@ -59,7 +59,7 @@ description: "Task list for 024 Hero Redesign"
 
 **Independent Test**: Load `/` at 1280×800 and 390px in each theme. Every piece of hero content is present, every action and number goes where it should, and Featured Projects directly follows the hero.
 
-- [ ] T004 [US1] Build the hero copy and actions. Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T004 [US1] Build the hero copy and actions. Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests** (US1 scenarios 1, 3 and 4; contract `contracts/hero-ui.md`):
     - Exactly one `h1`, matching `/Hi, I.m Jessica/`.
     - The role line, tagline and the new bio text, all inside `section.portfolio-hero`.
