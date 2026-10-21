@@ -34,3 +34,11 @@ Approved: 2026-10-20
 After seeing the built hero, the owner found that the shorter hero left the Featured Projects heading half visible on page load, above an empty area where the cards wait to deal in. The canvas gained a row, "Question 5", with four 1440 × 1000 window boards: Today, A (the hero fills the first screen), B (deal the cards as soon as they peek in) and C (cards wait in a stack, then fan out). The owner picked **A**: the hero is at least one screen tall below the site header, its content centered with the scroll cue at the bottom, so Featured Projects starts at the bottom of the first screen. The deal animation is unchanged. `mockup/` now also holds `Q5-*.dc.html` and the updated `Main.dc.html` and `canvas.json`.
 
 Earlier owner decision on the built hero (2026-10-20): no Pokémon ribbon fairy below 360px wide (see spec Clarifications).
+
+## Addendum: approved differences from the canvas
+
+Approved: 2026-10-20 (owner, after review panel round 2)
+
+- **Pokémon desktop top padding** is 30px, not the canvas's 92px, so the game badge, the greeting and all four impact numbers fit a 1280 × 800 screen (SC-001).
+- **Light glow** is 14% accent, not 16%, so the "Download Resume" text keeps AA contrast over the glow (4.53:1 measured; 4.47:1 at 16%).
+- **Tooling the owner signed off for this feature:** Playwright's `E2E_PORT` setting (default 3010, CI unchanged), the hero tests running in Firefox and WebKit as well as Chromium, and Prettier skipping `specs/*/reviews/` and the git-ignored `.superpowers/` scratch, with `.playwright-mcp/` git-ignored. `docs/ai-workflow.html` doesn't describe formatting or test ports, so it needed no change.
