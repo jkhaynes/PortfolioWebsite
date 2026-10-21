@@ -209,7 +209,7 @@ description: "Task list for 024 Hero Redesign"
 
 ## Phase 7: Polish & Cross-Cutting
 
-- [ ] T011 Run the full checks:
+- [x] T011 Run the full checks:
   - `npx playwright test tests/e2e/copy-dashes.spec.ts` (no em dashes in the new copy).
   - Then `./scripts/check.sh` (format, lint, build, all Playwright projects).
   - Fix anything red that this branch caused.
