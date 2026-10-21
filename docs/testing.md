@@ -6,7 +6,7 @@
 
 ```bash
 # Everything CI runs:  ./scripts/check.sh            # format check, lint, build, Playwright on the build
-# All Playwright:      npm run test:e2e              # starts `npm run dev` on :3010, or reuses one already running
+# All Playwright:      npm run test:e2e              # starts `next dev` on :3010 (or `E2E_PORT`), or reuses one already running there
 # One spec:            npx playwright test tests/e2e/theme-toggle.spec.ts
 # Chromium only:       npx playwright test --project=chromium
 # Debug a failure:     npx playwright show-trace test-results/<test>/trace.zip
