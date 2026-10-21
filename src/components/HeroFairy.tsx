@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import {
+  EXTENT,
   TRAIL_MS,
   createFairy,
   isAnimating,
@@ -17,12 +18,6 @@ type Colors = { a: string; b: string; fg: string };
 
 const FALLBACK: Colors = { a: "#b8306f", b: "#8f5f86", fg: "#2b1f27" };
 const RIBBON_TRAIL = { a: "#e58fb0", b: "#8ac6e6" };
-/** How far each drawing reaches from its center (resting, at scale 1). */
-const EXTENT: Record<FairyKind, { side: number; top: number; bottom: number }> =
-  {
-    butterfly: { side: 17, top: 16, bottom: 15 },
-    ribbon: { side: 21, top: 12, bottom: 33 },
-  };
 /**
  * Narrow heroes shrink the butterfly rather than let it cover text. The
  * ribbon fairy is never shown below 360px (HIDE_BELOW), so it keeps one size.
@@ -33,7 +28,8 @@ const SCALES: Record<FairyKind, number[]> = {
 };
 /** Pokémon shows no ribbon fairy on screens narrower than this (FR-015). */
 const HIDE_QUERY = "(max-width: 359px)";
-const GAP = 3;
+/** Clear space kept between the drawn fairy and any text. */
+const GAP = 4;
 const SEARCH_STEP = 4;
 /** How far a full or reduced size fairy may move from beside the name. */
 const MAX_SHIFT = 48;
@@ -314,7 +310,7 @@ export default function HeroFairy() {
     let visible = true;
     let raf = 0;
     let watchdog = 0;
-    let written = { state: "", x: "", y: "" };
+    let written = { state: "", x: "", y: "", scale: "" };
     let fairy: Fairy = createFairy({
       now: performance.now(),
       rest,
@@ -354,12 +350,16 @@ export default function HeroFairy() {
         state: fairy.state,
         x: String(Math.round(fairy.x)),
         y: String(Math.round(fairy.y)),
+        scale: String(scale),
       };
       if (next.state !== written.state) {
         canvas.setAttribute("data-fairy-state", next.state);
       }
       if (next.x !== written.x) canvas.setAttribute("data-fairy-x", next.x);
       if (next.y !== written.y) canvas.setAttribute("data-fairy-y", next.y);
+      if (next.scale !== written.scale) {
+        canvas.setAttribute("data-fairy-scale", next.scale);
+      }
       written = next;
     };
 
@@ -515,6 +515,9 @@ export default function HeroFairy() {
     intersection.observe(heroEl);
     resizer.observe(heroEl);
     document.fonts?.ready.then(remeasure, () => {});
+    // A web font that finishes loading after the first measure changes the
+    // width of the name without resizing the hero, so measure again.
+    document.fonts?.addEventListener("loadingdone", remeasure);
     wake();
 
     return () => {
@@ -531,6 +534,7 @@ export default function HeroFairy() {
       window.removeEventListener("themechange", refresh);
       intersection.disconnect();
       resizer.disconnect();
+      document.fonts?.removeEventListener("loadingdone", remeasure);
     };
   }, []);
 

@@ -2,6 +2,18 @@ export type FairyState =
   "intro" | "following" | "settling" | "resting" | "paused";
 export type FairyKind = "butterfly" | "ribbon";
 
+/**
+ * How far each drawing really reaches from its center (resting, at scale 1,
+ * including the tilt). Single source for the rest-spot search and the tests.
+ */
+export const EXTENT: Record<
+  FairyKind,
+  { side: number; top: number; bottom: number }
+> = {
+  butterfly: { side: 17, top: 16, bottom: 15 },
+  ribbon: { side: 21, top: 12, bottom: 33 },
+};
+
 /** Total self-started intro budget: drift, then settle at the rest point. */
 export const INTRO_MS = 4500;
 /** The pointer counts as stopped this long after its last move. */

@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { impactMetrics } from "../../src/data/impact";
+import { EXTENT, type FairyKind } from "../../src/lib/hero-fairy";
 
 const ROLE = "Senior Software Engineer · C#/.NET · Backend + Full Stack";
 const TAGLINE = "I build reliable software for messy, real-world problems.";
@@ -878,7 +879,12 @@ async function fairyGeometry(page: Page) {
       range.selectNodeContents(el);
       for (const r of range.getClientRects()) nearby.push(local(r));
     }
+    for (const el of document.querySelectorAll(".hero-game > *")) {
+      nearby.push(local(el.getBoundingClientRect()));
+    }
     return {
+      kind: (canvas.getAttribute("data-fairy-kind") ?? "butterfly") as string,
+      scale: Number(canvas.getAttribute("data-fairy-scale") || 1),
       x: Number(canvas.getAttribute("data-fairy-x")),
       y: Number(canvas.getAttribute("data-fairy-y")),
       width: c.width,
@@ -891,14 +897,17 @@ async function fairyGeometry(page: Page) {
 
 type Geometry = Awaited<ReturnType<typeof fairyGeometry>>;
 
-/** True when a 24px box around the fairy misses the box. */
+/**
+ * True when the fairy's real drawn box (EXTENT in src/lib/hero-fairy.ts,
+ * times the current scale in data-fairy-scale) misses the box.
+ */
 function clearOf(g: Geometry, box: Geometry["text"]) {
-  const r = 12;
+  const e = EXTENT[g.kind as FairyKind];
   return (
-    g.x + r <= box.left ||
-    g.x - r >= box.right ||
-    g.y + r <= box.top ||
-    g.y - r >= box.bottom
+    g.x + e.side * g.scale <= box.left ||
+    g.x - e.side * g.scale >= box.right ||
+    g.y + e.bottom * g.scale <= box.top ||
+    g.y - e.top * g.scale >= box.bottom
   );
 }
 
@@ -1051,7 +1060,7 @@ test.describe("hero fairy", () => {
       await expect
         .poll(() => fairyState(page), { timeout: 5500 })
         .toBe("resting");
-      for (const width of [390, 320, 1280]) {
+      for (const width of [390, 375, 320, 1280]) {
         await page.setViewportSize({ width, height: 800 });
         // No Pokémon ribbon fairy below 360px: covered by the test below.
         if (theme === "pokemon" && width < 360) continue;
@@ -1118,6 +1127,52 @@ test.describe("hero fairy", () => {
       expect(clearOfText(await fairyGeometry(page))).toBe(true);
     });
   }
+
+  for (const theme of ["light", "dark", "pokemon"] as const) {
+    test(`rests clear of all text at 375px, ${theme}`, async ({ page }) => {
+      await openTheme(page, theme, 375, 812);
+      await fairyReady(page);
+      await expect
+        .poll(() => fairyState(page), { timeout: 5500 })
+        .toBe("resting");
+      expect(clearOfText(await fairyGeometry(page))).toBe(true);
+    });
+  }
+
+  test("moves clear of the text again when a font finishes loading and widens the name, 375px", async ({
+    page,
+  }, testInfo) => {
+    test.skip(
+      testInfo.project.name === "webkit",
+      "WebKit does not fire fonts loadingdone for a FontFace loaded by script",
+    );
+    await openTheme(page, "light", 375, 812);
+    await fairyReady(page);
+    await expect
+      .poll(() => fairyState(page), { timeout: 5500 })
+      .toBe("resting");
+    const before = await fairyGeometry(page);
+    // Widen the name without resizing the hero, then finish a font load, as a
+    // late web font swap does.
+    await page.evaluate(async () => {
+      const h1 = document.querySelector("h1")!;
+      h1.style.letterSpacing = "0.04em";
+      const url = performance
+        .getEntriesByType("resource")
+        .map((e) => e.name)
+        .find((n) => /\.woff2?(\?|$)/.test(n));
+      const face = new FontFace("probe", `url(${url})`);
+      document.fonts.add(face);
+      await face.load();
+    });
+    await expect
+      .poll(async () => clearOfText(await fairyGeometry(page)), {
+        timeout: 5500,
+      })
+      .toBe(true);
+    const after = await fairyGeometry(page);
+    expect(after.text.right).toBeGreaterThan(before.text.right);
+  });
 
   for (const theme of ["light", "dark"] as const) {
     test(`still shows the butterfly at 320px, ${theme}`, async ({ page }) => {
