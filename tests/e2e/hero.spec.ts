@@ -579,6 +579,13 @@ test.describe("hero without JavaScript", () => {
   });
 });
 
+/** Switches theme like the switcher does (it is in a menu on phones). */
+const setThemeInPage = (page: Page, theme: Theme) =>
+  page.evaluate((t) => {
+    document.documentElement.dataset.theme = t;
+    window.dispatchEvent(new Event("themechange"));
+  }, theme);
+
 // US4: the decorative fairy canvas. Its state is exposed as data attributes
 // (contracts/hero-ui.md) so these tests never read pixels.
 const fairy = (page: Page) =>
@@ -828,6 +835,8 @@ test.describe("hero fairy", () => {
         .toBe("resting");
       for (const width of [390, 320, 1280]) {
         await page.setViewportSize({ width, height: 800 });
+        // No Pokémon ribbon fairy below 360px: covered by the test below.
+        if (theme === "pokemon" && width < 360) continue;
         // A resize can send the browser's own mouse move, so allow one settle.
         await expect
           .poll(
@@ -850,6 +859,84 @@ test.describe("hero fairy", () => {
       }
     });
   }
+
+  // Owner decision 2026-10-20 (FR-015): no ribbon fairy below 360px.
+  for (const width of [320, 359]) {
+    test(`shows no ribbon fairy at ${width}px in Pokémon and never animates`, async ({
+      page,
+    }) => {
+      await recordFairyStates(page);
+      await openTheme(page, "pokemon", width, 800);
+      await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "ribbon");
+      await expect(fairy(page)).toBeHidden();
+      await expect(fairy(page)).toHaveAttribute("data-fairy-hidden", "true");
+      await wiggle(page);
+      await page.waitForTimeout(2000);
+      await wiggle(page);
+      await expect(fairy(page)).toBeHidden();
+      const states = (await fairyLog(page)).map((e) => e.state);
+      expect(states.filter((s) => s !== "resting" && s !== "paused")).toEqual(
+        [],
+      );
+      expect(await fairyState(page)).toMatch(/^(resting|paused)$/);
+    });
+  }
+
+  for (const width of [360, 390]) {
+    test(`shows the ribbon fairy at ${width}px in Pokémon`, async ({
+      page,
+    }) => {
+      await openTheme(page, "pokemon", width, 800);
+      await fairyReady(page);
+      await expect(fairy(page)).toBeVisible();
+      await expect(fairy(page)).not.toHaveAttribute(
+        "data-fairy-hidden",
+        "true",
+      );
+      await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "ribbon");
+      await expect
+        .poll(() => fairyState(page), { timeout: 5500 })
+        .toBe("resting");
+      expect(clearOfText(await fairyGeometry(page))).toBe(true);
+    });
+  }
+
+  for (const theme of ["light", "dark"] as const) {
+    test(`still shows the butterfly at 320px, ${theme}`, async ({ page }) => {
+      await openTheme(page, theme, 320, 800);
+      await fairyReady(page);
+      await expect(fairy(page)).toBeVisible();
+      await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
+      await expect
+        .poll(() => fairyState(page), { timeout: 5500 })
+        .toBe("resting");
+      expect(clearOfText(await fairyGeometry(page))).toBe(true);
+    });
+  }
+
+  test("hides and shows the ribbon fairy as Pokémon is resized across 360px or the theme changes", async ({
+    page,
+  }) => {
+    await openTheme(page, "pokemon", 390, 800);
+    await fairyReady(page);
+    await expect(fairy(page)).toBeVisible();
+    await page.setViewportSize({ width: 320, height: 800 });
+    await expect(fairy(page)).toBeHidden();
+    await page.setViewportSize({ width: 390, height: 800 });
+    await expect(fairy(page)).toBeVisible();
+    await expect
+      .poll(() => fairyState(page), { timeout: 5500 })
+      .toBe("resting");
+    expect(clearOfText(await fairyGeometry(page))).toBe(true);
+    // Theme switches while narrow.
+    await page.setViewportSize({ width: 320, height: 800 });
+    await expect(fairy(page)).toBeHidden();
+    await setThemeInPage(page, "light");
+    await expect(fairy(page)).toBeVisible();
+    await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
+    await setThemeInPage(page, "pokemon");
+    await expect(fairy(page)).toBeHidden();
+  });
 
   test("pauses while the hero is off screen and rests when it returns", async ({
     page,

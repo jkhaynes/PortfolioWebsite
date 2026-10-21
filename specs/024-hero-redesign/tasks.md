@@ -195,7 +195,7 @@ description: "Task list for 024 Hero Redesign"
     - Port `butterfly()`, `ribbon()` and `spark()` from `specs/024-hero-redesign/mockup/Main.dc.html`. The ribbon trail is pink #e58fb0 and blue #8ac6e6.
     - Mount it in `Hero.tsx` as the hero's first child, absolutely positioned over the hero (`inset: 0`, `z-index` above the glow, below nothing interactive since `pointer-events: none`).
 
-- [ ] T014 [US4] Hide the Pokémon ribbon fairy below 360px (owner decision 2026-10-20, spec FR-015 and Clarifications). Write the tests first in `tests/e2e/hero.spec.ts`:
+- [x] T014 [US4] Hide the Pokémon ribbon fairy below 360px (owner decision 2026-10-20, spec FR-015 and Clarifications). Write the tests first in `tests/e2e/hero.spec.ts`:
   - **Tests**:
     - In Pokémon at 320px and 359px, `canvas.hero-fairy` is not visible (or not rendered) and nothing animates: `data-fairy-state` never leaves `resting`/`paused`, or the canvas is absent, for 2 s after load and after mouse moves.
     - In Pokémon at 360px and 390px, the ribbon fairy is shown as before.

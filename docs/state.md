@@ -20,7 +20,7 @@ Feature 024, the homepage hero redesign, is built on branch `024-hero-redesign` 
 ## Next Up
 
 1. Run `/review-panel` on 024, open the PR, wait for green checks, merge.
-2. Owner: confirm the fairy at 320px wide (it is drawn at 65% and sits tight to the right edge).
+2. Done (owner decision 2026-10-20): no Pokémon ribbon fairy below 360px; Light and Dark keep the butterfly.
 3. Pre-existing bug, not from 024: after clicking View Featured Work, `#projects-heading` loses focus about a second later and the URL becomes `#projects` despite `preventDefault`.
 4. Playwright runs in worktrees use `E2E_PORT` (see `docs/worktrees.md`).
 5. Run `/speckit-constitution` once to review and ratify the starter constitution.

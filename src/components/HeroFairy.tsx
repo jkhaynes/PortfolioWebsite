@@ -23,8 +23,16 @@ const EXTENT: Record<FairyKind, { side: number; top: number; bottom: number }> =
     butterfly: { side: 17, top: 16, bottom: 15 },
     ribbon: { side: 21, top: 12, bottom: 33 },
   };
-/** Narrow heroes shrink the fairy rather than let it cover text. */
-const SCALES = [1, 0.8, 0.65];
+/**
+ * Narrow heroes shrink the butterfly rather than let it cover text. The
+ * ribbon fairy is never shown below 360px (HIDE_BELOW), so it keeps one size.
+ */
+const SCALES: Record<FairyKind, number[]> = {
+  butterfly: [1, 0.8, 0.65],
+  ribbon: [1],
+};
+/** Pokémon shows no ribbon fairy on screens narrower than this (FR-015). */
+const HIDE_QUERY = "(max-width: 359px)";
 const GAP = 3;
 const SEARCH_STEP = 4;
 /** How far a full or reduced size fairy may move from beside the name. */
@@ -210,12 +218,13 @@ function measure(
   const preferred = { x: right + 30, y: lastTop + 20 };
   const blocked = textBoxes(heroEl, heading, origin);
   const extent = EXTENT[kind];
+  const scales = SCALES[kind];
 
-  for (const scale of SCALES) {
+  for (const scale of scales) {
     // Stay beside the name, shrinking first; only the smallest size may
     // move further away.
     const reach =
-      scale === SCALES[SCALES.length - 1]
+      scale === scales[scales.length - 1]
         ? Number.POSITIVE_INFINITY
         : MAX_SHIFT;
     const side = extent.side * scale;
@@ -262,13 +271,16 @@ function measure(
   }
   const x = Math.max(0, Math.min(w, preferred.x));
   const y = Math.max(0, Math.min(h, preferred.y));
-  return { rest: { x, y }, drift, scale: SCALES[SCALES.length - 1] };
+  return { rest: { x, y }, drift, scale: scales[scales.length - 1] };
 }
+
+const kindFor = (theme: string | null | undefined): FairyKind =>
+  theme === "pokemon" ? "ribbon" : "butterfly";
 
 export default function HeroFairy() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const theme = useTheme();
-  const kind: FairyKind = theme === "pokemon" ? "ribbon" : "butterfly";
+  const kind = kindFor(theme);
   const kindRef = useRef(kind);
   /** Set by the effect below: re-reads colors, re-measures and redraws. */
   const refreshRef = useRef<() => void>(() => {});
@@ -284,10 +296,15 @@ export default function HeroFairy() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !heroEl || !ctx) return;
     const heading = heroEl.querySelector("h1");
+    // The first render is server-shaped (no theme yet); read the real one so a
+    // narrow Pokémon page never starts, even for a frame.
+    kindRef.current = kindFor(document.documentElement.dataset.theme);
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const fine = window.matchMedia("(any-pointer: fine)");
     const isStill = () => reduced.matches || !fine.matches;
+    const narrow = window.matchMedia(HIDE_QUERY);
+    const isHidden = () => narrow.matches && kindRef.current === "ribbon";
 
     let { rest, drift, scale } = measure(heroEl, heading, kindRef.current);
     let colors = FALLBACK;
@@ -407,9 +424,25 @@ export default function HeroFairy() {
       draw(now);
     };
 
+    /** No ribbon fairy on narrow screens: no drawing, no loop, no timer. */
+    const applyHidden = (hidden: boolean) => {
+      if (canvas.hidden === hidden) return;
+      canvas.hidden = hidden;
+      if (hidden) {
+        canvas.setAttribute("data-fairy-hidden", "true");
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      } else {
+        canvas.removeAttribute("data-fairy-hidden");
+      }
+    };
+
     const tick = (now: number) => {
       raf = 0;
       window.clearTimeout(watchdog);
+      const hidden = isHidden();
+      applyHidden(hidden);
+      if (hidden) return;
       step(now);
       if (!isAnimating(fairy.state)) return;
       raf = requestAnimationFrame(tick);
@@ -475,6 +508,7 @@ export default function HeroFairy() {
     heroEl.addEventListener("pointermove", onMove, { passive: true });
     heroEl.addEventListener("pointerleave", onLeave, { passive: true });
     reduced.addEventListener("change", wake);
+    narrow.addEventListener("change", wake);
     fine.addEventListener("change", wake);
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("themechange", refresh);
@@ -491,6 +525,7 @@ export default function HeroFairy() {
       heroEl.removeEventListener("pointermove", onMove);
       heroEl.removeEventListener("pointerleave", onLeave);
       reduced.removeEventListener("change", wake);
+      narrow.removeEventListener("change", wake);
       fine.removeEventListener("change", wake);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("themechange", refresh);
