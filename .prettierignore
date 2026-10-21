@@ -12,3 +12,6 @@ test-results/
 playwright-report/
 package-lock.json
 next-env.d.ts
+
+# Superpowers scratch (git-ignored; CLAUDE.md says leave it in place)
+.superpowers/
