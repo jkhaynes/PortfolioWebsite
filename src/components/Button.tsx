@@ -11,6 +11,8 @@ type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   scrollFocusTargetId?: string;
 };
 
+type Umami = { track: (event: string) => unknown };
+
 const baseStyles =
   "inline-flex items-center justify-center rounded-full px-5 py-2.5 font-semibold transition-[transform,box-shadow,background-color,color,border-color] duration-300 ease-out motion-safe:hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
@@ -34,6 +36,13 @@ export default function Button({
 
     if (!scrollFocusTargetId) return;
 
+    // Umami's tracker cancels clicks on links that carry data-umami-event and
+    // follows the link itself once its beacon settles. On an in-page link that
+    // late jump takes focus off the target, so report the click directly.
+    if (trackEvent) {
+      (window as Window & { umami?: Umami }).umami?.track(trackEvent);
+    }
+
     const target = document.getElementById(scrollFocusTargetId);
     if (!target) return;
 
@@ -53,7 +62,7 @@ export default function Button({
   return (
     <a
       className={`${baseStyles} ${variantStyles[variant]} ${className}`}
-      data-umami-event={trackEvent}
+      data-umami-event={scrollFocusTargetId ? undefined : trackEvent}
       onClick={scrollFocusTargetId ? handleClick : onClick}
       {...props}
     >

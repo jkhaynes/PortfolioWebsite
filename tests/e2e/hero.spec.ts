@@ -105,6 +105,36 @@ test.describe("hero copy and actions", () => {
   });
 });
 
+test("View Featured Work reports its click without taking focus off the projects heading", async ({
+  page,
+}) => {
+  // Umami's tracker cancels any click on a link with data-umami-event and
+  // follows the link itself once its beacon settles. On this in-page link
+  // that late jump blurred the heading the button had just focused, so the
+  // button reports through umami.track instead. Stand in for the tracker so
+  // the test needs no network.
+  await page.route("https://cloud.umami.is/**", (route) => route.abort());
+  await page.addInitScript(() => {
+    const tracked: string[] = [];
+    Object.assign(window, {
+      __tracked: tracked,
+      umami: { track: (name: string) => tracked.push(name) },
+    });
+  });
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/");
+  await fairyReady(page);
+  const link = hero(page).getByRole("link", { name: "View Featured Work" });
+  await expect(link).not.toHaveAttribute("data-umami-event", /.*/);
+  await link.click();
+  await expect(page.locator("#projects-heading")).toBeFocused();
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { __tracked: string[] }).__tracked,
+    ),
+  ).toEqual(["view_featured_work_click"]);
+});
+
 const THEMES = ["light", "dark", "pokemon"] as const;
 type Theme = (typeof THEMES)[number];
 
