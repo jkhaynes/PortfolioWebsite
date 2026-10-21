@@ -205,7 +205,7 @@ description: "Task list for 024 Hero Redesign"
   - `npx playwright test tests/e2e/copy-dashes.spec.ts` (no em dashes in the new copy).
   - Then `./scripts/check.sh` (format, lint, build, all Playwright projects).
   - Fix anything red that this branch caused.
-- [ ] T012 [P] Update the docs:
+- [x] T012 [P] Update the docs:
   - `docs/architecture.md`: Hero, HeroFairy and the `hero-fairy` model; the Impact section folded into the hero; portraits removed.
   - `docs/state.md`: what changed, what's next, blockers.
 - [ ] T013 Walk through `specs/024-hero-redesign/quickstart.md` on `npx next dev -p 3024`.
