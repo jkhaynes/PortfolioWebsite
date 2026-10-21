@@ -216,7 +216,7 @@ description: "Task list for 024 Hero Redesign"
 - [x] T012 [P] Update the docs:
   - `docs/architecture.md`: Hero, HeroFairy and the `hero-fairy` model; the Impact section folded into the hero; portraits removed.
   - `docs/state.md`: what changed, what's next, blockers.
-- [ ] T013 Walk through `specs/024-hero-redesign/quickstart.md` on `npx next dev -p 3024`.
+- [x] T013 Walk through `specs/024-hero-redesign/quickstart.md` on `npx next dev -p 3024`.
   - Screenshot desktop and phone in each theme to the session scratchpad and compare them with the six approved "F" boards.
   - Record any visible differences in the PR description.
 
