@@ -46,6 +46,9 @@
     --pearl-1: #fff4f8;
     --pearl-2: #f9cfe0;
     --pearl-3: #e2cdf0;
+    /* Hero glow stops, per theme as in the approved mockup. */
+    --hero-glow-a: rgb(184 48 111 / 14%);
+    --hero-glow-b: rgb(143 95 134 / 8%);
   }
 
   :root[data-theme="dark"] {
@@ -74,6 +77,8 @@
     --shadow-soft-hover: 0 24px 50px -22px rgba(244, 167, 203, 0.28);
     --shadow-card-rest: 0 20px 45px -28px rgba(8, 4, 10, 0.85);
     --shadow-card-active: 0 25px 54px -25px rgba(244, 167, 203, 0.32);
+    --hero-glow-a: rgb(244 167 203 / 20%);
+    --hero-glow-b: rgb(201 160 220 / 10%);
   }
 
   * {
@@ -681,6 +686,8 @@
     --card-inset: #fbe3eb;
     --shadow-soft: 0 18px 40px -28px rgb(145 69 96 / 30%);
     --shadow-card-rest: 0 18px 40px -28px rgb(145 69 96 / 35%);
+    --hero-glow-a: rgb(172 54 92 / 13%);
+    --hero-glow-b: rgb(138 198 230 / 14%);
     --motif-mask: none;
     --motif-fill: url("/images/pokemon/ribbon-pink.svg") center / contain
       no-repeat;
@@ -771,8 +778,8 @@
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--color-accent) 16%, transparent) 0%,
-      color-mix(in srgb, var(--color-accent-secondary) 8%, transparent) 40%,
+      var(--hero-glow-a) 0%,
+      var(--hero-glow-b) 40%,
       transparent 70%
     );
     pointer-events: none;
@@ -835,7 +842,12 @@
     width: 100%;
   }
   .hero-role {
-    margin: 0 0 14px;
+    margin: 14px 0 0;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .hero-title {
     margin: 0;
@@ -916,7 +928,7 @@
       padding-inline: 32px;
     }
     .hero-role {
-      margin-bottom: 18px;
+      margin-top: 18px;
     }
     .hero-title {
       font-size: 84px;

@@ -27,6 +27,26 @@ test.describe("hero copy and actions", () => {
     await expect(hero.getByText(BIO, { exact: true })).toBeVisible();
   });
 
+  test("the role line sits below the h1 and above the tagline (FR-003)", async ({
+    page,
+  }) => {
+    const order = await page
+      .locator("section.portfolio-hero")
+      .locator("h1, .hero-role, .hero-tagline")
+      .evaluateAll((els) =>
+        els.map((el) => (el.tagName === "H1" ? "h1" : el.className)),
+      );
+    expect(order).toHaveLength(3);
+    expect(order[0]).toBe("h1");
+    expect(order[1]).toContain("hero-role");
+    expect(order[2]).toContain("hero-tagline");
+    const h1 = (await page.locator("h1").boundingBox())!;
+    const role = page.locator(".hero-role");
+    await expect(role).toHaveText(ROLE);
+    const roleBox = (await role.boundingBox())!;
+    expect(roleBox.y).toBeGreaterThanOrEqual(h1.y + h1.height - 1);
+  });
+
   test("View Featured Work jumps to the projects heading", async ({ page }) => {
     const link = page
       .locator("section.portfolio-hero")
@@ -446,6 +466,192 @@ for (const theme of THEMES) {
       await expect(page.getByAltText("Portrait of Jessica Haynes")).toHaveCount(
         0,
       );
+    });
+  }
+}
+
+// FR-021: every hero text element meets WCAG AA against what is really
+// painted behind it, including the radial glow, which axe cannot see (it
+// skips text over gradients). Each element's text is made transparent, its
+// text box is screenshotted, and the worst background pixel sets the ratio.
+const HERO_TEXT: { name: string; selector: string; pokemonOnly?: boolean }[] = [
+  { name: "role line", selector: ".hero-role" },
+  { name: "h1", selector: ".hero-title" },
+  { name: "tagline", selector: ".hero-tagline" },
+  { name: "bio", selector: ".hero-bio" },
+  { name: "View Featured Work", selector: ".hero-actions a >> nth=0" },
+  { name: "Download Resume", selector: ".hero-actions a >> nth=1" },
+  { name: "Email", selector: ".hero-contact a >> nth=0" },
+  { name: "GitHub", selector: ".hero-contact a >> nth=1" },
+  { name: "LinkedIn", selector: ".hero-contact a >> nth=2" },
+  ...impactMetrics.flatMap((m, i) => [
+    {
+      name: `impact value ${m.value}`,
+      selector: `.hero-stats-grid a >> nth=${i} >> .hero-stat-value`,
+    },
+    {
+      name: `impact label ${m.label}`,
+      selector: `.hero-stats-grid a >> nth=${i} >> span >> nth=1`,
+    },
+    {
+      name: `View evidence ${i + 1}`,
+      selector: `.hero-stats-grid a >> nth=${i} >> span >> nth=2`,
+    },
+  ]),
+  { name: "game badge", selector: ".roundup-launcher", pokemonOnly: true },
+  {
+    name: "game badge subtitle",
+    selector: ".roundup-launcher__sub",
+    pokemonOnly: true,
+  },
+];
+
+type Rgb = [number, number, number];
+
+function luminance([r, g, b]: Rgb) {
+  const f = (c: number) => {
+    c /= 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+
+function contrast(a: Rgb, b: Rgb) {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+}
+
+for (const theme of THEMES) {
+  for (const width of [390, 1280]) {
+    test(`hero text meets AA contrast over the glow, ${theme} ${width}px`, async ({
+      page,
+      browserName,
+    }) => {
+      // Chromium only: this checks CSS colors, which do not depend on the
+      // engine, and Firefox and WebKit screenshots go through their own color
+      // management and text antialiasing, so their sampled pixels drift by a
+      // few values from the CSS colors and would make the ratio flaky.
+      test.skip(browserName !== "chromium", "pixel sampling in Chromium");
+      test.setTimeout(90_000);
+      await page.emulateMedia({ reducedMotion: "reduce" });
+      await openTheme(page, theme, width, 900);
+      await page.evaluate(() => document.fonts.ready);
+      // Nothing moves or overlaps the copy while it is sampled.
+      await page.addStyleTag({
+        content:
+          "canvas.hero-fairy{display:none!important} *{transition:none!important;animation:none!important}",
+      });
+      const failures: string[] = [];
+      const report: string[] = [];
+      for (const target of HERO_TEXT) {
+        if (target.pokemonOnly && theme !== "pokemon") continue;
+        const el = hero(page).locator(target.selector).first();
+        // Centered, so the sticky header never covers the sampled box.
+        await el.evaluate((node) =>
+          node.scrollIntoView({ block: "center", behavior: "instant" }),
+        );
+        // The text's own box (direct text nodes only, so the badge's bow
+        // image and the arrow glyph are left out), its colors and its size.
+        const info = await el.evaluate((node) => {
+          const cs = getComputedStyle(node);
+          const range = document.createRange();
+          let rect: { l: number; t: number; r: number; b: number } | null =
+            null;
+          for (const child of node.childNodes) {
+            if (child.nodeType !== Node.TEXT_NODE || !child.textContent?.trim())
+              continue;
+            range.selectNodeContents(child);
+            for (const r of range.getClientRects()) {
+              rect = rect
+                ? {
+                    l: Math.min(rect.l, r.left),
+                    t: Math.min(rect.t, r.top),
+                    r: Math.max(rect.r, r.right),
+                    b: Math.max(rect.b, r.bottom),
+                  }
+                : { l: r.left, t: r.top, r: r.right, b: r.bottom };
+            }
+          }
+          const gradientText =
+            cs.webkitTextFillColor === "rgba(0, 0, 0, 0)" &&
+            cs.backgroundImage.includes("gradient");
+          return {
+            rect,
+            colors: gradientText
+              ? (cs.backgroundImage.match(/rgba?\([^)]*\)/g) ?? [])
+              : [cs.color],
+            size: parseFloat(cs.fontSize),
+            weight: Number(cs.fontWeight),
+          };
+        });
+        expect(info.rect, `${target.name} has text`).not.toBeNull();
+        expect(info.colors.length, `${target.name} colors`).toBeGreaterThan(0);
+        await el.evaluate((node) => {
+          (node as HTMLElement).dataset.contrastProbe = "";
+        });
+        const style = await page.addStyleTag({
+          content:
+            "[data-contrast-probe],[data-contrast-probe] *{color:transparent!important;-webkit-text-fill-color:transparent!important;text-decoration-color:transparent!important}[data-contrast-probe].hero-title,[data-contrast-probe].hero-stat-value{background-image:none!important}",
+        });
+        const r = info.rect!;
+        const png = await page.screenshot({
+          clip: {
+            x: Math.ceil(r.l),
+            y: Math.ceil(r.t),
+            width: Math.max(1, Math.floor(r.r) - Math.ceil(r.l)),
+            height: Math.max(1, Math.floor(r.b) - Math.ceil(r.t)),
+          },
+        });
+        await style.evaluate((node) => (node as Element).remove());
+        await el.evaluate((node) => {
+          delete (node as HTMLElement).dataset.contrastProbe;
+        });
+        const pixels: Rgb[] = await page.evaluate(async (b64) => {
+          const img = new Image();
+          img.src = `data:image/png;base64,${b64}`;
+          await img.decode();
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d")!;
+          ctx.drawImage(img, 0, 0);
+          const data = ctx.getImageData(0, 0, img.width, img.height).data;
+          const seen = new Set<number>();
+          const out: [number, number, number][] = [];
+          for (let i = 0; i < data.length; i += 4) {
+            const key = (data[i] << 16) | (data[i + 1] << 8) | data[i + 2];
+            if (seen.has(key)) continue;
+            seen.add(key);
+            out.push([data[i], data[i + 1], data[i + 2]]);
+          }
+          return out;
+        }, png.toString("base64"));
+        const large =
+          info.size >= 24 || (info.size >= 18.66 && info.weight >= 700);
+        const needed = large ? 3 : 4.5;
+        let worst = Infinity;
+        for (const color of info.colors) {
+          const [cr, cg, cb, ca = 1] = color.match(/[\d.]+/g)!.map(Number);
+          for (const bg of pixels) {
+            // A translucent text color is blended over the pixel it sits on.
+            const fg = [cr, cg, cb].map((c, k) =>
+              Math.round(c * ca + bg[k] * (1 - ca)),
+            ) as Rgb;
+            worst = Math.min(worst, contrast(fg, bg));
+          }
+        }
+        report.push(`${target.name} ${info.size}px ${worst.toFixed(2)}`);
+        if (worst < needed)
+          failures.push(
+            `${target.name} (${info.size}px/${info.weight}): ${worst.toFixed(2)} < ${needed}`,
+          );
+      }
+      test.info().annotations.push({
+        type: "contrast",
+        description: report.join("; "),
+      });
+      console.log(`[contrast] ${theme} ${width}: ${report.join("; ")}`);
+      expect(failures).toEqual([]);
     });
   }
 }

@@ -15,11 +15,11 @@ export default function Hero() {
           <div className="hero-game">
             <RibbonRoundupLauncher />
           </div>
-          <p className="hero-role text-xs font-semibold uppercase tracking-[0.12em] text-accent">
+          <h1 className="hero-title font-display">Hi, I&apos;m Jessica</h1>
+          <p className="hero-role">
             Senior Software Engineer · C#/.NET · Backend + Full Stack
           </p>
-          <h1 className="hero-title font-display">Hi, I&apos;m Jessica</h1>
-          <p className="hero-tagline font-display text-accent-secondary">
+          <p className="hero-tagline font-display text-foreground">
             I build reliable software for messy, real-world problems.
           </p>
           <p className="hero-bio text-muted">
