@@ -15,3 +15,6 @@ next-env.d.ts
 
 # Superpowers scratch (git-ignored; CLAUDE.md says leave it in place)
 .superpowers/
+
+# Review panel output (written by reviewer agents)
+specs/*/reviews/
