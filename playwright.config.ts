@@ -24,6 +24,11 @@ export default defineConfig({
     {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
+      // Many Firefox instances at once make Playwright's Firefox hang a call
+      // (newPage, a key press, closing the context) until the test times out:
+      // 26 of 2055 hero runs at 12 Firefox workers, 0 of 780 at 3, with or
+      // without the fairy animating.
+      workers: 3,
       testMatch:
         /(?:theme-toggle|ribbon-roundup|pokemon-polish|hero)\.spec\.ts/,
     },
