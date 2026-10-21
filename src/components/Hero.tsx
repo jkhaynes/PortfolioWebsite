@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import Container from "@/components/Container";
+import HeroFairy from "@/components/HeroFairy";
 import ImpactMetricLink from "@/components/ImpactMetricLink";
 import RibbonRoundupLauncher from "@/components/RibbonRoundupLauncher";
 import TextLink from "@/components/TextLink";
@@ -8,6 +9,7 @@ import { impactMetrics } from "@/data/impact";
 export default function Hero() {
   return (
     <section className="portfolio-hero">
+      <HeroFairy />
       <Container className="hero-container">
         <div className="hero-copy">
           <div className="hero-game">

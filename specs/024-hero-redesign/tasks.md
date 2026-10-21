@@ -173,7 +173,7 @@ description: "Task list for 024 Hero Redesign"
 
 **Independent Test**: Drive the canvas's `data-fairy-state` and `data-fairy-kind` (contract) through every transition, and click through the fairy's area.
 
-- [ ] T010 [US4] Add the fairy canvas. Write the tests first in `tests/e2e/hero.spec.ts`, all US4 scenarios against the contract's data attributes:
+- [x] T010 [US4] Add the fairy canvas. Write the tests first in `tests/e2e/hero.spec.ts`, all US4 scenarios against the contract's data attributes:
   - **Tests**:
     - `canvas.hero-fairy` is inside the hero, with `aria-hidden="true"` and computed `pointer-events: none`.
     - `data-fairy-kind` is `butterfly` in Light and Dark, and `ribbon` after switching to Pokémon with the toggle (no reload).

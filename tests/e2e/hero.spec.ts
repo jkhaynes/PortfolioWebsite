@@ -578,3 +578,331 @@ test.describe("hero without JavaScript", () => {
     }
   });
 });
+
+// US4: the decorative fairy canvas. Its state is exposed as data attributes
+// (contracts/hero-ui.md) so these tests never read pixels.
+const fairy = (page: Page) =>
+  page.locator("section.portfolio-hero canvas.hero-fairy");
+const fairyState = (page: Page) => fairy(page).getAttribute("data-fairy-state");
+
+type StateLog = { state: string; at: number }[];
+
+/**
+ * Waits until the client has started the fairy: the server renders
+ * `data-fairy-state="resting"`, but only the client writes the position.
+ */
+async function fairyReady(page: Page) {
+  await expect(fairy(page)).toHaveAttribute("data-fairy-x", /\d/);
+}
+
+/** Records every data-fairy-state change with its performance.now() time. */
+async function recordFairyStates(page: Page) {
+  await page.addInitScript(() => {
+    const log: { state: string; at: number }[] = [];
+    (window as unknown as { __fairyStates: typeof log }).__fairyStates = log;
+    new MutationObserver((records) => {
+      for (const r of records) {
+        const el = r.target as Element;
+        if (el.matches("canvas.hero-fairy")) {
+          log.push({
+            state: el.getAttribute("data-fairy-state") ?? "",
+            at: performance.now(),
+          });
+        }
+      }
+    }).observe(document, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["data-fairy-state"],
+    });
+  });
+}
+
+const fairyLog = (page: Page) =>
+  page.evaluate(
+    () => (window as unknown as { __fairyStates: StateLog }).__fairyStates,
+  );
+
+/** Moves the mouse over the hero in a few steps. */
+async function wiggle(page: Page) {
+  const box = (await hero(page).boundingBox())!;
+  const y = box.y + Math.min(box.height, 700) * 0.6;
+  for (const x of [0.3, 0.4, 0.5, 0.6, 0.7]) {
+    await page.mouse.move(box.x + box.width * x, y, { steps: 4 });
+  }
+}
+
+/**
+ * The fairy's position, the h1 text box and the role line and tagline's
+ * line boxes, all in canvas CSS pixels.
+ */
+async function fairyGeometry(page: Page) {
+  return fairy(page).evaluate((canvas) => {
+    const c = canvas.getBoundingClientRect();
+    const local = (r: DOMRect) => ({
+      left: r.left - c.left,
+      right: r.right - c.left,
+      top: r.top - c.top,
+      bottom: r.bottom - c.top,
+    });
+    const range = document.createRange();
+    range.selectNodeContents(document.querySelector("h1")!);
+    const text = local(range.getBoundingClientRect());
+    const nearby = [];
+    for (const el of document.querySelectorAll(".hero-role, .hero-tagline")) {
+      range.selectNodeContents(el);
+      for (const r of range.getClientRects()) nearby.push(local(r));
+    }
+    return {
+      x: Number(canvas.getAttribute("data-fairy-x")),
+      y: Number(canvas.getAttribute("data-fairy-y")),
+      width: c.width,
+      height: c.height,
+      text,
+      nearby,
+    };
+  });
+}
+
+type Geometry = Awaited<ReturnType<typeof fairyGeometry>>;
+
+/** True when a 24px box around the fairy misses the box. */
+function clearOf(g: Geometry, box: Geometry["text"]) {
+  const r = 12;
+  return (
+    g.x + r <= box.left ||
+    g.x - r >= box.right ||
+    g.y + r <= box.top ||
+    g.y - r >= box.bottom
+  );
+}
+
+/** True when the fairy misses the h1 text box and the nearby copy. */
+function clearOfText(g: Geometry) {
+  return clearOf(g, g.text) && g.nearby.every((box) => clearOf(g, box));
+}
+
+test.describe("hero fairy", () => {
+  test("is a decorative canvas that never takes pointer events", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    const canvas = fairy(page);
+    await expect(canvas).toHaveCount(1);
+    await expect(canvas).toHaveAttribute("aria-hidden", "true");
+    expect(
+      await canvas.evaluate((el) => getComputedStyle(el).pointerEvents),
+    ).toBe("none");
+  });
+
+  test("is a butterfly in Light and Dark and a ribbon fairy in Pokémon, without a reload", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
+    await page.getByRole("radio", { name: "Dark", exact: true }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
+    await page.getByRole("radio", { name: "Pokémon", exact: true }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "pokemon");
+    await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "ribbon");
+    await page.getByRole("radio", { name: "Light", exact: true }).click();
+    await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
+  });
+
+  test("drifts in an intro, then rests within 5 seconds with no input (SC-005)", async ({
+    page,
+  }) => {
+    await recordFairyStates(page);
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await expect
+      .poll(async () => (await fairyLog(page)).some((e) => e.state === "intro"))
+      .toBe(true);
+    await expect
+      .poll(() => fairyState(page), { timeout: 5500 })
+      .toBe("resting");
+    const log = await fairyLog(page);
+    const intro = log.find((e) => e.state === "intro")!;
+    const rest = log.find((e) => e.state === "resting" && e.at > intro.at)!;
+    expect(rest.at - intro.at).toBeLessThanOrEqual(5000);
+    // Nothing moves after resting.
+    const before = await fairyGeometry(page);
+    await page.waitForTimeout(600);
+    const after = await fairyGeometry(page);
+    expect([after.x, after.y]).toEqual([before.x, before.y]);
+    expect(await fairyState(page)).toBe("resting");
+  });
+
+  test("follows the mouse over the hero, then rests within 5 seconds of it stopping", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await wiggle(page);
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
+    await expect
+      .poll(() => fairyState(page), { timeout: 5500 })
+      .toBe("resting");
+  });
+
+  test("settles and rests after the mouse leaves the hero", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await wiggle(page);
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
+    const box = (await hero(page).boundingBox())!;
+    await page.mouse.move(box.x + 10, box.y + box.height + 40, { steps: 2 });
+    await expect
+      .poll(() => fairyState(page), { timeout: 5500 })
+      .toBe("resting");
+  });
+
+  test("with reduced motion it rests from the first paint and stays resting through mouse moves", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await recordFairyStates(page);
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await wiggle(page);
+    await page.waitForTimeout(300);
+    expect(await fairyState(page)).toBe("resting");
+    const states = (await fairyLog(page)).map((e) => e.state);
+    expect(states.filter((s) => s !== "resting")).toEqual([]);
+  });
+
+  test.describe("on a touch phone", () => {
+    test.skip(
+      ({ browserName }) => browserName === "firefox",
+      "Playwright Firefox has no isMobile emulation",
+    );
+    test.use({
+      hasTouch: true,
+      isMobile: true,
+      viewport: { width: 390, height: 844 },
+    });
+
+    test("rests beside the name", async ({ page }) => {
+      await recordFairyStates(page);
+      await page.goto("/");
+      await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting");
+      await expect(fairy(page)).toHaveAttribute("data-fairy-x", /\d/);
+      await page.waitForTimeout(500);
+      expect(await fairyState(page)).toBe("resting");
+      const states = (await fairyLog(page)).map((e) => e.state);
+      expect(states.filter((s) => s !== "resting")).toEqual([]);
+      expect(clearOfText(await fairyGeometry(page))).toBe(true);
+    });
+  });
+
+  test("follows reduced motion changes made while the page is open (FR-020)", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await wiggle(page);
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting");
+    await wiggle(page);
+    await page.waitForTimeout(300);
+    expect(await fairyState(page)).toBe("resting");
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await wiggle(page);
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
+  });
+
+  for (const theme of ["light", "pokemon"] as const) {
+    test(`stays inside the hero and clear of the h1 text across resizes, ${theme}`, async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      await fairyReady(page);
+      await expect
+        .poll(() => fairyState(page), { timeout: 5500 })
+        .toBe("resting");
+      for (const width of [390, 320, 1280]) {
+        await page.setViewportSize({ width, height: 800 });
+        // A resize can send the browser's own mouse move, so allow one settle.
+        await expect
+          .poll(
+            async () => {
+              const g = await fairyGeometry(page);
+              return {
+                state: await fairyState(page),
+                inside:
+                  g.width <= width &&
+                  g.x >= 0 &&
+                  g.x <= g.width &&
+                  g.y >= 0 &&
+                  g.y <= g.height,
+                clear: clearOfText(g),
+              };
+            },
+            { timeout: 5500 },
+          )
+          .toEqual({ state: "resting", inside: true, clear: true });
+      }
+    });
+  }
+
+  test("pauses while the hero is off screen and rests when it returns", async ({
+    page,
+  }) => {
+    await openTheme(page, "light", 1280, 800);
+    await fairyReady(page);
+    await page.evaluate(() => {
+      const section = document.querySelector("section.portfolio-hero")!;
+      const bottom = section.getBoundingClientRect().bottom + window.scrollY;
+      window.scrollTo({ top: bottom + 200, behavior: "instant" });
+    });
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "paused");
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting");
+  });
+
+  for (const theme of ["light", "pokemon"] as const) {
+    test(`never covers a hero link or button for the pointer (SC-006), ${theme}`, async ({
+      page,
+    }) => {
+      await openTheme(page, theme, 1280, 800);
+      await fairyReady(page);
+      const targets = hero(page).locator("a:visible, button:visible");
+      const count = await targets.count();
+      expect(count).toBeGreaterThanOrEqual(theme === "pokemon" ? 10 : 9);
+      for (let i = 0; i < count; i++) {
+        const target = targets.nth(i);
+        const box = (await target.boundingBox())!;
+        const x = box.x + box.width / 2;
+        const y = box.y + box.height / 2;
+        // The fairy follows the mouse, so it flies over the target.
+        await page.mouse.move(x, y, { steps: 3 });
+        const hit = await target.evaluate(
+          (el, [px, py]) => {
+            const top = document.elementFromPoint(px, py);
+            return {
+              canvas: !!top?.matches("canvas.hero-fairy"),
+              inside: !!top && el.contains(top),
+            };
+          },
+          [x, y] as const,
+        );
+        expect(hit.canvas).toBe(false);
+        expect(hit.inside).toBe(true);
+      }
+      // A click with the fairy right over the link activates it.
+      const featured = hero(page).getByRole("link", {
+        name: "View Featured Work",
+      });
+      const box = (await featured.boundingBox())!;
+      await page.mouse.move(box.x + 10, box.y + box.height / 2, { steps: 4 });
+      await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+      await expect(page.locator("#projects-heading")).toBeFocused();
+    });
+  }
+});
