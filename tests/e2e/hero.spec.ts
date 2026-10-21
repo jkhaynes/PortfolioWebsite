@@ -1211,3 +1211,161 @@ test.describe("hero fairy", () => {
     });
   }
 });
+
+// FR-026 / SC-009: the hero fills the first screen below the sticky header, so
+// Featured Projects starts at the bottom of the first screen.
+const FILL_SIZES = [
+  [1280, 800],
+  [1440, 1000],
+  [1920, 1080],
+] as const;
+
+for (const theme of THEMES) {
+  for (const [width, height] of FILL_SIZES) {
+    test.describe(`hero fills the first screen, ${theme} ${width}x${height}`, () => {
+      test.beforeEach(async ({ page }) => {
+        await openTheme(page, theme, width, height);
+      });
+
+      test("Featured Projects is below the first screen on load and the hero ends at its bottom edge", async ({
+        page,
+      }) => {
+        const heading = (await page
+          .locator("#projects-heading")
+          .boundingBox())!;
+        expect(heading.y).toBeGreaterThanOrEqual(height - 1);
+        const box = (await hero(page).boundingBox())!;
+        const bottom = box.y + box.height;
+        // Never short of the first screen's bottom edge.
+        expect(bottom).toBeGreaterThanOrEqual(height - 2);
+        if (bottom > height + 2) {
+          // Taller than the screen only because its content is: no spare room.
+          const spare = await page.evaluate(() => {
+            const body = document.querySelector(".hero-body")!;
+            const copy = document.querySelector(".hero-copy")!;
+            const stats = document.querySelector(".hero-stats")!;
+            return (
+              body.getBoundingClientRect().height -
+              (stats.getBoundingClientRect().bottom -
+                copy.getBoundingClientRect().top)
+            );
+          });
+          expect(spare).toBeLessThanOrEqual(2);
+        }
+      });
+
+      test("the content is vertically centered and the scroll cue sits at the bottom", async ({
+        page,
+      }) => {
+        const g = await page.evaluate(() => {
+          const heroEl = document.querySelector("section.portfolio-hero")!;
+          const h = heroEl.getBoundingClientRect();
+          const top = Math.min(
+            ...[".hero-game", "h1"].map((s) => {
+              const el = heroEl.querySelector(s) as HTMLElement | null;
+              return el && el.getClientRects().length
+                ? el.getBoundingClientRect().top
+                : Infinity;
+            }),
+          );
+          const bottom = heroEl
+            .querySelector(".hero-stats")!
+            .getBoundingClientRect().bottom;
+          const cueEl = heroEl.querySelector(".hero-scroll-cue")!;
+          const cue = cueEl.getBoundingClientRect();
+          const padTop = parseFloat(getComputedStyle(heroEl).paddingTop);
+          const cueMargin = parseFloat(getComputedStyle(cueEl).marginTop);
+          return {
+            above: top - (h.top + padTop),
+            below: cue.top - cueMargin - bottom,
+            heroTop: h.top,
+            heroBottom: h.bottom,
+            top,
+            bottom,
+            cueTop: cue.top,
+            cueBottom: cue.bottom,
+          };
+        });
+        // The spare room above the content (below the hero's top padding)
+        // matches the spare room below it (above the cue's own margin).
+        expect(g.above).toBeGreaterThanOrEqual(-1);
+        expect(Math.abs(g.above - g.below)).toBeLessThanOrEqual(3);
+        // The cue is at the hero's bottom (inside its bottom padding).
+        expect(g.heroBottom - g.cueBottom).toBeLessThanOrEqual(60);
+        expect(g.cueTop).toBeGreaterThan(g.bottom);
+      });
+
+      test("the project cards still deal in when the hand scrolls into view", async ({
+        page,
+      }) => {
+        const hand = page.locator(".project-hand");
+        await expect(hand).toHaveAttribute("data-dealt", "pending");
+        await hand.scrollIntoViewIfNeeded();
+        await page.evaluate(() => {
+          const r = document
+            .querySelector(".project-hand")!
+            .getBoundingClientRect();
+          window.scrollBy({ top: r.top - 100, behavior: "instant" });
+        });
+        await expect(hand).toHaveAttribute("data-dealt", "true");
+      });
+    });
+  }
+}
+
+test("with reduced motion the project cards are visible once scrolled to", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await openTheme(page, "light", 1440, 1000);
+  await page.locator("#projects-heading").scrollIntoViewIfNeeded();
+  await expect(page.locator(".project-hand > *").first()).toBeVisible();
+  expect(
+    await page.locator(".project-hand").getAttribute("data-dealt"),
+  ).toBeNull();
+});
+
+for (const [width, height] of [
+  [390, 844],
+  [768, 900],
+  [1024, 800],
+  [1280, 800],
+] as const) {
+  test(`--site-header-h matches the real sticky header height at ${width}px`, async ({
+    page,
+  }) => {
+    await openTheme(page, "light", width, height);
+    const m = await page.evaluate(() => {
+      const probe = document.createElement("div");
+      probe.style.height = "var(--site-header-h)";
+      document.body.append(probe);
+      const varH = probe.getBoundingClientRect().height;
+      probe.remove();
+      return {
+        varH,
+        real: document.querySelector("header")!.getBoundingClientRect().height,
+      };
+    });
+    expect(Math.abs(m.varH - m.real)).toBeLessThanOrEqual(0.5);
+  });
+}
+
+test("phone 390x844 keeps the hero's natural height", async ({ page }) => {
+  await openTheme(page, "light", 390, 844);
+  const { box, content } = await page.evaluate(() => {
+    const heroEl = document.querySelector("section.portfolio-hero")!;
+    const cue = heroEl
+      .querySelector(".hero-scroll-cue")!
+      .getBoundingClientRect();
+    const first = heroEl.firstElementChild!;
+    void first;
+    return {
+      box: heroEl.getBoundingClientRect().height,
+      content: cue.bottom - heroEl.getBoundingClientRect().top,
+    };
+  });
+  // Taller than the screen, so no forced extra space: only the bottom padding
+  // sits below the cue.
+  expect(box - content).toBeLessThanOrEqual(60);
+  expect(box).toBeGreaterThan(844 - 127);
+});
