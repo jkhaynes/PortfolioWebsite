@@ -1,0 +1,1218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hero F, desktop, Light</title>
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin=""
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap"
+        />
+        <style>
+          body {
+            margin: 0;
+          }
+        </style>
+      </helmet>
+      <div
+        style="width: 100%; min-height: 100%; position: relative; overflow: hidden; background: {{t.page}}; color: {{t.fg}}; font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.55; box-sizing: border-box"
+      >
+        <sc-if value="{{showNav}}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{desktop}}" hint-placeholder-val="{{ true }}">
+            <header
+              style="position: relative; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 32px; border-bottom: 1px solid {{t.border}}; background: {{t.page}}"
+            >
+              <a
+                href="#top"
+                style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; color: {{t.fg}}; font-family: Lora, Georgia, serif; font-size: 18px; font-weight: 600"
+              >
+                <sc-if value="{{pokemon}}" hint-placeholder-val="{{ false }}"
+                  ><img
+                    src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                    alt=""
+                    style="width: 28px; height: 28px"
+                /></sc-if>
+                <sc-if value="{{notPokemon}}" hint-placeholder-val="{{ true }}"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="{{t.accent}}"
+                      d="M8 .6C8.5 5 11 7.5 15.4 8 11 8.5 8.5 11 8 15.4 7.5 11 5 8.5.6 8 5 7.5 7.5 5 8 .6Z"
+                    ></path></svg
+                ></sc-if>
+                Jessica Haynes</a
+              >
+              <nav
+                aria-label="Primary"
+                style="
+                  display: flex;
+                  gap: 28px;
+                  font-size: 14px;
+                  font-weight: 600;
+                "
+              >
+                <a
+                  href="#projects"
+                  style="color: {{t.fg}}; text-decoration: none"
+                  >Work</a
+                >
+                <a
+                  href="#experience"
+                  style="color: {{t.fg}}; text-decoration: none"
+                  >Experience</a
+                >
+                <a href="#about" style="color: {{t.fg}}; text-decoration: none"
+                  >About</a
+                >
+                <a
+                  href="#contact"
+                  style="color: {{t.fg}}; text-decoration: none"
+                  >Contact</a
+                >
+              </nav>
+              <div style="display: flex; align-items: center; gap: 12px">
+                <sc-if value="{{navGame}}" hint-placeholder-val="{{ false }}">
+                  <button
+                    type="button"
+                    style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{t.accent2}}; background: {{t.accentSoft}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7"
+                      ></path>
+                      <circle cx="32" cy="29" r="6"></circle></svg
+                    >Take a play break
+                  </button>
+                </sc-if>
+                <fieldset
+                  style="display: inline-flex; margin: 0; padding: 3px; border: 1px solid {{t.accent2}}; border-radius: 999px; background: {{t.surface}}"
+                >
+                  <legend
+                    style="
+                      position: absolute;
+                      width: 1px;
+                      height: 1px;
+                      overflow: hidden;
+                      clip: rect(0 0 0 0);
+                    "
+                  >
+                    Color theme
+                  </legend>
+                  <sc-for list="{{choices}}" as="c" hint-placeholder-count="3">
+                    <label style="position: relative; cursor: pointer">
+                      <input
+                        type="radio"
+                        name="color-theme"
+                        value="{{c.value}}"
+                        checked="{{c.checked}}"
+                        onChange="{{c.pick}}"
+                        style="
+                          position: absolute;
+                          inset: 0;
+                          width: 100%;
+                          height: 100%;
+                          margin: 0;
+                          opacity: 0;
+                          cursor: pointer;
+                        "
+                      />
+                      <sc-if
+                        value="{{c.checked}}"
+                        hint-placeholder-val="{{ false }}"
+                        ><span
+                          style="display: flex; min-height: 36px; align-items: center; padding: 6px 11px; border-radius: 999px; background: {{t.accent}}; color: {{t.onAccent}}; font-size: 12px; font-weight: 600"
+                          >{{c.label}}</span
+                        ></sc-if
+                      >
+                      <sc-if
+                        value="{{c.unchecked}}"
+                        hint-placeholder-val="{{ true }}"
+                        ><span
+                          style="display: flex; min-height: 36px; align-items: center; padding: 6px 11px; border-radius: 999px; color: {{t.muted}}; font-size: 12px; font-weight: 600"
+                          >{{c.label}}</span
+                        ></sc-if
+                      >
+                    </label>
+                  </sc-for>
+                </fieldset>
+              </div>
+            </header>
+          </sc-if>
+          <sc-if value="{{phone}}" hint-placeholder-val="{{ false }}">
+            <header
+              style="position: relative; z-index: 5; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 16px; border-bottom: 1px solid {{t.border}}; background: {{t.page}}"
+            >
+              <a
+                href="#top"
+                style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; color: {{t.fg}}; font-family: Lora, Georgia, serif; font-size: 18px; font-weight: 600"
+              >
+                <sc-if value="{{pokemon}}" hint-placeholder-val="{{ false }}"
+                  ><img
+                    src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                    alt=""
+                    style="width: 26px; height: 26px"
+                /></sc-if>
+                <sc-if value="{{notPokemon}}" hint-placeholder-val="{{ true }}"
+                  ><svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="{{t.accent}}"
+                      d="M8 .6C8.5 5 11 7.5 15.4 8 11 8.5 8.5 11 8 15.4 7.5 11 5 8.5.6 8 5 7.5 7.5 5 8 .6Z"
+                    ></path></svg
+                ></sc-if>
+                Jessica Haynes</a
+              >
+              <div
+                style="
+                  position: relative;
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                "
+              >
+                <sc-if value="{{navGame}}" hint-placeholder-val="{{ false }}">
+                  <button
+                    type="button"
+                    aria-label="Take a play break"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; padding: 0 10px; border-radius: 8px; border: 1px solid {{t.accent2}}; background: {{t.surface}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7"
+                      ></path>
+                      <circle cx="32" cy="29" r="6"></circle></svg
+                    >Play
+                  </button>
+                </sc-if>
+                <button
+                  type="button"
+                  aria-expanded="{{menuOpenText}}"
+                  onClick="{{toggleMenu}}"
+                  style="display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 10px; border-radius: 8px; border: 1px solid {{t.accent2}}; background: {{t.accentSoft}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"
+                >
+                  Theme
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="m4 6 4 4 4-4"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                </button>
+                <sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+                  <fieldset
+                    style="position: absolute; right: 0; top: 50px; z-index: 6; display: grid; gap: 2px; min-width: 150px; margin: 0; padding: 6px; border: 1px solid {{t.accent2}}; border-radius: 12px; background: {{t.surface}}; box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.35)"
+                  >
+                    <legend
+                      style="
+                        position: absolute;
+                        width: 1px;
+                        height: 1px;
+                        overflow: hidden;
+                        clip: rect(0 0 0 0);
+                      "
+                    >
+                      Color theme
+                    </legend>
+                    <sc-for
+                      list="{{choices}}"
+                      as="c"
+                      hint-placeholder-count="3"
+                    >
+                      <label
+                        style="display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 10px; border-radius: 8px; color: {{t.fg}}; font-size: 14px; font-weight: 600; cursor: pointer"
+                      >
+                        <input
+                          type="radio"
+                          name="mobile-color-theme"
+                          value="{{c.value}}"
+                          checked="{{c.checked}}"
+                          onChange="{{c.pickClose}}"
+                          style="accent-color: {{t.accent}}"
+                        />
+                        <span>{{c.label}}</span>
+                      </label>
+                    </sc-for>
+                  </fieldset>
+                </sc-if>
+              </div>
+              <nav
+                aria-label="Primary"
+                style="
+                  grid-column: 1 / -1;
+                  display: grid;
+                  grid-template-columns: repeat(4, minmax(0, 1fr));
+                  font-size: 13px;
+                  font-weight: 600;
+                "
+              >
+                <a
+                  href="#projects"
+                  style="display: flex; align-items: center; min-height: 40px; color: {{t.fg}}; text-decoration: none"
+                  >Work</a
+                >
+                <a
+                  href="#experience"
+                  style="display: flex; align-items: center; min-height: 40px; color: {{t.fg}}; text-decoration: none"
+                  >Experience</a
+                >
+                <a
+                  href="#about"
+                  style="display: flex; align-items: center; min-height: 40px; color: {{t.fg}}; text-decoration: none"
+                  >About</a
+                >
+                <a
+                  href="#contact"
+                  style="display: flex; align-items: center; min-height: 40px; color: {{t.fg}}; text-decoration: none"
+                  >Contact</a
+                >
+              </nav>
+            </header>
+          </sc-if>
+        </sc-if>
+
+        <section
+          onPointerMove="{{onMove}}"
+          onPointerLeave="{{onLeave}}"
+          style="position: relative; overflow: hidden; box-sizing: border-box; min-height: {{s.heroMin}}px; display: flex; flex-direction: column; padding: {{s.padTop}}px {{s.padX}}px {{s.padBottom}}px"
+        >
+          <div
+            aria-hidden="true"
+            style="position: absolute; left: {{s.glowLeft}}; top: 30px; width: {{s.glowSize}}px; height: {{s.glowSize}}px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, {{t.glowA}} 0%, {{t.glowB}} 40%, transparent 70%); pointer-events: none"
+          ></div>
+          <sc-if value="{{live}}" hint-placeholder-val="{{ false }}">
+            <canvas
+              ref="{{setCanvas}}"
+              aria-hidden="true"
+              style="
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 3;
+              "
+            ></canvas>
+          </sc-if>
+          <sc-if value="{{cornerGame}}" hint-placeholder-val="{{ false }}">
+            <button
+              type="button"
+              style="position: absolute; top: {{s.cornerTop}}px; right: {{s.cornerRight}}px; z-index: 4; display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 14px 12px; border-radius: 18px; border: 6px solid #f9e0e9; outline: 1px solid {{t.border}}; outline-offset: -6px; background: {{t.surface}}; color: {{t.accent}}; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; box-shadow: 0 18px 40px -26px rgba(145, 69, 96, 0.45); transform: rotate(3deg)"
+            >
+              <img
+                src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                alt=""
+                style="width: 34px; height: 34px"
+              /><span>Take a play break</span>
+            </button>
+          </sc-if>
+
+          <div
+            style="
+              flex: 1 1 auto;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              width: 100%;
+            "
+          >
+            <div
+              style="position: relative; z-index: 2; max-width: 1112px; margin: 0 auto; display: {{s.gridDisplay}}; grid-template-columns: {{s.gridCols}}; gap: 56px; align-items: center"
+            >
+              <div style="text-align: {{s.align}}; min-width: 0">
+                <sc-if value="{{showTop}}" hint-placeholder-val="{{ true }}">
+                  <sc-if
+                    value="{{badgeGame}}"
+                    hint-placeholder-val="{{ false }}"
+                  >
+                    <div style="margin-bottom: 22px">
+                      <button
+                        type="button"
+                        style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px 0 8px; border-radius: 999px; border: 1px solid {{t.accent2}}; background: {{t.surface}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 10px 24px -18px rgba(145, 69, 96, 0.6)"
+                      >
+                        <img
+                          src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                          alt=""
+                          style="width: 26px; height: 26px"
+                        />Take a play break<span
+                          aria-hidden="true"
+                          style="color: {{t.muted}}; font-weight: 500"
+                          >· a Sylveon mini game</span
+                        >
+                      </button>
+                    </div>
+                  </sc-if>
+                  <sc-if
+                    value="{{avatarPhoto}}"
+                    hint-placeholder-val="{{ false }}"
+                  >
+                    <img
+                      src="/_blob/1bb19a168fdd576777755105ecb746c4"
+                      alt="Portrait of Jessica Haynes"
+                      style="display: block; width: {{s.avatar}}px; height: {{s.avatar}}px; margin: 0 auto 22px; border-radius: 50%; object-fit: cover; object-position: center 20%; padding: 3px; border: 3px solid {{t.accent}}; background: {{t.page}}"
+                    />
+                  </sc-if>
+                  <sc-if
+                    value="{{avatarSylveon}}"
+                    hint-placeholder-val="{{ false }}"
+                  >
+                    <img
+                      src="/_blob/fb3d9260a02a79b1c856505a9aaed372"
+                      alt="Sylveon with pink bows and flowing ribbons"
+                      style="display: block; width: {{s.avatar}}px; height: {{s.avatar}}px; margin: 0 auto 22px; border-radius: 50%; object-fit: cover; padding: 4px; border: 3px solid {{t.accent}}; background: {{t.surface}}"
+                    />
+                  </sc-if>
+
+                  <sc-if
+                    value="{{headName}}"
+                    hint-placeholder-val="{{ false }}"
+                  >
+                    <p
+                      style="margin: 0 0 4px; font-family: Lora, Georgia, serif; font-style: italic; font-weight: 500; font-size: {{s.lead}}px; color: {{t.accent2}}"
+                    >
+                      Hi, I'm
+                    </p>
+                  </sc-if>
+                  <div
+                    style="
+                      position: relative;
+                      display: inline-block;
+                      max-width: 100%;
+                    "
+                  >
+                    <h1
+                      ref="{{setName}}"
+                      style="margin: 0; padding-bottom: 6px; font-family: Lora, Georgia, serif; font-weight: 700; font-size: {{s.hello}}px; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance; background-image: linear-gradient(100deg, {{t.accent}} 10%, {{t.accent2}} 90%); -webkit-background-clip: text; background-clip: text; color: transparent"
+                    >
+                      {{headlineText}}
+                    </h1>
+                    <sc-if
+                      value="{{stillButterfly}}"
+                      hint-placeholder-val="{{ false }}"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        width="40"
+                        height="40"
+                        viewBox="-20 -20 40 40"
+                        style="position: absolute; right: {{s.fairyRight}}px; top: {{s.fairyTop}}px; transform: rotate(-14deg)"
+                      >
+                        <defs>
+                          <linearGradient id="wing" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="{{t.accent}}"></stop>
+                            <stop offset="1" stop-color="{{t.accent2}}"></stop>
+                          </linearGradient>
+                        </defs>
+                        <g fill="url(#wing)">
+                          <ellipse
+                            cx="-8"
+                            cy="-5"
+                            rx="9"
+                            ry="6.5"
+                            transform="rotate(30 -8 -5)"
+                            opacity="0.92"
+                          ></ellipse>
+                          <ellipse
+                            cx="8"
+                            cy="-5"
+                            rx="9"
+                            ry="6.5"
+                            transform="rotate(-30 8 -5)"
+                            opacity="0.92"
+                          ></ellipse>
+                          <ellipse
+                            cx="-6"
+                            cy="6"
+                            rx="6"
+                            ry="4.5"
+                            transform="rotate(-35 -6 6)"
+                            opacity="0.8"
+                          ></ellipse>
+                          <ellipse
+                            cx="6"
+                            cy="6"
+                            rx="6"
+                            ry="4.5"
+                            transform="rotate(35 6 6)"
+                            opacity="0.8"
+                          ></ellipse>
+                        </g>
+                        <circle
+                          cx="-9"
+                          cy="-6"
+                          r="1.8"
+                          fill="#ffffff"
+                          opacity="0.6"
+                        ></circle>
+                        <circle
+                          cx="9"
+                          cy="-6"
+                          r="1.8"
+                          fill="#ffffff"
+                          opacity="0.6"
+                        ></circle>
+                        <path
+                          d="M0 -8 L0 9 M0 -8 Q-2 -13 -5 -14 M0 -8 Q2 -13 5 -14"
+                          stroke="{{t.fg}}"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          fill="none"
+                        ></path>
+                      </svg>
+                    </sc-if>
+                    <sc-if
+                      value="{{stillRibbon}}"
+                      hint-placeholder-val="{{ false }}"
+                    >
+                      <img
+                        src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                        alt=""
+                        style="position: absolute; right: {{s.fairyRight}}px; top: {{s.fairyTop}}px; width: 40px; height: 40px; transform: rotate(-12deg)"
+                      />
+                    </sc-if>
+                    <sc-if
+                      value="{{stillSprite}}"
+                      hint-placeholder-val="{{ false }}"
+                    >
+                      <img
+                        src="/_blob/7442405c3c745d9c2f566deb6d3fdab2"
+                        alt=""
+                        style="position: absolute; right: {{s.fairyRight}}px; top: {{s.fairyTopSprite}}px; width: 48px; height: 48px; image-rendering: pixelated"
+                      />
+                    </sc-if>
+                  </div>
+
+                  <p
+                    style="margin: {{s.roleGap}}px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: {{t.muted}}"
+                  >
+                    Senior Software Engineer · C#/.NET · Backend + Full Stack
+                  </p>
+                  <p
+                    style="margin: 18px {{s.autoX}} 0; max-width: 26ch; font-family: Lora, Georgia, serif; font-size: {{s.tagline}}px; line-height: 1.3; color: {{t.fg}}; text-wrap: balance"
+                  >
+                    I build reliable software for messy, real-world problems.
+                  </p>
+                  <p
+                    style="margin: 14px {{s.autoX}} 0; max-width: 54ch; font-size: {{s.bio}}px; line-height: 1.65; color: {{t.muted}}"
+                  >
+                    9+ years building and modernizing production .NET systems,
+                    with AI used inside a disciplined engineering process.
+                  </p>
+                </sc-if>
+
+                <div
+                  style="display: flex; flex-direction: {{s.ctaDir}}; flex-wrap: wrap; gap: 12px; justify-content: {{s.justify}}; margin-top: 28px"
+                >
+                  <a
+                    href="#projects"
+                    style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; border-radius: 999px; text-decoration: none; font-size: 15px; font-weight: 600; color: {{t.onAccent}}; background-image: linear-gradient(100deg, {{t.accent}}, {{t.accent2}}); box-shadow: 0 10px 28px -12px {{t.accent}}"
+                    >View Featured Work</a
+                  >
+                  <a
+                    href="#resume"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; padding: 0 22px; border-radius: 999px; text-decoration: none; font-size: 15px; font-weight: 600; color: {{t.accent}}; border: 1.5px solid {{t.accent}}; background: {{t.surface}}"
+                    >Download Resume</a
+                  >
+                </div>
+                <div
+                  style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; justify-content: {{s.justify}}; margin-top: 20px; font-size: 14px; color: {{t.muted}}"
+                >
+                  <a
+                    href="mailto:jkhaynes2390@gmail.com"
+                    style="color: {{t.muted}}; text-decoration: underline; text-decoration-color: {{t.border}}; text-underline-offset: 3px"
+                    >Email</a
+                  >
+                  <a
+                    href="https://github.com/jkhaynes"
+                    style="color: {{t.muted}}; text-decoration: underline; text-decoration-color: {{t.border}}; text-underline-offset: 3px"
+                    >GitHub ↗</a
+                  >
+                  <a
+                    href="https://linkedin.com/in/jesshaynes"
+                    style="color: {{t.muted}}; text-decoration: underline; text-decoration-color: {{t.border}}; text-underline-offset: 3px"
+                    >LinkedIn ↗</a
+                  >
+                  <sc-if
+                    value="{{heroLauncher}}"
+                    hint-placeholder-val="{{ false }}"
+                  >
+                    <button
+                      type="button"
+                      style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{t.accent2}}; background: {{t.surface}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 64 64"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7"
+                        ></path>
+                        <circle cx="32" cy="29" r="6"></circle></svg
+                      >Take a play break
+                    </button>
+                  </sc-if>
+                </div>
+              </div>
+
+              <sc-if value="{{archPhoto}}" hint-placeholder-val="{{ false }}">
+                <div
+                  style="justify-self: center; width: 300px; aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; padding: 6px; background-image: linear-gradient(115deg, {{t.pearl3}}, {{t.pearl1}} 40%, {{t.pearl2}} 60%, {{t.pearl3}}); box-shadow: 0 20px 45px -28px rgba(43, 31, 39, 0.35), 0 0 0 16px {{t.accentSoft}}"
+                >
+                  <img
+                    src="/_blob/1bb19a168fdd576777755105ecb746c4"
+                    alt="Portrait of Jessica Haynes"
+                    style="
+                      display: block;
+                      width: 100%;
+                      height: 100%;
+                      border-radius: 999px 999px 18px 18px;
+                      object-fit: cover;
+                      object-position: center 20%;
+                    "
+                  />
+                </div>
+              </sc-if>
+              <sc-if value="{{archSylveon}}" hint-placeholder-val="{{ false }}">
+                <aside
+                  aria-label="Sylveon theme illustration"
+                  style="position: relative; justify-self: center; width: 290px; max-width: 100%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; padding: 22px 16px; border: 9px solid #f9e0e9; border-radius: 24px; background: {{t.surface}}; box-shadow: 0 18px 40px -28px rgba(145, 69, 96, 0.35); outline: 1px solid {{t.border}}; outline-offset: -9px"
+                >
+                  <span
+                    aria-hidden="true"
+                    style="
+                      position: absolute;
+                      top: -9px;
+                      right: 24px;
+                      width: 21px;
+                      height: 48px;
+                      background: #edb0c4;
+                      border-top: 3px solid #8ac6e6;
+                      clip-path: polygon(
+                        0 0,
+                        100% 0,
+                        100% 100%,
+                        50% 78%,
+                        0 100%
+                      );
+                    "
+                  ></span>
+                  <img
+                    src="/_blob/fb3d9260a02a79b1c856505a9aaed372"
+                    alt="Sylveon with pink bows and flowing pink-and-blue ribbons"
+                    style="display: block; width: 100%; height: auto"
+                  />
+                  <p
+                    style="margin: 6px 0 0; font-family: Lora, Georgia, serif; font-size: 14px; color: {{t.accent2}}"
+                  >
+                    A little fairy-type charm.
+                  </p>
+                  <button
+                    type="button"
+                    style="display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid {{t.accent2}}; background: {{t.surface}}; color: {{t.accent}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M29 26C7 2 2 33 14 36c6 1 11-3 17-5m3-5C56 2 62 33 50 36c-6 1-11-3-17-5M27 34 15 57l11-4 4 6 3-23m4-2 13 23-12-5-4 7"
+                      ></path>
+                      <circle cx="32" cy="29" r="6"></circle></svg
+                    >Take a play break
+                  </button>
+                </aside>
+              </sc-if>
+            </div>
+
+            <sc-if value="{{heroStats}}" hint-placeholder-val="{{ true }}">
+              <div
+                style="position: relative; z-index: 2; max-width: 820px; margin: {{s.statsGap}}px auto 0"
+              >
+                <div
+                  aria-hidden="true"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-bottom: 22px;
+                  "
+                >
+                  <span
+                    style="flex: 1; height: 1px; background: {{t.rule}}"
+                  ></span>
+                  <sc-if value="{{pokemon}}" hint-placeholder-val="{{ false }}"
+                    ><img
+                      src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                      alt=""
+                      style="width: 34px; height: 34px"
+                  /></sc-if>
+                  <sc-if
+                    value="{{notPokemon}}"
+                    hint-placeholder-val="{{ true }}"
+                    ><svg width="14" height="14" viewBox="0 0 16 16">
+                      <path
+                        fill="{{t.accent}}"
+                        d="M8 .6C8.5 5 11 7.5 15.4 8 11 8.5 8.5 11 8 15.4 7.5 11 5 8.5.6 8 5 7.5 7.5 5 8 .6Z"
+                      ></path></svg
+                  ></sc-if>
+                  <span
+                    style="flex: 1; height: 1px; background: {{t.rule}}"
+                  ></span>
+                </div>
+                <div
+                  style="display: grid; grid-template-columns: repeat({{s.statCols}}, minmax(0, 1fr)); gap: {{s.statRowGap}}px 12px; text-align: center"
+                >
+                  <sc-for list="{{stats}}" as="st" hint-placeholder-count="4">
+                    <a
+                      href="{{st.href}}"
+                      aria-label="Impact metric: {{st.value}} {{st.label}}. Category: {{st.category}}"
+                      style="display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 16px; text-decoration: none; color: {{t.fg}}"
+                    >
+                      <span
+                        style="font-family: Lora, Georgia, serif; font-weight: 700; font-size: {{s.statNum}}px; line-height: 1.1; font-variant-numeric: tabular-nums; background-image: linear-gradient(100deg, {{t.accent}}, {{t.accent2}}); -webkit-background-clip: text; background-clip: text; color: transparent"
+                        >{{st.value}}</span
+                      >
+                      <span style="font-size: 13.5px; color: {{t.muted}}"
+                        >{{st.label}}</span
+                      >
+                      <span
+                        style="margin-top: 4px; font-size: 12px; font-weight: 600; color: {{t.accent}}"
+                        >View evidence <span aria-hidden="true">↓</span></span
+                      >
+                    </a>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{showCue}}" hint-placeholder-val="{{ true }}">
+            <div
+              aria-hidden="true"
+              style="position: relative; z-index: 2; width: 22px; height: 34px; margin: 36px auto 0; box-sizing: border-box; border: 2px solid {{t.border}}; border-radius: 12px"
+            >
+              <span
+                style="position: absolute; left: 50%; top: 7px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: {{t.accent}}"
+              ></span>
+            </div>
+          </sc-if>
+        </section>
+
+        <sc-if value="{{showAfter}}" hint-placeholder-val="{{ true }}">
+          <sc-if value="{{impactSection}}" hint-placeholder-val="{{ false }}">
+            <section
+              aria-labelledby="impact-h"
+              style="padding: 0 {{s.padX}}px 72px"
+            >
+              <h2
+                id="impact-h"
+                style="margin: 0 0 18px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: {{t.muted}}"
+              >
+                Impact &amp; Highlights
+              </h2>
+              <div
+                style="max-width: 1080px; margin: 0 auto; box-sizing: border-box; display: grid; grid-template-columns: repeat({{s.statCols}}, minmax(0, 1fr)); gap: 16px; padding: 28px 16px; border: 1px solid {{t.frame}}; border-radius: 24px; background: {{t.surface}}; box-shadow: {{t.frameShadow}}; text-align: center"
+              >
+                <sc-for list="{{stats}}" as="st" hint-placeholder-count="4">
+                  <a
+                    href="{{st.href}}"
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      padding: 14px 6px;
+                      border-radius: 16px;
+                      text-decoration: none;
+                    "
+                  >
+                    <span
+                      style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: {{t.accent2}}"
+                      >{{st.category}}</span
+                    >
+                    <span
+                      style="margin-top: 8px; font-family: Lora, Georgia, serif; font-weight: 600; font-size: 36px; color: {{t.accent}}"
+                      >{{st.value}}</span
+                    >
+                    <span
+                      style="margin-top: 6px; font-size: 14px; color: {{t.muted}}"
+                      >{{st.label}}</span
+                    >
+                    <span
+                      style="margin-top: 10px; font-size: 12px; font-weight: 600; color: {{t.accent}}"
+                      >View evidence <span aria-hidden="true">↓</span></span
+                    >
+                  </a>
+                </sc-for>
+              </div>
+            </section>
+          </sc-if>
+          <section
+            aria-labelledby="projects-h"
+            style="padding: 8px {{s.padX}}px 64px"
+          >
+            <h2
+              id="projects-h"
+              style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 0 28px; font-family: Lora, Georgia, serif; font-size: 24px; font-weight: 600; color: {{t.fg}}"
+            >
+              <sc-if value="{{pokemon}}" hint-placeholder-val="{{ false }}"
+                ><img
+                  src="/_blob/fcffdf2bbb6ebc0ea8f68c661fca39c4"
+                  alt=""
+                  style="width: 30px; height: 30px"
+              /></sc-if>
+              <sc-if value="{{notPokemon}}" hint-placeholder-val="{{ true }}"
+                ><svg
+                  aria-hidden="true"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill="{{t.accent}}"
+                    d="M8 .6C8.5 5 11 7.5 15.4 8 11 8.5 8.5 11 8 15.4 7.5 11 5 8.5.6 8 5 7.5 7.5 5 8 .6Z"
+                  ></path></svg
+              ></sc-if>
+              Featured Projects
+            </h2>
+            <sc-if value="{{projPeek}}" hint-placeholder-val="{{ true }}">
+              <div
+                aria-hidden="true"
+                style="max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat({{s.peekCols}}, minmax(0, 1fr)); gap: 20px"
+              >
+                <sc-for list="{{peek}}" as="p" hint-placeholder-count="3">
+                  <div
+                    style="height: 96px; border-radius: 20px 20px 0 0; border: 1px solid {{t.border}}; border-bottom: 0; background: {{t.surface}}; opacity: 0.8"
+                  ></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{projEmpty}}" hint-placeholder-val="{{ false }}">
+              <div aria-hidden="true" style="height: 460px"></div>
+            </sc-if>
+            <sc-if value="{{projCards}}" hint-placeholder-val="{{ false }}">
+              <div
+                style="
+                  position: relative;
+                  max-width: 1080px;
+                  height: 470px;
+                  margin: 0 auto;
+                "
+              >
+                <sc-for list="{{cards}}" as="c" hint-placeholder-count="5">
+                  <article
+                    style="position: absolute; left: 50%; top: 0; width: 280px; margin-left: -140px; box-sizing: border-box; padding: 10px; border: 1px solid {{t.border}}; border-radius: 20px; background: {{t.surface}}; box-shadow: 0 24px 50px -30px rgba(43, 31, 39, 0.45); transform: {{c.transform}}; transform-origin: 50% 100%; z-index: {{c.z}}"
+                  >
+                    <div
+                      style="height: 168px; border-radius: 12px; overflow: hidden; background: {{t.accentSoft}}"
+                    >
+                      <img
+                        src="{{c.img}}"
+                        alt=""
+                        style="
+                          display: block;
+                          width: 100%;
+                          height: 100%;
+                          object-fit: cover;
+                          object-position: top;
+                        "
+                      />
+                    </div>
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 8px;
+                        margin-top: 12px;
+                      "
+                    >
+                      <strong
+                        style="font-family: Lora, Georgia, serif; font-size: 18px; color: {{t.fg}}"
+                        >{{c.title}}</strong
+                      >
+                      <span
+                        style="font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: {{t.accentSoft}}; color: {{t.accent}}; white-space: nowrap"
+                        >{{c.status}}</span
+                      >
+                    </div>
+                    <p
+                      style="margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: {{t.muted}}"
+                    >
+                      {{c.blurb}}
+                    </p>
+                  </article>
+                </sc-for>
+              </div>
+            </sc-if>
+          </section>
+        </sc-if>
+      </div>
+    </x-dc>
+    <script
+      type="text/x-dc"
+      data-dc-script
+      data-props='{"theme":{"editor":"enum","options":["light","dark","pokemon"],"default":"light"},"device":{"editor":"enum","options":["desktop","phone"],"default":"desktop"},"portrait":{"editor":"enum","options":["none","avatar","arch"],"default":"none"},"game":{"editor":"enum","options":["badge","nav","corner"],"default":"badge"},"headline":{"editor":"enum","options":["hi","hi-full","name"],"default":"hi"},"pokemonFairy":{"editor":"enum","options":["butterfly","ribbon","sprite"],"default":"ribbon"},"impact":{"editor":"enum","options":["fold","both","keep"],"default":"fold"},"crop":{"editor":"enum","options":["full","top","bottom"],"default":"full"},"motion":{"editor":"enum","options":["live","still"],"default":"live"},"projects":{"editor":"enum","options":["peek","empty","dealt","stack"],"default":"peek"},"foldFill":{"editor":"enum","options":["off","on"],"default":"off"},"viewportH":{"editor":"int","default":0},"$preview":{"width":1280,"height":1000}}'
+    >
+      class Component extends DCLogic {
+        constructor(props) {
+          super(props);
+          this.state = { theme: null, menuOpen: false };
+          this.f = { x: 0, y: 0, tx: 0, ty: 0, ptr: false, trail: [], last: 0, visible: true };
+          this.sprite = new Image();
+          this.sprite.src = '/_blob/7442405c3c745d9c2f566deb6d3fdab2';
+          this.setCanvas = (el) => {
+            if (this.io) { this.io.disconnect(); this.io = null; }
+            this.canvas = el;
+            if (el && typeof IntersectionObserver === 'function') {
+              this.io = new IntersectionObserver((entries) => {
+                this.f.visible = entries[0].isIntersecting;
+                if (this.f.visible) this.start();
+              });
+              this.io.observe(el);
+            }
+            if (el) this.start();
+          };
+          this.setName = (el) => { this.nameEl = el; };
+          this.onMove = (e) => {
+            if (e.pointerType && e.pointerType !== 'mouse') return;
+            const c = this.canvas;
+            if (!c) return;
+            const r = c.getBoundingClientRect();
+            const k = r.width / (c.clientWidth || r.width || 1) || 1;
+            this.f.tx = (e.clientX - r.left) / k + 14;
+            this.f.ty = (e.clientY - r.top) / k - 12;
+            this.f.ptr = true;
+          };
+          this.onLeave = () => { this.f.ptr = false; };
+          this.toggleMenu = () => this.setState({ menuOpen: !this.state.menuOpen });
+          this.tick = (t) => {
+            this.raf = 0;
+            if (!this.canvas || !this.f.visible) return;
+            this.frame(t);
+            this.raf = requestAnimationFrame(this.tick);
+          };
+        }
+        start() {
+          if (!this.raf) this.raf = requestAnimationFrame(this.tick);
+        }
+        componentWillUnmount() {
+          if (this.raf) cancelAnimationFrame(this.raf);
+          if (this.io) this.io.disconnect();
+        }
+        spark(ctx, x, y, r) {
+          ctx.beginPath();
+          ctx.moveTo(x, y - r);
+          ctx.quadraticCurveTo(x + r * 0.15, y - r * 0.15, x + r, y);
+          ctx.quadraticCurveTo(x + r * 0.15, y + r * 0.15, x, y + r);
+          ctx.quadraticCurveTo(x - r * 0.15, y + r * 0.15, x - r, y);
+          ctx.quadraticCurveTo(x - r * 0.15, y - r * 0.15, x, y - r);
+          ctx.fill();
+        }
+        butterfly(ctx, x, y, flap, tilt, col) {
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(tilt);
+          for (const side of [-1, 1]) {
+            ctx.save();
+            ctx.scale(side * flap, 1);
+            const g = ctx.createLinearGradient(0, -12, 14, 8);
+            g.addColorStop(0, col.a);
+            g.addColorStop(1, col.b);
+            ctx.fillStyle = g;
+            ctx.globalAlpha = 0.92;
+            ctx.beginPath(); ctx.ellipse(7, -5, 8, 6, -0.5, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath(); ctx.ellipse(5.5, 5, 5.5, 4, 0.6, 0, Math.PI * 2); ctx.fill();
+            ctx.globalAlpha = 0.55;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(8, -6, 1.8, 0, Math.PI * 2); ctx.fill();
+            ctx.restore();
+          }
+          ctx.globalAlpha = 1;
+          ctx.strokeStyle = col.fg;
+          ctx.lineCap = 'round';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(0, -7); ctx.lineTo(0, 8); ctx.stroke();
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(0, -7); ctx.quadraticCurveTo(-2, -12, -4, -13);
+          ctx.moveTo(0, -7); ctx.quadraticCurveTo(2, -12, 4, -13);
+          ctx.stroke();
+          ctx.restore();
+        }
+        ribbon(ctx, x, y, flap, tilt, t) {
+          const sway = Math.sin(t * 0.006) * 5;
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(tilt);
+          ctx.lineCap = 'round';
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = '#edb0c4';
+          ctx.beginPath(); ctx.moveTo(-1, 3); ctx.bezierCurveTo(-6 + sway, 12, -14 - sway, 20, -10 + sway, 30); ctx.stroke();
+          ctx.strokeStyle = '#8ac6e6';
+          ctx.beginPath(); ctx.moveTo(1, 3); ctx.bezierCurveTo(6 - sway, 12, 14 + sway, 20, 10 - sway, 30); ctx.stroke();
+          for (const side of [-1, 1]) {
+            ctx.save();
+            ctx.scale(side * flap, 1);
+            ctx.fillStyle = '#f6cbda';
+            ctx.strokeStyle = '#914560';
+            ctx.lineWidth = 1.4;
+            ctx.beginPath(); ctx.ellipse(9, -3, 10, 6.5, -0.35, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            ctx.restore();
+          }
+          ctx.fillStyle = '#edb0c4';
+          ctx.strokeStyle = '#914560';
+          ctx.lineWidth = 1.4;
+          ctx.beginPath(); ctx.arc(0, -1, 4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          ctx.restore();
+        }
+        frame(t) {
+          const c = this.canvas;
+          const w = c.clientWidth;
+          const h = c.clientHeight;
+          if (!w || !h) return;
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          if (c.width !== Math.round(w * dpr) || c.height !== Math.round(h * dpr)) {
+            c.width = Math.round(w * dpr);
+            c.height = Math.round(h * dpr);
+          }
+          const ctx = c.getContext('2d');
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, w, h);
+          const f = this.f;
+          const col = this.col || { a: '#b8306f', b: '#8f5f86', fg: '#2b1f27' };
+          const kind = this.kind || 'butterfly';
+          let tx = f.tx;
+          let ty = f.ty;
+          if (!f.ptr) {
+            let cx = w * 0.5;
+            let cy = h * 0.2;
+            let span = w * 0.3;
+            if (this.nameEl) {
+              const r = c.getBoundingClientRect();
+              const k = r.width / w || 1;
+              const n = this.nameEl.getBoundingClientRect();
+              cx = (n.left - r.left) / k + n.width / k / 2;
+              cy = (n.top - r.top) / k + n.height / k / 2 - 26;
+              span = Math.min(w * 0.4, n.width / k / 2 + 90);
+            }
+            tx = cx + Math.sin(t * 0.00045) * span;
+            ty = cy + Math.sin(t * 0.0009) * 34;
+          }
+          if (!f.x && !f.y) { f.x = tx; f.y = ty; }
+          const dx = tx - f.x;
+          const dy = ty - f.y;
+          f.x += dx * 0.08;
+          f.y += dy * 0.08 + Math.sin(t * 0.006) * 0.4;
+          if (t - f.last > 40 && Math.hypot(dx, dy) > 2) {
+            f.last = t;
+            f.trail.push({ x: f.x - Math.sign(dx || 1) * 6, y: f.y + 8, born: t, r: 2 + Math.random() * 3, d: Math.random() });
+          }
+          f.trail = f.trail.filter((p) => t - p.born < 1100);
+          const trailA = kind === 'butterfly' ? col.a : '#e58fb0';
+          const trailB = kind === 'butterfly' ? col.b : '#8ac6e6';
+          for (const p of f.trail) {
+            const age = (t - p.born) / 1100;
+            ctx.globalAlpha = (1 - age) * 0.85;
+            ctx.fillStyle = p.d > 0.5 ? trailA : trailB;
+            this.spark(ctx, p.x + Math.sin(age * 6 + p.d * 6) * 3, p.y + age * 18, p.r * (1 - age * 0.5));
+          }
+          ctx.globalAlpha = 1;
+          const tilt = Math.max(-0.5, Math.min(0.5, dx * 0.01));
+          if (kind === 'ribbon') {
+            this.ribbon(ctx, f.x, f.y, 0.78 + 0.22 * Math.abs(Math.sin(t * 0.012)), tilt, t);
+          } else if (kind === 'sprite') {
+            if (this.sprite.complete && this.sprite.naturalWidth) {
+              ctx.save();
+              ctx.imageSmoothingEnabled = false;
+              ctx.translate(f.x, f.y + Math.sin(t * 0.008) * 2);
+              ctx.scale(dx > 0.5 ? -1 : 1, 1);
+              ctx.drawImage(this.sprite, -26, -26, 52, 52);
+              ctx.restore();
+            }
+          } else {
+            this.butterfly(ctx, f.x, f.y, 0.35 + 0.65 * Math.abs(Math.sin(t * 0.018)), tilt, col);
+          }
+        }
+        renderVals() {
+          const P = this.props;
+          const theme = this.state.theme || P.theme || 'light';
+          const phone = (P.device || 'desktop') === 'phone';
+          const portrait = P.portrait || 'none';
+          const game = P.game || 'badge';
+          const headline = P.headline || 'hi';
+          const impact = P.impact || 'fold';
+          const crop = P.crop || 'full';
+          const pokemon = theme === 'pokemon';
+          const reduced = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const still = phone || P.motion === 'still' || reduced;
+          const kind = pokemon ? (P.pokemonFairy || 'ribbon') : 'butterfly';
+          const showTop = crop !== 'bottom';
+          const arch = portrait === 'arch' && !phone;
+          const T = {
+            light: { page: '#fdf6f6', fg: '#2b1f27', muted: '#6b5761', surface: '#ffffff', border: '#f2dde5', rule: '#e5c9d6', accent: '#b8306f', accentSoft: '#fbe6ef', accent2: '#8f5f86', onAccent: '#ffffff', pearl1: '#fff4f8', pearl2: '#f9cfe0', pearl3: '#e2cdf0', glowA: 'rgba(184, 48, 111, 0.16)', glowB: 'rgba(143, 95, 134, 0.08)', frame: '#caabbf', frameShadow: '0 20px 45px -28px rgba(43, 31, 39, 0.35)' },
+            dark: { page: '#1a1220', fg: '#f6e9f1', muted: '#cbb4c6', surface: '#2a1e30', border: '#3d2c44', rule: '#4d3956', accent: '#f4a7cb', accentSoft: '#3a2440', accent2: '#c9a0dc', onAccent: '#1a1220', pearl1: '#3a2440', pearl2: '#f4a7cb', pearl3: '#c9a0dc', glowA: 'rgba(244, 167, 203, 0.20)', glowB: 'rgba(201, 160, 220, 0.10)', frame: '#755a81', frameShadow: '0 20px 45px -28px rgba(8, 4, 10, 0.75)' },
+            pokemon: { page: '#fce8ef', fg: '#3e2035', muted: '#76535f', surface: '#fffdfa', border: '#eac3cf', rule: '#d78ca8', accent: '#ac365c', accentSoft: '#fbe3eb', accent2: '#914560', onAccent: '#ffffff', pearl1: '#fff4f8', pearl2: '#f7c6d6', pearl3: '#cfe3f7', glowA: 'rgba(172, 54, 92, 0.13)', glowB: 'rgba(138, 198, 230, 0.14)', frame: '#eac3cf', frameShadow: 'none' }
+          };
+          const t = T[theme] || T.light;
+          this.col = { a: t.accent, b: t.accent2, fg: t.fg };
+          this.kind = kind;
+          let hello = phone ? 40 : arch ? 70 : 84;
+          if (headline === 'hi-full') hello = phone ? 38 : arch ? 60 : 76;
+          if (headline === 'name') hello = phone ? 42 : arch ? 66 : 80;
+          const s = {
+            cornerTop: phone ? 10 : 28,
+            cornerRight: phone ? 10 : 40,
+            padTop: crop === 'bottom' ? 36 : phone ? 44 : 92,
+            padBottom: crop === 'top' ? 64 : phone ? 44 : 56,
+            padX: phone ? 18 : 32,
+            glowLeft: arch ? '32%' : '50%',
+            glowSize: phone ? 420 : 640,
+            gridDisplay: arch ? 'grid' : 'block',
+            gridCols: arch ? 'minmax(0, 1fr) 320px' : 'none',
+            align: arch ? 'left' : 'center',
+            justify: arch ? 'flex-start' : 'center',
+            autoX: arch ? '0' : 'auto',
+            ctaDir: phone ? 'column' : 'row',
+            avatar: phone ? 76 : 96,
+            lead: phone ? 22 : 30,
+            hello: hello,
+            roleGap: phone ? 14 : 18,
+            tagline: phone ? 21 : 30,
+            bio: phone ? 15.5 : 16.5,
+            fairyRight: phone ? -4 : -50,
+            fairyTop: phone ? -34 : 0,
+            fairyTopSprite: phone ? -44 : -8,
+            statsGap: phone ? 36 : 48,
+            statCols: phone ? 2 : 4,
+            statRowGap: phone ? 18 : 12,
+            statNum: phone ? 32 : 40,
+            peekCols: phone ? 1 : 3,
+            heroMin: P.foldFill === 'on' && !phone ? Math.max(0, (Number(P.viewportH) || 0) - 69) : 0
+          };
+          const names = { light: 'Light', dark: 'Dark', pokemon: 'Pokémon' };
+          const choices = ['light', 'dark', 'pokemon'].map((v) => ({
+            value: v,
+            label: names[v],
+            checked: v === theme,
+            unchecked: v !== theme,
+            pick: () => this.setState({ theme: v }),
+            pickClose: () => this.setState({ theme: v, menuOpen: false })
+          }));
+          const stats = [
+            { value: '9+', label: 'Years of experience', category: 'Experience', href: '#experience-heading' },
+            { value: '95%', label: 'Faster nightly job runtime', category: 'Performance', href: '#impact-nightly-job' },
+            { value: '81%', label: 'Fewer security flaws', category: 'Application Security', href: '#impact-security-flaws' },
+            { value: '50%', label: 'Fewer support escalations', category: 'Quality & Reliability', href: '#impact-support-escalations' }
+          ];
+          const headlineText = headline === 'hi-full' ? "Hi, I'm Jessica Haynes" : headline === 'name' ? 'Jessica Haynes' : "Hi, I'm Jessica";
+          return {
+            t, s, choices, stats, headlineText,
+            peek: phone ? [1] : [1, 2, 3],
+            projPeek: (P.projects || 'peek') === 'peek',
+            projEmpty: P.projects === 'empty',
+            projCards: P.projects === 'dealt' || P.projects === 'stack',
+            cards: [
+              { title: 'Job Hunt Pipeline', status: 'Live', img: '/_blob/f7301e502cff8a935f218187a2a1a40e', blurb: 'A daily AI job search that screens roles against my rules and resume.' },
+              { title: 'PokéJudge AI', status: 'In Development', img: '/_blob/5328503916c9adfc39bd9cc549569516', blurb: 'A rules assistant for Pokémon TCG judges that cites its sources.' },
+              { title: 'Loot Singles', status: 'In Development', img: '/_blob/d3e39698b34677425543e185345b2836', blurb: 'Order fulfillment for a trading card shop.' },
+              { title: 'RoleSync', status: 'V1 Complete', img: '/_blob/0fab45474a0195b23f0ac3ac24ba3c15', blurb: 'A Shopify app that ties member discounts to Discord roles.' },
+              { title: 'pricewatch', status: 'Live', img: '/_blob/abde545aed32ef2fc4cb6374bd67e2fb', blurb: 'A Go CLI that prices an 8,800-card collection on a tight API budget.' }
+            ].map((c, i) => {
+              const fan = [[-288, -10, 28], [-144, -5, 6], [0, 0, 0], [144, 5, 6], [288, 10, 28]][i];
+              const pile = [[-6, -3, 8], [5, 2, 5], [-3, -1, 3], [4, 3, 1], [0, 0, 0]][i];
+              const v = P.projects === 'stack' ? pile : fan;
+              return { ...c, z: P.projects === 'stack' ? i + 1 : 5 - Math.abs(2 - i), transform: 'translateX(' + v[0] + 'px) rotate(' + v[1] + 'deg) translateY(' + v[2] + 'px)' };
+            }),
+            desktop: !phone,
+            phone,
+            pokemon,
+            notPokemon: !pokemon,
+            showNav: crop !== 'bottom',
+            menuOpen: this.state.menuOpen,
+            menuOpenText: this.state.menuOpen ? 'true' : 'false',
+            toggleMenu: this.toggleMenu,
+            showTop,
+            headName: headline === 'name',
+            avatarPhoto: showTop && portrait === 'avatar' && !pokemon,
+            avatarSylveon: showTop && portrait === 'avatar' && pokemon,
+            archPhoto: showTop && arch && !pokemon,
+            archSylveon: showTop && portrait === 'arch' && pokemon,
+            heroLauncher: false,
+            navGame: pokemon && game === 'nav',
+            badgeGame: pokemon && showTop && game === 'badge',
+            cornerGame: pokemon && showTop && game === 'corner',
+            live: !still && showTop,
+            stillButterfly: still && showTop && kind === 'butterfly',
+            stillRibbon: still && showTop && kind === 'ribbon',
+            stillSprite: still && showTop && kind === 'sprite',
+            heroStats: crop !== 'top' && impact !== 'keep',
+            showCue: crop !== 'top',
+            showAfter: crop !== 'top',
+            impactSection: impact !== 'fold',
+            setCanvas: this.setCanvas,
+            setName: this.setName,
+            onMove: this.onMove,
+            onLeave: this.onLeave
+          };
+        }
+      }
+    </script>
+  </body>
+</html>

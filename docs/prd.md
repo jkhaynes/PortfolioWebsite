@@ -95,7 +95,7 @@ Anchor-based in-page navigation allows jumping directly to key sections (at mini
 ## 11. Data / Integration Strategy
 
 - Resume: static PDF asset supplied by Jessica.
-- Analytics: Umami Cloud, a cookie-free, privacy-friendly analytics service. The script loads from `src/app/layout.tsx`, and key links and buttons send named click events through `data-umami-event` attributes.
+- Analytics: Umami Cloud, a cookie-free, privacy-friendly analytics service. The script loads from `src/app/layout.tsx`, and key links and buttons send named click events through `data-umami-event` attributes (buttons that scroll to and focus a section call `umami.track` instead, since Umami re-follows a tracked link after its beacon and that would take focus off the section).
 - No database or CMS in initial scope; content (project write-ups, experience entries, stats) is authored directly.
 
 ## 12. Development Model

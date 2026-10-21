@@ -5,13 +5,11 @@ import Container from "@/components/Container";
 import EarlierRoles from "@/components/EarlierRoles";
 import ExperienceEntry from "@/components/ExperienceEntry";
 import Grid from "@/components/Grid";
-import ImpactMetricLink from "@/components/ImpactMetricLink";
+import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 import ProjectHand from "@/components/ProjectHand";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import TextLink from "@/components/TextLink";
-import SylveonPortrait from "@/components/SylveonPortrait";
-import HeroPortrait from "@/components/HeroPortrait";
 import PokemonModeHint from "@/components/PokemonModeHint";
 import { experience } from "@/data/experience";
 import { projects } from "@/data/projects";
@@ -48,33 +46,6 @@ const learningThemes = [
   "Human-in-the-loop product design",
 ] as const;
 
-const stats = [
-  {
-    value: "9+",
-    label: "Years of experience",
-    category: "Experience",
-    href: "#experience-heading",
-  },
-  {
-    value: "95%",
-    label: "Faster nightly job runtime",
-    category: "Performance",
-    href: "#impact-nightly-job",
-  },
-  {
-    value: "81%",
-    label: "Fewer security flaws",
-    category: "Application Security",
-    href: "#impact-security-flaws",
-  },
-  {
-    value: "50%",
-    label: "Fewer support escalations",
-    category: "Quality & Reliability",
-    href: "#impact-support-escalations",
-  },
-] as const;
-
 const recentExperience = experience.filter((entry) => !entry.earlier);
 const earlierExperience = experience.filter((entry) => entry.earlier);
 const earlierPeriods = earlierExperience
@@ -89,88 +60,7 @@ export default function Home() {
       <Nav />
       <main id="main-content" className="portfolio-home" tabIndex={-1}>
         <div id="top" className="scroll-mt-24" />
-        <section className="portfolio-hero py-24">
-          <Container className="hero-container max-w-2xl">
-            <div className="hero-copy">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-accent">
-                Senior Software Engineer · C#/.NET · Backend + Full Stack
-              </p>
-              <h1 className="font-display text-5xl font-semibold leading-tight text-foreground sm:text-6xl">
-                Jessica Haynes
-              </h1>
-              <div className="motif-divider" aria-hidden="true">
-                <span />
-              </div>
-              <p className="mt-4 font-display text-2xl leading-snug text-accent-secondary sm:text-3xl">
-                I build reliable software for messy, real-world problems.
-              </p>
-              <p className="mt-6 text-lg leading-relaxed text-muted">
-                I have 9+ years of experience building and modernizing
-                production applications, with deep experience in C#/.NET, APIs,
-                architecture, performance, and technical leadership. I use AI as
-                part of a disciplined engineering process, from requirements and
-                design through implementation, testing, and review.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                <Button
-                  href="#projects"
-                  variant="primary"
-                  scrollFocusTargetId="projects-heading"
-                  trackEvent="view_featured_work_click"
-                  className="w-full sm:w-auto"
-                >
-                  View Featured Work
-                </Button>
-                <Button
-                  href="/Jessica_Haynes_Resume.pdf"
-                  variant="secondary"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  trackEvent="resume_download"
-                  className="w-full sm:w-auto"
-                >
-                  Download Resume
-                </Button>
-              </div>
-              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
-                <TextLink
-                  href="mailto:jkhaynes2390@gmail.com"
-                  target="_self"
-                  trackEvent="email_click"
-                >
-                  Email
-                </TextLink>
-                <TextLink
-                  href="https://github.com/jkhaynes"
-                  trackEvent="github_click"
-                >
-                  GitHub
-                </TextLink>
-                <TextLink
-                  href="https://linkedin.com/in/jesshaynes"
-                  trackEvent="linkedin_click"
-                >
-                  LinkedIn
-                </TextLink>
-              </div>
-            </div>
-            <SylveonPortrait />
-            <HeroPortrait />
-          </Container>
-        </section>
-
-        <section id="impact" className="pb-24">
-          <Container>
-            <h2 className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-muted">
-              Impact &amp; Highlights
-            </h2>
-            <div className="grid grid-cols-2 gap-6 py-10 sm:grid-cols-4">
-              {stats.map((stat) => (
-                <ImpactMetricLink key={stat.label} {...stat} />
-              ))}
-            </div>
-          </Container>
-        </section>
+        <Hero />
 
         <section id="projects" className="pb-24">
           <Container>

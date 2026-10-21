@@ -53,9 +53,16 @@ for (const theme of ["light", "dark"] as const) {
     expect(
       await computed(page, ".portfolio-brand", "::before", "mask-image"),
     ).toContain(SPARKLE);
-    await expect(page.locator(".motif-divider")).toBeVisible();
+    await expect(
+      page.locator(".portfolio-hero .hero-stats .motif-divider"),
+    ).toBeVisible();
     expect(
-      await computed(page, ".motif-divider span", null, "mask-image"),
+      await computed(
+        page,
+        ".portfolio-hero .hero-stats .motif-divider span",
+        null,
+        "mask-image",
+      ),
     ).toContain(SPARKLE);
     for (const heading of ["#projects h2", "#experience h2", "#about h2"]) {
       expect(await computed(page, heading, "::before", "mask-image")).toContain(
@@ -81,7 +88,7 @@ test("pokemon keeps bows on the brand, divider and headers", async ({
   for (const [selector, pseudo] of [
     [".portfolio-brand", "::before"],
     ["#projects h2", "::before"],
-    [".motif-divider span", null],
+    [".portfolio-hero .hero-stats .motif-divider span", null],
   ] as const) {
     expect(
       await computed(page, selector, pseudo, "background-image"),
@@ -91,15 +98,9 @@ test("pokemon keeps bows on the brand, divider and headers", async ({
 });
 
 for (const theme of ["light", "dark"] as const) {
-  test(`impact, about and contact are framed in ${theme} mode`, async ({
-    page,
-  }) => {
+  test(`about and contact are framed in ${theme} mode`, async ({ page }) => {
     await openTheme(page, theme);
-    for (const selector of [
-      "#impact .grid",
-      "#about > div",
-      "#contact > div",
-    ]) {
+    for (const selector of ["#about > div", "#contact > div"]) {
       for (const side of ["top", "right", "bottom", "left"]) {
         expect(
           await computed(page, selector, null, `border-${side}-width`),
@@ -159,18 +160,16 @@ test("pokemon cards keep the bow and bookmark ribbon", async ({ page }) => {
 });
 
 for (const theme of ["light", "dark", "pokemon"] as const) {
-  test(`framed panels line up with the other sections in ${theme} mode`, async ({
+  test(`framed panels line up with each other in ${theme} mode`, async ({
     page,
   }) => {
     await openTheme(page, theme);
     for (const width of [1280, 390]) {
       await page.setViewportSize({ width, height: 900 });
-      const strip = (await page.locator("#impact .grid").boundingBox())!;
-      for (const panel of ["#about > div", "#contact > div"]) {
-        const box = (await page.locator(panel).boundingBox())!;
-        expect(Math.abs(box.x - strip.x)).toBeLessThan(1);
-        expect(Math.abs(box.width - strip.width)).toBeLessThan(1);
-      }
+      const about = (await page.locator("#about > div").boundingBox())!;
+      const contact = (await page.locator("#contact > div").boundingBox())!;
+      expect(Math.abs(contact.x - about.x)).toBeLessThan(1);
+      expect(Math.abs(contact.width - about.width)).toBeLessThan(1);
     }
   });
 }

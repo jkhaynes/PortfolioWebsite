@@ -20,16 +20,21 @@ flowchart LR
 
 ## Components
 
-| Component      | Responsibility                                                                          | Location                                                                                              |
-| -------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Homepage       | Hero, impact metrics, featured project hand, experience, how I engineer, about, contact | `src/app/page.tsx`                                                                                    |
-| Case studies   | One route per featured project                                                          | `src/app/work/<slug>/page.tsx`, `src/components/case-study/`                                          |
-| Content        | Project and experience data the pages render                                            | `src/data/projects.ts`, `src/data/experience.ts`                                                      |
-| Themes         | Light, Dark and Pokémon appearance, saved choice, system preference                     | `src/lib/theme.ts`, `src/lib/theme-store.ts`, `src/components/ThemeToggle.tsx`, `src/app/globals.css` |
-| Ribbon Roundup | Optional game in Pokémon mode                                                           | `src/lib/ribbon-roundup.ts`, `src/components/game/`                                                   |
-| Social preview | Open Graph image                                                                        | `src/app/opengraph-image.tsx`                                                                         |
-| Privacy page   | Privacy policy for the job-hunt-pipeline tool                                           | `src/app/privacy/page.tsx`                                                                            |
-| Redirects      | Old URLs to new ones (`/work/loot-membership` to `/work/rolesync`)                      | `next.config.ts`                                                                                      |
+| Component      | Responsibility                                                                                                                                                       | Location                                                                                                 |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Homepage       | Hero (with impact links), featured project hand, experience, how I engineer, about, contact                                                                          | `src/app/page.tsx`                                                                                       |
+| Homepage hero  | Copy, actions, four impact links, motif divider and scroll cue (server `Hero`); decorative fairy canvas (client `HeroFairy`); Pokémon-only "Take a play break" badge | `src/components/Hero.tsx`, `src/components/HeroFairy.tsx`, `src/lib/hero-fairy.ts`, `src/data/impact.ts` |
+| Case studies   | One route per featured project                                                                                                                                       | `src/app/work/<slug>/page.tsx`, `src/components/case-study/`                                             |
+| Content        | Project and experience data the pages render                                                                                                                         | `src/data/projects.ts`, `src/data/experience.ts`                                                         |
+| Themes         | Light, Dark and Pokémon appearance, saved choice, system preference                                                                                                  | `src/lib/theme.ts`, `src/lib/theme-store.ts`, `src/components/ThemeToggle.tsx`, `src/app/globals.css`    |
+| Ribbon Roundup | Optional game in Pokémon mode                                                                                                                                        | `src/lib/ribbon-roundup.ts`, `src/components/game/`                                                      |
+| Social preview | Open Graph image                                                                                                                                                     | `src/app/opengraph-image.tsx`                                                                            |
+| Privacy page   | Privacy policy for the job-hunt-pipeline tool                                                                                                                        | `src/app/privacy/page.tsx`                                                                               |
+| Redirects      | Old URLs to new ones (`/work/loot-membership` to `/work/rolesync`)                                                                                                   | `next.config.ts`                                                                                         |
+
+## Homepage hero
+
+`Hero` is a server component: copy, actions, the four impact links (from `src/data/impact.ts`, each jumping to a section or case study), a motif divider and a static scroll cue. There is no separate impact section. `HeroFairy` is a client canvas that draws the decorative fairy; its movement comes from the pure state machine in `src/lib/hero-fairy.ts`, which keeps the logic testable without a browser. The "Take a play break" badge is `RibbonRoundupLauncher`'s badge variant, shown only in Pokémon mode through CSS on `[data-theme="pokemon"]`, so the page renders the same HTML in every theme.
 
 ## Data
 

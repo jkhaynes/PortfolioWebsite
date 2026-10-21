@@ -43,16 +43,22 @@ test("game bundle and sprites wait for activation; closing resets and releases i
   await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
 });
 
-test("slow portrait loading preserves its allocated space without hydration errors", async ({
+test("the badge does not shift the hero when the bow image loads late", async ({
   page,
 }) => {
   const errors: string[] = [];
+  const consoleErrors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
+  page.on("console", (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  });
   let release!: () => void;
   const gate = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.route("**/images/pokemon/sylveon.png", async (route) => {
+  let requested = false;
+  await page.route("**/images/pokemon/ribbon-pink.svg", async (route) => {
+    requested = true;
     await gate;
     await route.continue();
   });
@@ -62,23 +68,35 @@ test("slow portrait loading preserves its allocated space without hydration erro
   ).toBeChecked();
   await page.getByRole("radio", { name: "Pokémon" }).click();
   await page.evaluate(() => document.fonts.ready);
-  const portrait = page.locator(".sylveon-portrait");
-  const before = await portrait.boundingBox();
-  expect(
-    await page
-      .getByAltText(/Sylveon with pink bows/)
-      .evaluate((image) => (image as HTMLImageElement).naturalWidth),
-  ).toBe(0);
+  const heading = page.locator("h1");
+  const badge = page.getByRole("button", { name: "Take a play break" });
+  await expect(badge).toBeVisible();
+  // The bow really is held back while the "before" boxes are measured.
+  await expect.poll(() => requested).toBe(true);
+  const bowLoaded = () =>
+    page.evaluate(() =>
+      performance
+        .getEntriesByType("resource")
+        .some((entry) =>
+          entry.name.includes("/images/pokemon/ribbon-pink.svg"),
+        ),
+    );
+  expect(await bowLoaded()).toBe(false);
+  const before = await heading.boundingBox();
+  const badgeBefore = await badge.boundingBox();
   release();
-  await expect
-    .poll(() =>
-      page
-        .getByAltText(/Sylveon with pink bows/)
-        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
-    )
-    .toBeGreaterThan(0);
-  expect(await portrait.boundingBox()).toEqual(before);
+  await expect.poll(bowLoaded).toBe(true);
+  // Let the loaded image paint and any layout it causes settle.
+  await page.evaluate(
+    () =>
+      new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      ),
+  );
+  expect(await heading.boundingBox()).toEqual(before);
+  expect(await badge.boundingBox()).toEqual(badgeBefore);
   expect(errors).toEqual([]);
+  expect(consoleErrors).toEqual([]);
 });
 
 test("dialog reflows at small sizes and doubled zoom with reduced motion", async ({

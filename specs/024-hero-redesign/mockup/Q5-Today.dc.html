@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Below the hero on load, today</title>
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Lora:ital,wght@0,500;0,600;0,700;1,500&amp;display=swap"
+        />
+        <style>
+          body {
+            margin: 0;
+          }
+        </style>
+      </helmet>
+      <div
+        style="
+          position: relative;
+          width: 1440px;
+          height: 1500px;
+          overflow: hidden;
+          font-family: Inter, system-ui, sans-serif;
+        "
+      >
+        <dc-import
+          name="Main"
+          theme="light"
+          projects="empty"
+          motion="still"
+          hint-size="1440px,1500px"
+        ></dc-import>
+        <div
+          aria-hidden="true"
+          style="
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 1000px;
+            bottom: 0;
+            background: rgba(17, 26, 46, 0.28);
+            pointer-events: none;
+          "
+        ></div>
+        <div
+          aria-hidden="true"
+          style="
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 999px;
+            border-top: 2px dashed #1f2a44;
+            pointer-events: none;
+          "
+        ></div>
+        <div
+          style="
+            position: absolute;
+            right: 16px;
+            top: 970px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #1f2a44;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            pointer-events: none;
+          "
+        >
+          Bottom of the screen on load
+        </div>
+      </div>
+    </x-dc>
+    <script
+      type="text/x-dc"
+      data-dc-script
+      data-props='{"$preview":{"width":1440,"height":1500}}'
+    >
+      class Component extends DCLogic {
+        renderVals() { return {}; }
+      }
+    </script>
+  </body>
+</html>

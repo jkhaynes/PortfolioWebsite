@@ -75,7 +75,9 @@ test("Pokémon is initialized before hydration", async ({ browser }) => {
     "content",
     "#fff5f5",
   );
-  await expect(page.locator(".sylveon-portrait")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeVisible();
   await page.close();
 });
 
@@ -129,17 +131,17 @@ test("keyboard selection loads only the active theme artwork", async ({
   await page.getByRole("radio", { name: "Dark", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
   await expect(page.getByRole("radio", { name: "Pokémon" })).toBeChecked();
-  await expect(page.getByAltText(/Sylveon with pink bows/)).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeVisible();
   await expect
-    .poll(() =>
-      page
-        .getByAltText(/Sylveon with pink bows/)
-        .evaluate((image) => (image as HTMLImageElement).naturalWidth),
-    )
-    .toBeGreaterThan(0);
+    .poll(() => assetRequests.some((url) => url.includes("ribbon-pink.svg")))
+    .toBe(true);
   expect(assetRequests.some((url) => url.includes("sprite"))).toBe(false);
   await page.getByRole("radio", { name: "Light", exact: true }).click();
-  await expect(page.locator(".sylveon-portrait")).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: "Take a play break" }),
+  ).toBeHidden();
 });
 
 test("three themes avoid overflow on every route", async ({ page }) => {
@@ -196,10 +198,12 @@ test("dark mode uses the mauve night palette", async ({ page }) => {
     "background-color",
     "rgb(26, 18, 32)",
   );
-  await expect(page.getByRole("heading", { level: 1 })).toHaveCSS(
-    "color",
-    "rgb(246, 233, 241)",
-  );
+  const heroGradient = await page
+    .getByRole("heading", { level: 1 })
+    .evaluate((el) => getComputedStyle(el).backgroundImage);
+  expect(heroGradient).toContain("linear-gradient");
+  expect(heroGradient).toContain("rgb(244, 167, 203)");
+  expect(heroGradient).toContain("rgb(201, 160, 220)");
 
   // Runtime toggle path: leave Dark, come back, meta must follow.
   await page.getByRole("radio", { name: "Light", exact: true }).click();
