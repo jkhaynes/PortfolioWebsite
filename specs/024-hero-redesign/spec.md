@@ -16,6 +16,7 @@
 
 - Q: When nobody is moving the mouse, should the fairy keep drifting around the greeting forever, or settle beside the name after a few seconds? → A: On load it drifts briefly (under 5 seconds), then settles beside the name; it flies again only while the mouse moves over the hero, and settles a few seconds after the mouse stops or leaves (WCAG 2.2.2, no self-started motion longer than 5 seconds).
 - Q (owner review of the built hero, 2026-10-20): the Pokémon ribbon fairy is cramped at the right edge on very small screens; what should happen? → A: Remove the bow (the Pokémon ribbon fairy) on small screens, below 360px wide. Light and Dark keep the butterfly.
+- Q (owner review of the built hero, 2026-10-20): the shorter hero leaves Featured Projects half visible on load with an empty area until its cards deal in; what should happen? → A: Option A on the canvas (Question 5): the hero fills at least the first screen below the site header, its content centered, so Featured Projects starts at the bottom of the first screen. The project deal animation is unchanged.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -146,6 +147,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 - **FR-023**: The hero MUST not cause horizontal scrolling at widths down to 320px.
 - **FR-024**: Hero copy MUST contain no em dashes.
 - **FR-025**: All hero content and actions MUST work when the fairy cannot run.
+- **FR-026**: The hero MUST be at least as tall as the first screen below the site header, with its content vertically centered and the scroll cue at its bottom, so that on page load no part of Featured Projects (heading or cards) is visible at any window size. Where the hero's content is taller than the screen (for example on phones), the hero keeps its natural height. The Featured Projects deal animation is unchanged.
 
 ### Key Entities
 
@@ -163,6 +165,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 - **SC-006**: Every hero link and button responds on the first click or tap anywhere in the fairy's area.
 - **SC-007**: In the Pokémon theme, a visitor can open the game from the top of the hero in one activation.
 - **SC-008**: The homepage's existing end-to-end checks for themes, navigation, impact links and the game pass after they are updated to the new structure.
+- **SC-009**: At 1280×800, 1440×1000 and 1920×1080 desktop windows, in every theme, the Featured Projects heading is fully below the bottom of the first screen on page load.
 
 ## Assumptions
 

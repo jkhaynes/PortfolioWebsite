@@ -26,3 +26,11 @@ The six "F" boards at the top of the canvas (desktop and phone, in Light, Dark a
 ## Files
 
 `mockup/` is a byte-for-byte copy of the canvas files as approved. `Main.dc.html` is the shared hero component; every other board imports it with different props (theme, device, game, headline, pokemonFairy, impact, crop).
+
+## Addendum: first screen below the hero
+
+Approved: 2026-10-20
+
+After seeing the built hero, the owner found that the shorter hero left the Featured Projects heading half visible on page load, above an empty area where the cards wait to deal in. The canvas gained a row, "Question 5", with four 1440 × 1000 window boards: Today, A (the hero fills the first screen), B (deal the cards as soon as they peek in) and C (cards wait in a stack, then fan out). The owner picked **A**: the hero is at least one screen tall below the site header, its content centered with the scroll cue at the bottom, so Featured Projects starts at the bottom of the first screen. The deal animation is unchanged. `mockup/` now also holds `Q5-*.dc.html` and the updated `Main.dc.html` and `canvas.json`.
+
+Earlier owner decision on the built hero (2026-10-20): no Pokémon ribbon fairy below 360px wide (see spec Clarifications).

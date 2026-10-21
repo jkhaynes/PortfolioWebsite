@@ -1,8 +1,13 @@
 {
   "v": 3,
-  "createdOnFiles": { "v": 1, "at": "2026-10-20T20:05:00Z" },
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-20T20:05:00Z"
+  },
   "title": "024 Hero Redesign",
-  "launch": { "view": "canvas" },
+  "launch": {
+    "view": "canvas"
+  },
   "pages": [],
   "boards": {
     "Main.dc.html": {
@@ -172,6 +177,38 @@
       "h": 1000,
       "title": "Q4 C · Keep Impact, no hero numbers",
       "is_interactive": true
+    },
+    "Q5-Today.dc.html": {
+      "x": 0,
+      "y": 9880,
+      "w": 1440,
+      "h": 1500,
+      "title": "Q5 · Today: the heading shows, the cards are still hidden",
+      "is_interactive": true
+    },
+    "Q5-A-Fill.dc.html": {
+      "x": 1520,
+      "y": 9880,
+      "w": 1440,
+      "h": 1500,
+      "title": "Q5 A · Hero fills the first screen",
+      "is_interactive": true
+    },
+    "Q5-B-Early.dc.html": {
+      "x": 3040,
+      "y": 9880,
+      "w": 1440,
+      "h": 1500,
+      "title": "Q5 B · Deal the cards as soon as they peek in",
+      "is_interactive": true
+    },
+    "Q5-C-Stack.dc.html": {
+      "x": 4560,
+      "y": 9880,
+      "w": 1440,
+      "h": 1500,
+      "title": "Q5 C · Cards wait in a stack, fan out on scroll",
+      "is_interactive": true
     }
   },
   "order": [
@@ -195,7 +232,11 @@
     "Q3-C-Sprite.dc.html",
     "Q4-A-Fold.dc.html",
     "Q4-B-Both.dc.html",
-    "Q4-C-Keep.dc.html"
+    "Q4-C-Keep.dc.html",
+    "Q5-Today.dc.html",
+    "Q5-A-Fill.dc.html",
+    "Q5-B-Early.dc.html",
+    "Q5-C-Stack.dc.html"
   ],
   "notes": {
     "rowF": {
@@ -239,6 +280,13 @@
       "text": "Question 4: the Impact section below the hero",
       "kind": "title1",
       "maxW": 4000
+    },
+    "rowQ5": {
+      "x": 0,
+      "y": 9580,
+      "text": "Question 5: what shows below the hero when the page loads (1440 × 1000 window)",
+      "kind": "title1",
+      "maxW": 6000
     }
   },
   "designSystems": []

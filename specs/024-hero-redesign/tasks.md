@@ -203,6 +203,14 @@ description: "Task list for 024 Hero Redesign"
     - Resizing from 390 to 320 in Pokémon hides it; back to 390 shows it again.
   - **Implement** in `src/components/HeroFairy.tsx` and `src/app/globals.css`: below 360px in Pokémon, hide the canvas and stop the loop (no drawing, no rAF, no watchdog). Remove any now-unneeded small-scale ribbon sizing, but keep the butterfly's small-screen placement.
 
+- [ ] T015 [US1] Make the hero fill the first screen (owner pick, canvas Question 5 option A; spec FR-026, SC-009). Write the tests first in `tests/e2e/hero.spec.ts`:
+  - **Tests**:
+    - At 1280×800, 1440×1000 and 1920×1080 in Light, Dark and Pokémon, on load the `#projects-heading` top is at or below the viewport bottom (no part of Featured Projects visible), and the hero's bottom edge is within 2px of the viewport bottom when the hero content is shorter than the screen.
+    - The hero content (h1 through the impact links) is vertically centered in the hero within a few pixels when there is spare height, and the scroll cue sits at the hero's bottom.
+    - At 390×844 the hero keeps its natural height (no forced extra space) and the existing SC-002 test still passes.
+    - SC-001 (1280×800 everything visible) and all existing hero tests still pass; the project deal still runs when the hand scrolls into view.
+  - **Implement** in `src/app/globals.css` (and `Hero.tsx` only if a wrapper is needed): `min-height` of the first screen minus the sticky site header (use `100svh`/`100dvh` with a fallback, and the header's real height, which differs on phone and desktop; prefer a CSS custom property set on the header or a measured value over magic numbers), a flex column with the content centered and the scroll cue pushed to the bottom. No JavaScript layout.
+
 **Checkpoint**: All four stories work on their own.
 
 ---
