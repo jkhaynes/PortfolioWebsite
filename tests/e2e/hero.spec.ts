@@ -335,6 +335,15 @@ for (const theme of THEMES) {
         expect(await hero(page).locator("[tabindex]").count()).toBe(0);
         return;
       }
+      const ring = (el: Element) => {
+        const cs = getComputedStyle(el);
+        return {
+          style: cs.outlineStyle,
+          width: parseFloat(cs.outlineWidth),
+          color: cs.outlineColor,
+        };
+      };
+      const focusedRings = [];
       for (const name of expected) {
         await page.keyboard.press("Tab");
         const focused = page.locator(":focus");
@@ -342,18 +351,21 @@ for (const theme of THEMES) {
           (el) => el.getAttribute("aria-label") ?? el.textContent ?? "",
         );
         expect(label.trim()).toContain(name);
-        const outline = await focused.evaluate((el) => {
-          const cs = getComputedStyle(el);
-          return {
-            style: cs.outlineStyle,
-            width: parseFloat(cs.outlineWidth),
-            shadow: cs.boxShadow,
-          };
-        });
-        const visible =
-          (outline.style !== "none" && outline.width > 0) ||
-          outline.shadow !== "none";
-        expect(visible).toBe(true);
+        // Each stop shows a real focus ring: a drawn outline, not just any
+        // style that happens to be there without focus.
+        const focusedRing = await focused.evaluate(ring);
+        expect(focusedRing.style, name).not.toBe("none");
+        expect(focusedRing.width, name).toBeGreaterThan(0);
+        focusedRings.push({ el: await focused.elementHandle(), focusedRing });
+      }
+      await page.evaluate(() => (document.activeElement as HTMLElement).blur());
+      for (const { el, focusedRing } of focusedRings) {
+        const unfocused = await el!.evaluate(ring);
+        // The ring comes from focus: without it the outline is gone.
+        expect(
+          unfocused.style === "none" || unfocused.width === 0,
+          `${JSON.stringify(unfocused)} vs ${JSON.stringify(focusedRing)}`,
+        ).toBe(true);
       }
     });
   });
@@ -1088,7 +1100,7 @@ test.describe("hero fairy", () => {
     });
   }
 
-  for (const width of [360, 390]) {
+  for (const width of [360, 375, 390]) {
     test(`shows the ribbon fairy at ${width}px in Pokémon`, async ({
       page,
     }) => {
