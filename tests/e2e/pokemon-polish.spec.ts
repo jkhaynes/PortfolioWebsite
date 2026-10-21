@@ -56,7 +56,9 @@ test("the badge does not shift the hero when the bow image loads late", async ({
   const gate = new Promise<void>((resolve) => {
     release = resolve;
   });
+  let requested = false;
   await page.route("**/images/pokemon/ribbon-pink.svg", async (route) => {
+    requested = true;
     await gate;
     await route.continue();
   });
@@ -69,10 +71,28 @@ test("the badge does not shift the hero when the bow image loads late", async ({
   const heading = page.locator("h1");
   const badge = page.getByRole("button", { name: "Take a play break" });
   await expect(badge).toBeVisible();
+  // The bow really is held back while the "before" boxes are measured.
+  await expect.poll(() => requested).toBe(true);
+  const bowLoaded = () =>
+    page.evaluate(() =>
+      performance
+        .getEntriesByType("resource")
+        .some((entry) =>
+          entry.name.includes("/images/pokemon/ribbon-pink.svg"),
+        ),
+    );
+  expect(await bowLoaded()).toBe(false);
   const before = await heading.boundingBox();
   const badgeBefore = await badge.boundingBox();
   release();
-  await page.waitForLoadState("networkidle");
+  await expect.poll(bowLoaded).toBe(true);
+  // Let the loaded image paint and any layout it causes settle.
+  await page.evaluate(
+    () =>
+      new Promise((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(resolve)),
+      ),
+  );
   expect(await heading.boundingBox()).toEqual(before);
   expect(await badge.boundingBox()).toEqual(badgeBefore);
   expect(errors).toEqual([]);
