@@ -15,6 +15,7 @@
 ### Session 2026-10-20
 
 - Q: When nobody is moving the mouse, should the fairy keep drifting around the greeting forever, or settle beside the name after a few seconds? → A: On load it drifts briefly (under 5 seconds), then settles beside the name; it flies again only while the mouse moves over the hero, and settles a few seconds after the mouse stops or leaves (WCAG 2.2.2, no self-started motion longer than 5 seconds).
+- Q (owner review of the built hero, 2026-10-20): the Pokémon ribbon fairy is cramped at the right edge on very small screens; what should happen? → A: Remove the bow (the Pokémon ribbon fairy) on small screens, below 360px wide. Light and Dark keep the butterfly.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -97,7 +98,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 - Reduced motion is turned on or off while the page is open: the fairy switches between resting and flying.
 - A device has both touch and a mouse: the fairy follows the mouse when one is used, and otherwise rests beside the name.
 - Scripts fail or are slow to load: all hero text, actions, links and impact numbers still show and work; only the fairy is missing.
-- Very narrow phone widths (320px): no horizontal scroll, the greeting wraps cleanly, and the resting fairy does not cover text.
+- Very narrow phone widths (320px): no horizontal scroll, the greeting wraps cleanly, and the resting fairy does not cover text, and in Pokémon no fairy is shown below 360px.
 - Someone arrives with an impact hash in the URL (for example `/#impact-nightly-job`): it still lands on that evidence, as today.
 - Windows high contrast (forced colors): the gradient text and buttons stay readable.
 - Pokémon theme on a phone: the game badge fits in the column without overflowing.
@@ -131,7 +132,7 @@ On a desktop with a mouse, a small fairy flies over the hero. In Light and Dark 
 
 **Fairy**
 
-- **FR-015**: A decorative fairy MUST be drawn over the hero only: a butterfly in the theme's accent colors in Light and Dark, and a Sylveon ribbon fairy (pink bow, pink and blue ribbons) in Pokémon.
+- **FR-015**: A decorative fairy MUST be drawn over the hero only: a butterfly in the theme's accent colors in Light and Dark, and a Sylveon ribbon fairy (pink bow, pink and blue ribbons) in Pokémon. On screens narrower than 360px the Pokémon ribbon fairy MUST NOT be shown (no canvas drawing and no animation loop); Light and Dark still show the butterfly there.
 - **FR-016**: With a mouse and motion allowed, the fairy MUST follow the pointer while it is over the hero and leave a short fading trail of sparkles. On page load it MAY drift around the heading for under 5 seconds, then MUST settle beside the name. When the pointer stops or leaves the hero, the fairy MUST settle beside the name within 5 seconds and stay still until the pointer moves over the hero again. The fairy MUST never move on its own for more than 5 seconds (WCAG 2.2.2).
 - **FR-017**: With reduced motion preferred, or on a device without a fine pointer, the fairy MUST rest still beside the name, with no trail.
 - **FR-018**: The fairy MUST stop animating while the hero is off screen and resume when it returns.
