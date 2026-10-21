@@ -13,7 +13,7 @@ export default function Hero() {
       <Container className="hero-container">
         <div className="hero-copy">
           <div className="hero-game">
-            <RibbonRoundupLauncher variant="badge" />
+            <RibbonRoundupLauncher />
           </div>
           <p className="hero-role text-xs font-semibold uppercase tracking-[0.12em] text-accent">
             Senior Software Engineer · C#/.NET · Backend + Full Stack
