@@ -33,3 +33,6 @@ tsconfig.tsbuildinfo
 # Local workflow planning artifacts (planning_artifacts: local per docs/prd.md)
 .project-plans/
 docs/superpowers/plans/
+
+# Browser-tool scratch left by review agents
+.playwright-mcp/
