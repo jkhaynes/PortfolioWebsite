@@ -821,11 +821,26 @@ async function fairyReady(page: Page) {
   await expect(fairy(page)).toHaveAttribute("data-fairy-x", /\d/);
 }
 
-/** Records every data-fairy-state change with its performance.now() time. */
+/**
+ * Records every data-fairy-state change with its performance.now() time, and
+ * the time of the last mouse move, in the page's own clock.
+ */
 async function recordFairyStates(page: Page) {
   await page.addInitScript(() => {
     const log: { state: string; at: number }[] = [];
-    (window as unknown as { __fairyStates: typeof log }).__fairyStates = log;
+    const w = window as unknown as {
+      __fairyStates: typeof log;
+      __lastPointerMove: number;
+    };
+    w.__fairyStates = log;
+    w.__lastPointerMove = Number.NEGATIVE_INFINITY;
+    document.addEventListener(
+      "pointermove",
+      () => {
+        w.__lastPointerMove = performance.now();
+      },
+      { capture: true, passive: true },
+    );
     new MutationObserver((records) => {
       for (const r of records) {
         const el = r.target as Element;
@@ -848,6 +863,66 @@ const fairyLog = (page: Page) =>
   page.evaluate(
     () => (window as unknown as { __fairyStates: StateLog }).__fairyStates,
   );
+
+/** The fairy may move on its own for at most 5 seconds (FR-016, SC-005). */
+const MOTION_BUDGET_MS = 5000;
+/**
+ * How long a test waits, by the test's clock, for the fairy to rest. Under
+ * parallel load the browser can answer Playwright many seconds late while the
+ * page itself runs on time (Firefox once answered 18 s late while the fairy
+ * had rested 4.5 s after its intro began), so the 5 second budget is checked
+ * on the page's own clock and this wait is only a generous upper bound.
+ */
+const REST_WAIT_MS = 20_000;
+
+/** The fairy's first intro and the first rest after it, in page time. */
+function introAndRest(log: StateLog) {
+  const intro = log.find((e) => e.state === "intro");
+  const rest =
+    intro && log.find((e) => e.state === "resting" && e.at > intro.at);
+  return intro && rest ? { intro: intro.at, rest: rest.at } : null;
+}
+
+/**
+ * Waits for the fairy to rest after its load intro, and checks on the page's
+ * clock that the intro lasted at most MOTION_BUDGET_MS. Needs
+ * recordFairyStates before the page loads.
+ */
+async function expectRestsInTime(page: Page) {
+  // On a miss, the failure shows the page's state log.
+  await expect
+    .poll(
+      async () => {
+        const log = await fairyLog(page);
+        return introAndRest(log) ? "rested" : JSON.stringify(log);
+      },
+      { timeout: REST_WAIT_MS },
+    )
+    .toBe("rested");
+  const { intro, rest } = introAndRest(await fairyLog(page))!;
+  expect(rest - intro).toBeLessThanOrEqual(MOTION_BUDGET_MS);
+  await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting");
+}
+
+/**
+ * Waits for the fairy to rest after the mouse stopped or left, and checks on
+ * the page's clock that it rested within MOTION_BUDGET_MS of the last move.
+ */
+async function expectRestsAfterPointer(page: Page) {
+  await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting", {
+    timeout: REST_WAIT_MS,
+  });
+  const { log, lastMove } = await page.evaluate(() => {
+    const w = window as unknown as {
+      __fairyStates: StateLog;
+      __lastPointerMove: number;
+    };
+    return { log: w.__fairyStates, lastMove: w.__lastPointerMove };
+  });
+  const rest = log.findLast((e) => e.state === "resting")!;
+  expect(rest.at).toBeGreaterThan(lastMove);
+  expect(rest.at - lastMove).toBeLessThanOrEqual(MOTION_BUDGET_MS);
+}
 
 /** Moves the mouse over the hero in a few steps. */
 async function wiggle(page: Page) {
@@ -952,16 +1027,7 @@ test.describe("hero fairy", () => {
     await recordFairyStates(page);
     await openTheme(page, "light", 1280, 800);
     await fairyReady(page);
-    await expect
-      .poll(async () => (await fairyLog(page)).some((e) => e.state === "intro"))
-      .toBe(true);
-    await expect
-      .poll(() => fairyState(page), { timeout: 5500 })
-      .toBe("resting");
-    const log = await fairyLog(page);
-    const intro = log.find((e) => e.state === "intro")!;
-    const rest = log.find((e) => e.state === "resting" && e.at > intro.at)!;
-    expect(rest.at - intro.at).toBeLessThanOrEqual(5000);
+    await expectRestsInTime(page);
     // Nothing moves after resting.
     const before = await fairyGeometry(page);
     await page.waitForTimeout(600);
@@ -973,27 +1039,25 @@ test.describe("hero fairy", () => {
   test("follows the mouse over the hero, then rests within 5 seconds of it stopping", async ({
     page,
   }) => {
+    await recordFairyStates(page);
     await openTheme(page, "light", 1280, 800);
     await fairyReady(page);
     await wiggle(page);
     await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
-    await expect
-      .poll(() => fairyState(page), { timeout: 5500 })
-      .toBe("resting");
+    await expectRestsAfterPointer(page);
   });
 
   test("settles and rests after the mouse leaves the hero", async ({
     page,
   }) => {
+    await recordFairyStates(page);
     await openTheme(page, "light", 1280, 800);
     await fairyReady(page);
     await wiggle(page);
     await expect(fairy(page)).toHaveAttribute("data-fairy-state", "following");
     const box = (await hero(page).boundingBox())!;
     await page.mouse.move(box.x + 10, box.y + box.height + 40, { steps: 2 });
-    await expect
-      .poll(() => fairyState(page), { timeout: 5500 })
-      .toBe("resting");
+    await expectRestsAfterPointer(page);
   });
 
   test("with reduced motion it rests from the first paint and stays resting through mouse moves", async ({
@@ -1055,11 +1119,10 @@ test.describe("hero fairy", () => {
     test(`stays inside the hero and clear of the h1 text across resizes, ${theme}`, async ({
       page,
     }) => {
+      await recordFairyStates(page);
       await openTheme(page, theme, 1280, 800);
       await fairyReady(page);
-      await expect
-        .poll(() => fairyState(page), { timeout: 5500 })
-        .toBe("resting");
+      await expectRestsInTime(page);
       for (const width of [390, 375, 320, 1280]) {
         await page.setViewportSize({ width, height: 800 });
         // No Pokémon ribbon fairy below 360px: covered by the test below.
@@ -1080,7 +1143,7 @@ test.describe("hero fairy", () => {
                 clear: clearOfText(g),
               };
             },
-            { timeout: 5500 },
+            { timeout: REST_WAIT_MS },
           )
           .toEqual({ state: "resting", inside: true, clear: true });
       }
@@ -1113,6 +1176,7 @@ test.describe("hero fairy", () => {
     test(`shows the ribbon fairy at ${width}px in Pokémon`, async ({
       page,
     }) => {
+      await recordFairyStates(page);
       await openTheme(page, "pokemon", width, 800);
       await fairyReady(page);
       await expect(fairy(page)).toBeVisible();
@@ -1121,20 +1185,17 @@ test.describe("hero fairy", () => {
         "true",
       );
       await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "ribbon");
-      await expect
-        .poll(() => fairyState(page), { timeout: 5500 })
-        .toBe("resting");
+      await expectRestsInTime(page);
       expect(clearOfText(await fairyGeometry(page))).toBe(true);
     });
   }
 
   for (const theme of ["light", "dark", "pokemon"] as const) {
     test(`rests clear of all text at 375px, ${theme}`, async ({ page }) => {
+      await recordFairyStates(page);
       await openTheme(page, theme, 375, 812);
       await fairyReady(page);
-      await expect
-        .poll(() => fairyState(page), { timeout: 5500 })
-        .toBe("resting");
+      await expectRestsInTime(page);
       expect(clearOfText(await fairyGeometry(page))).toBe(true);
     });
   }
@@ -1146,11 +1207,10 @@ test.describe("hero fairy", () => {
       testInfo.project.name === "webkit",
       "WebKit does not fire fonts loadingdone for a FontFace loaded by script",
     );
+    await recordFairyStates(page);
     await openTheme(page, "light", 375, 812);
     await fairyReady(page);
-    await expect
-      .poll(() => fairyState(page), { timeout: 5500 })
-      .toBe("resting");
+    await expectRestsInTime(page);
     const before = await fairyGeometry(page);
     // Widen the name without resizing the hero, then finish a font load, as a
     // late web font swap does.
@@ -1167,7 +1227,7 @@ test.describe("hero fairy", () => {
     });
     await expect
       .poll(async () => clearOfText(await fairyGeometry(page)), {
-        timeout: 5500,
+        timeout: REST_WAIT_MS,
       })
       .toBe(true);
     const after = await fairyGeometry(page);
@@ -1176,13 +1236,12 @@ test.describe("hero fairy", () => {
 
   for (const theme of ["light", "dark"] as const) {
     test(`still shows the butterfly at 320px, ${theme}`, async ({ page }) => {
+      await recordFairyStates(page);
       await openTheme(page, theme, 320, 800);
       await fairyReady(page);
       await expect(fairy(page)).toBeVisible();
       await expect(fairy(page)).toHaveAttribute("data-fairy-kind", "butterfly");
-      await expect
-        .poll(() => fairyState(page), { timeout: 5500 })
-        .toBe("resting");
+      await expectRestsInTime(page);
       expect(clearOfText(await fairyGeometry(page))).toBe(true);
     });
   }
@@ -1197,9 +1256,9 @@ test.describe("hero fairy", () => {
     await expect(fairy(page)).toBeHidden();
     await page.setViewportSize({ width: 390, height: 800 });
     await expect(fairy(page)).toBeVisible();
-    await expect
-      .poll(() => fairyState(page), { timeout: 5500 })
-      .toBe("resting");
+    await expect(fairy(page)).toHaveAttribute("data-fairy-state", "resting", {
+      timeout: REST_WAIT_MS,
+    });
     expect(clearOfText(await fairyGeometry(page))).toBe(true);
     // Theme switches while narrow.
     await page.setViewportSize({ width: 320, height: 800 });

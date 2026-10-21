@@ -112,6 +112,17 @@ test("intro reaches resting even when frames are far apart", () => {
   expect(stepFairy(start, input(9000)).state).toBe("resting");
 });
 
+test("intro rests by INTRO_MS of real time when every frame is slow", () => {
+  // Only the motion step is clamped; state timing uses real elapsed time, so
+  // a loop running on the 250 ms watchdog still rests on time (SC-005).
+  let fairy = createFairy({ now: 0, rest, still: false });
+  for (let now = 250; now < INTRO_MS; now += 250) {
+    fairy = stepFairy(fairy, input(now));
+    expect(fairy.state).not.toBe("resting");
+  }
+  expect(stepFairy(fairy, input(INTRO_MS)).state).toBe("resting");
+});
+
 test("a pointer move gives following, which chases the pointer", () => {
   const start = createFairy({ now: 0, rest, still: false });
   const next = run(start, 0, 1000, (now) => pointerAt(now));
