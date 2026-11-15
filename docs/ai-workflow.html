@@ -674,9 +674,14 @@
           <h3>Watching: the dashboard</h3>
           <p>
             <code class="mono">python3 scripts/dashboard.py --open</code> reads
-            every worktree, branch, review file and decision, plus CI, and
-            refreshes every 2 seconds. It only reads, so it can't get in the
-            way.
+            every worktree, branch, review file and decision, plus CI. The
+            browser page refreshes every 2 seconds. It only reads, so it can't
+            get in the way. In Claude Code, the
+            <code class="mono">review-board</code> mod shows the same board in a
+            pane beside the chat (<code class="mono">/board</code>), plus the
+            subagents the session is running. It runs
+            <code class="mono">dashboard.py --json</code> only while the pane is
+            open, at most every 15 seconds.
           </p>
         </div>
       </div>
