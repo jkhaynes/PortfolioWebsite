@@ -5,6 +5,7 @@ Run from anywhere in the repo (the main checkout or any worktree):
 
     python3 scripts/dashboard.py            # http://127.0.0.1:4317
     python3 scripts/dashboard.py --port 5000 --open
+    python3 scripts/dashboard.py --json     # print the board once (the Claude Code mod reads this)
 
 It never writes anything. Each poll it reads the files the workflow already makes:
 specs/NNN-*/ (mockup.md, spec.md, plan.md, tasks.md, reviews/round-N/*.md,
@@ -544,11 +545,56 @@ def make_handler(dash, port):
     return Handler
 
 
+def fetch_ci(root, branches):
+    """One pass of `gh pr view` over `branches`, as CiCache does, without the thread."""
+    cache = CiCache.__new__(CiCache)
+    cache.root, cache.results, cache.lock = root, {}, threading.Lock()
+    cache.gh = shutil.which("gh")
+    for b in branches:
+        try:
+            cache._fetch(b)
+        except Exception as e:
+            cache.results[b] = {"state": "unknown", "label": "gh error", "detail": repr(e)}
+    return cache.results
+
+
+def one_shot(args):
+    """--json, --ci-json and --file: print once and exit, for the Claude Code mod."""
+    sys.stdout.reconfigure(encoding="utf-8")
+    start = os.getcwd()
+    ci = {}
+    if args.json and not sys.stdin.isatty():
+        try:
+            ci = json.loads(sys.stdin.read() or "{}")
+        except ValueError:
+            ci = {}
+    state = collect_state(start, ci)
+    if args.file:
+        text = read_feature_file(start, state, args.file[0], args.file[1])
+        if text is None:
+            sys.exit("not found")
+        sys.stdout.write(text)
+    elif args.ci_json:
+        active = [f["branch"] for f in state["features"] if f["stage"] != "Merged" and f["branch"]]
+        print(json.dumps(fetch_ci(state["root"], active)))
+    else:
+        print(json.dumps({k: v for k, v in state.items() if not k.startswith("_")}))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--port", type=int, default=4317)
     ap.add_argument("--open", action="store_true", help="open the dashboard in your browser")
+    ap.add_argument("--json", action="store_true",
+                    help="print the board as JSON once and exit (CI summaries by branch may come on stdin)")
+    ap.add_argument("--ci-json", action="store_true", help="print CI summaries by branch as JSON once and exit")
+    ap.add_argument("--file", nargs=2, metavar=("FEATURE", "PATH"), help="print one file a feature lists and exit")
     args = ap.parse_args()
+    if args.json or args.ci_json or args.file:
+        try:
+            return one_shot(args)
+        except RuntimeError as e:
+            sys.exit(f"dashboard: run this inside the repo ({e})")
     try:
         dash = Dashboard(os.getcwd())
     except RuntimeError as e:

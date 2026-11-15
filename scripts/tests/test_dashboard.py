@@ -1,10 +1,12 @@
 """Tests for scripts/dashboard.py. Run: python3 -m unittest discover -s scripts/tests"""
+import json
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dashboard as d  # noqa: E402
@@ -292,6 +294,38 @@ class RepoTest(unittest.TestCase):
     def test_works_from_inside_a_worktree(self):
         state = d.collect_state(self.wt, ci={})
         self.assertEqual(len(state["features"]), 5)
+
+    def cli(self, *args, stdin=""):
+        script = os.path.join(os.path.dirname(__file__), "..", "dashboard.py")
+        return subprocess.run([sys.executable, script, *args], cwd=self.wt, input=stdin, capture_output=True,
+                              text=True, encoding="utf-8")
+
+    def test_json_prints_the_board_once(self):
+        r = self.cli("--json")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        state = json.loads(r.stdout)
+        self.assertNotIn("_sources", state)
+        by_id = {f["id"]: f for f in state["features"]}
+        self.assertEqual(by_id["003-in-tree"]["tasks"], {"done": 2, "total": 3})
+        self.assertEqual(by_id["005-squashed"]["stage"], "Decision")
+
+    def test_json_takes_ci_results_on_stdin(self):
+        r = self.cli("--json", stdin=json.dumps({"005-squashed": {"state": "merged", "label": "merged"}}))
+        by_id = {f["id"]: f for f in json.loads(r.stdout)["features"]}
+        self.assertEqual(by_id["005-squashed"]["stage"], "Merged")
+        bad = self.cli("--json", stdin="not json")
+        self.assertEqual(bad.returncode, 0, bad.stderr)
+
+    def test_file_prints_only_a_listed_file(self):
+        r = self.cli("--file", "003-in-tree", "tasks.md")
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual(r.stdout, "- [x] a\n- [x] b\n- [ ] c\n")
+        self.assertNotEqual(self.cli("--file", "003-in-tree", "../../.gitignore").returncode, 0)
+
+    def test_fetch_ci_without_gh(self):
+        with mock.patch.object(d.shutil, "which", return_value=None):
+            self.assertEqual(d.fetch_ci(self.repo, ["003-in-tree"]),
+                             {"003-in-tree": {"state": "unknown", "label": "gh not installed"}})
 
 
 class HostCheckTest(unittest.TestCase):
